@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'type',
     ];
 
     /**
@@ -48,6 +49,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * The organizations that belong to the user.
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany(
+            Organization::class,
+            'users_has_organizations',
+            'get_user_id',
+            'get_organization_id',
+        );
     }
 
     /**

@@ -18,32 +18,6 @@ class UserFactory extends Factory
     protected static ?string $password;
 
     /**
-     * Sync the role
-     * @param array|\Spatie\Permission\Contracts\Role|string  ...$roles
-     * @return UserFactory
-     */
-    private function assignRole(...$roles): UserFactory
-    {
-        return $this->afterCreating(fn (User $user) => $user->syncRoles($roles));
-    }
-
-    /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    public function configure()
-    {
-        return $this->afterMaking(function (User $user) {
-            if ($user->type === 'administrator') {
-                return $user->assignRole('Super Admin');
-            } else {
-                return $user->assignRole('Customer');
-            }
-        });
-    }
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -69,5 +43,21 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterMaking(function (User $user) {
+            if ($user->type === 'administrator') {
+                return $user->assignRole('Super Admin');
+            } else {
+                return $user->assignRole('Customer');
+            }
+        });
     }
 }
