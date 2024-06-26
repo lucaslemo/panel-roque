@@ -57,5 +57,11 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>
         </div>
+
+        <div class="flex items-center justify-center mt-4">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
+                {{ __('Back to Log in') }}
+            </a>
+        </div>
     </form>
 </div>
