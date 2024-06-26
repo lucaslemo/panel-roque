@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
@@ -10,6 +11,20 @@ use Tests\TestCase;
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
+
+    /**
+     * Run a specific seeder before each test.
+     *
+     * @var string
+     */
+    protected $seeder = PermissionsSeeder::class;
 
     public function test_profile_page_is_displayed(): void
     {
@@ -71,7 +86,7 @@ class ProfileTest extends TestCase
         $this->actingAs($user);
 
         $component = Volt::test('profile.delete-user-form')
-            ->set('password', 'password')
+            ->set('password', 'senha')
             ->call('deleteUser');
 
         $component
@@ -79,7 +94,7 @@ class ProfileTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertGuest();
-        $this->assertNull($user->fresh());
+        $this->assertSoftDeleted($user->fresh());
     }
 
     public function test_correct_password_must_be_provided_to_delete_account(): void
@@ -96,6 +111,6 @@ class ProfileTest extends TestCase
             ->assertHasErrors('password')
             ->assertNoRedirect();
 
-        $this->assertNotNull($user->fresh());
+        $this->assertNotSoftDeleted($user->fresh());
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Volt\Volt;
@@ -12,6 +13,20 @@ class PasswordUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
+
+    /**
+     * Run a specific seeder before each test.
+     *
+     * @var string
+     */
+    protected $seeder = PermissionsSeeder::class;
+
     public function test_password_can_be_updated(): void
     {
         $user = User::factory()->create();
@@ -19,7 +34,7 @@ class PasswordUpdateTest extends TestCase
         $this->actingAs($user);
 
         $component = Volt::test('profile.update-password-form')
-            ->set('current_password', 'password')
+            ->set('current_password', 'senha')
             ->set('password', 'new-password')
             ->set('password_confirmation', 'new-password')
             ->call('updatePassword');

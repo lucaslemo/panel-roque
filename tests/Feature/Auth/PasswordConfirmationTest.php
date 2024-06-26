@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
@@ -10,6 +11,20 @@ use Tests\TestCase;
 class PasswordConfirmationTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
+
+    /**
+     * Run a specific seeder before each test.
+     *
+     * @var string
+     */
+    protected $seeder = PermissionsSeeder::class;
 
     public function test_confirm_password_screen_can_be_rendered(): void
     {
@@ -29,7 +44,7 @@ class PasswordConfirmationTest extends TestCase
         $this->actingAs($user);
 
         $component = Volt::test('pages.auth.confirm-password')
-            ->set('password', 'password');
+            ->set('password', 'senha');
 
         $component->call('confirmPassword');
 
