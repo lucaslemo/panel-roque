@@ -17,6 +17,10 @@ export default defineConfig({
                     src: 'resources/assets/favicon',
                     dest: 'assets'
                 },
+                {
+                    src: 'resources/assets/imgs',
+                    dest: 'assets'
+                },
             ]
         }),
     ],
