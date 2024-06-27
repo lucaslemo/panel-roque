@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
     }
 }; ?>
 
@@ -59,7 +59,6 @@ new #[Layout('layouts.guest')] class extends Component
             </label>
         </div>
         <div class="flex items-center justify-center mt-4">
-
             <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>
