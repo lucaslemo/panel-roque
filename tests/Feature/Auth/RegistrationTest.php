@@ -11,20 +11,6 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Indicates whether the default seeder should run before each test.
-     *
-     * @var bool
-     */
-    protected $seed = true;
-
-    /**
-     * Run a specific seeder before each test.
-     *
-     * @var string
-     */
-    protected $seeder = PermissionsSeeder::class;
-
     public function test_registration_screen_can_be_rendered(): void
     {
         $response = $this->get('/register');
@@ -44,7 +30,7 @@ class RegistrationTest extends TestCase
 
         $component->call('register');
 
-        $component->assertRedirect(route('dashboard', absolute: false));
+        $component->assertRedirect(route('app.dashboard', absolute: false));
 
         $this->assertAuthenticated();
     }

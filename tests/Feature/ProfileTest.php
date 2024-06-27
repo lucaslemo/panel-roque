@@ -12,22 +12,9 @@ class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Indicates whether the default seeder should run before each test.
-     *
-     * @var bool
-     */
-    protected $seed = true;
-
-    /**
-     * Run a specific seeder before each test.
-     *
-     * @var string
-     */
-    protected $seeder = PermissionsSeeder::class;
-
     public function test_profile_page_is_displayed(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/profile');
@@ -41,6 +28,7 @@ class ProfileTest extends TestCase
 
     public function test_profile_information_can_be_updated(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);
@@ -63,6 +51,7 @@ class ProfileTest extends TestCase
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);
@@ -81,6 +70,7 @@ class ProfileTest extends TestCase
 
     public function test_user_can_delete_their_account(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);
@@ -91,7 +81,7 @@ class ProfileTest extends TestCase
 
         $component
             ->assertHasNoErrors()
-            ->assertRedirect('/');
+            ->assertRedirect('/login');
 
         $this->assertGuest();
         $this->assertSoftDeleted($user->fresh());
@@ -99,6 +89,7 @@ class ProfileTest extends TestCase
 
     public function test_correct_password_must_be_provided_to_delete_account(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);

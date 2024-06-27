@@ -13,22 +13,9 @@ class PasswordUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Indicates whether the default seeder should run before each test.
-     *
-     * @var bool
-     */
-    protected $seed = true;
-
-    /**
-     * Run a specific seeder before each test.
-     *
-     * @var string
-     */
-    protected $seeder = PermissionsSeeder::class;
-
     public function test_password_can_be_updated(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);
@@ -48,6 +35,7 @@ class PasswordUpdateTest extends TestCase
 
     public function test_correct_password_must_be_provided_to_update_password(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);

@@ -19,7 +19,6 @@ class UsersTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-        // $this->setPaginationMethod('simple');
         $this->setPageName('users');
         $this->setPerPageAccepted([10, 25, 50, 100]);
     }

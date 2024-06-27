@@ -51,7 +51,12 @@ new class extends Component
         $user = Auth::user();
 
         if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false));
+            if ($user->isAdmin()) {
+                $this->redirectIntended(default: route('admin.dashboard', absolute: false));
+            } else {
+                $this->redirectIntended(default: route('app.dashboard', absolute: false));
+            }
+            
 
             return;
         }

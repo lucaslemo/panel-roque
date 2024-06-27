@@ -76,4 +76,14 @@ class User extends Authenticatable
         return LogOptions::defaults()
             ->logOnly(['*']);
     }
+
+    /**
+     * Verify if user is Admin.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('Super Admin');
+    }
 }

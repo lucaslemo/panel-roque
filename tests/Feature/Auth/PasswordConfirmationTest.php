@@ -12,22 +12,9 @@ class PasswordConfirmationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Indicates whether the default seeder should run before each test.
-     *
-     * @var bool
-     */
-    protected $seed = true;
-
-    /**
-     * Run a specific seeder before each test.
-     *
-     * @var string
-     */
-    protected $seeder = PermissionsSeeder::class;
-
     public function test_confirm_password_screen_can_be_rendered(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/confirm-password');
@@ -39,7 +26,8 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_password_can_be_confirmed(): void
     {
-        $user = User::factory()->create();
+        $this->seed(PermissionsSeeder::class);
+        $user = User::factory(['type' => 'customer'])->create();
 
         $this->actingAs($user);
 
@@ -55,6 +43,7 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_password_is_not_confirmed_with_invalid_password(): void
     {
+        $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
         $this->actingAs($user);
