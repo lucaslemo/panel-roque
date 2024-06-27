@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\User;
 use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -15,6 +17,13 @@ new #[Layout('layouts.guest')] class extends Component
     public function login(): void
     {
         $this->validate();
+
+        $user = User::where('email', $this->form->email)->first();
+        if($user && !$user->active) {
+            throw ValidationException::withMessages([
+                'form.email' => trans('auth.failed'),
+            ]);
+        }
 
         $this->form->authenticate();
 
