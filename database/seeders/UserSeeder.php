@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
 
         User::factory()->count(4)->create(['type' => 'administrator']);
 
-        for($i = 0; $i < 145; $i++) {
+        for($i = 0; $i < 5; $i++) {
             User::factory()
                 ->unverified()
                 ->has(
@@ -35,6 +35,18 @@ class UserSeeder extends Seeder
                         ->has(Sale::factory()->count(15))
                 )
                 ->create(['type' => 'customer']);
-        }  
+        }
+
+        User::factory()
+        ->count(10)
+        ->unverified()
+        ->deleted()
+        ->create(['type' => 'customer']);
+
+        User::factory()
+            ->count(190)
+            ->unverified()
+            ->desactivated()
+            ->create(['type' => 'customer']);
     }
 }
