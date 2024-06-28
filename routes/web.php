@@ -1,31 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
 
 Route::redirect('/', 'login')->name('home');
 
 Route::middleware(['auth', 'role:Super Admin'])->group(function () {
-    Volt::route('admin/dashboard', 'pages.admin.dashboard')
+    Route::view('admin/dashboard', 'admin.dashboard')
         ->name('admin.dashboard');
 
-    Volt::route('admin/users', 'pages.admin.users')
+    Route::view('admin/users', 'admin.users')
         ->name('admin.users');
 });
 
 Route::middleware(['auth', 'role:Customer'])->group(function () {
-    Volt::route('dashboard', 'pages.app.dashboard')
+    Route::view('dashboard', 'app.dashboard')
         ->name('app.dashboard');
-    Volt::route('requests', 'pages.app.requests')
+    Route::view('requests', 'app.requests')
         ->name('app.requests');
-    Volt::route('financial', 'pages.app.financial')
+    Route::view('financial', 'app.financial')
         ->name('app.financial');
-    Volt::route('creditLimit', 'pages.app.creditLimits')
+    Route::view('creditLimit', 'app.creditLimits')
         ->name('app.creditLimits');
 });
 
 Route::middleware(['auth', 'role:Super Admin|Customer'])->group(function () {
-    Volt::route('profile', 'pages.common.profile')
+    Route::view('profile', 'common.profile')
         ->name('common.profile');
 });
 
