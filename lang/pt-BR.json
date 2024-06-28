@@ -25,6 +25,7 @@
     "Requests": "Pedidos",
     "Financial": "Financeiro",
     "Credit Limit": "Limite de Crédito",
+    "Credit Limits": "Limites de Crédito",
     "Branch": "Filial",
     "Delivery Type": "Tipo de Entrega",
     "Order Date": "Data do Pedido",
@@ -46,5 +47,11 @@
     "Expiry Date": "Data de Vencimento",
     "Payment Date": "Data de Pagamento",
     "Situation": "Situação",
-    "Check": "Cheque"
+    "Check": "Cheque",
+    "Limit": "Limite",
+    "Used": "Utilizado",
+    "Reserved": "Reservado",
+    "Available": "Disponível",
+    "Bills Due": "Contas a Vencer",
+    "Organization": "Organização"
 }

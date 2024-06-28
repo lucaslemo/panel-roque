@@ -27,7 +27,7 @@ class BillsToReceiveTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-        $this->setPageName('sales');
+        $this->setPageName('billsToReceive');
         $this->setPerPageAccepted([10, 25, 50, 100]);
     }
 
@@ -70,7 +70,7 @@ class BillsToReceiveTable extends DataTableComponent
                 ->searchable()
                 ->sortable()
                 ->format(
-                    fn($value, $row, Column $column) => 'R$ ' . number_format($value, 2, ',', '.')
+                    fn($value, $row, Column $column) => $value ? 'R$ ' . number_format($value, 2, ',', '.') : null
                 ),
             DateColumn::make(__('Emission Date'), 'emission_date')
                 ->inputFormat('Y-m-d')
