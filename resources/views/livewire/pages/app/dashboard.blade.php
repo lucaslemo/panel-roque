@@ -1,11 +1,30 @@
 <?php
 
+use App\Models\CreditLimit;
+use App\Models\Organization;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.app')] class extends Component
 {
-    public int $count = 0;
+    public string $limit = "";
+    public string $used = "";
+    public string $reserved = "";
+
+    public function mount()
+    {
+        // $organizations = Organization::whereHas('users', function($query) {
+        //     $query->where('id', auth()->user()->id);
+        // })->get();
+
+
+        // $creditLimit = CreditLimit::whereHas('organization', function($query) use($organizations) {
+        //     $query->where('id', $organizations[0]->id);
+        // })->first();
+        // $this->limit = $creditLimit->limit;
+        // $this->used = $creditLimit->used;
+        // $this->reserved = $creditLimit->reserved;
+    }
 
     /**
      * Method.

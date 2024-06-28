@@ -30,17 +30,27 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if(auth()->user()->type === 'administrator')
+                    @if(optional(auth()->user())->isAdmin())
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>
                         {{ __('Users') }}
-                    </x-nav-link>
-                    @else
+                    </x-nav-link>                    
+                    @endif
+                    @if(optional(auth()->user())->hasRole('Customer'))
                     <x-nav-link :href="route('app.dashboard')" :active="request()->routeIs('app.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('app.financial')" :active="request()->routeIs('app.financial')" wire:navigate>
+                        {{ __('Financial') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('app.requests')" :active="request()->routeIs('app.requests')" wire:navigate>
+                        {{ __('Requests') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('app.creditLimits')" :active="request()->routeIs('app.creditLimits')" wire:navigate>
+                        {{ __('Credit Limit') }}
                     </x-nav-link>
                     @endif
                 </div>

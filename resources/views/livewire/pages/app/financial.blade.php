@@ -1,0 +1,31 @@
+<?php
+
+use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
+
+new #[Layout('layouts.app')] class extends Component
+{
+    public int $count = 0;
+
+    /**
+     * Method.
+     */
+    public function add(): void
+    {
+        $this->count++;
+    }
+}; ?>
+
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Financial') }}
+    </h2>
+</x-slot>
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <livewire:billsToReceive-table />
+        </div>
+    </div>
+</div>
