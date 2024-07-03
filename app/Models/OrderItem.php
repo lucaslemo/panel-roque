@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class CreditLimit extends Model
+class OrderItem extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -18,14 +18,14 @@ class CreditLimit extends Model
      *
      * @var string
      */
-    protected $table = 'limitesDeCredito';
+    protected $table = 'pedidosItens';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idLimiteDeCredito';
+    protected $primaryKey = 'idPedidoItem';
 
     /**
      * The attributes that are mass assignable.
@@ -33,20 +33,21 @@ class CreditLimit extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'idCliente',
+        'idPedidoCabecalho',
 
-        'vrLimite',
-        'vrUtilizado',
-        'vrReservado',
-        'vrDisponivel',
+        'nmDetalhe',
+        'tpQuantidade',
+        'numQuantidade',
+        'vrUnitario',
+        'vrPeso',
     ];
 
     /**
-     * Get the customer that owns the credit limit.
+     * Get the order that owns the order item.
      */
-    public function customer(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'idCliente', 'idCliente');
+        return $this->belongsTo(Order::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
     }
 
     /**
@@ -59,13 +60,5 @@ class CreditLimit extends Model
         // Chain fluent methods for configuration options
         return LogOptions::defaults()
             ->logOnly(['*']);
-    }
-
-    /**
-     * Update the available value.
-     */
-    public function updateAvailable(): void
-    {
-        $this->vrDisponivel = $this->vrLimite - ($this->vrUtilizado + $this->vrReservado);
     }
 }

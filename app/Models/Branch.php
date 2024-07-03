@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class CreditLimit extends Model
+class Branch extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -18,14 +18,14 @@ class CreditLimit extends Model
      *
      * @var string
      */
-    protected $table = 'limitesDeCredito';
+    protected $table = 'filiais';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idLimiteDeCredito';
+    protected $primaryKey = 'idFilial';
 
     /**
      * The attributes that are mass assignable.
@@ -33,20 +33,23 @@ class CreditLimit extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'idCliente',
-
-        'vrLimite',
-        'vrUtilizado',
-        'vrReservado',
-        'vrDisponivel',
+        'nmFilial',
     ];
 
     /**
-     * Get the customer that owns the credit limit.
+     * Get the invoices for the branch.
      */
-    public function customer(): BelongsTo
+    public function invoices(): HasMany
     {
-        return $this->belongsTo(Customer::class, 'idCliente', 'idCliente');
+        return $this->hasMany(Invoice::class, 'idFilial', 'idFilial');
+    }
+
+    /**
+     * Get the orders for the branch.
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'idFilial', 'idFilial');
     }
 
     /**
@@ -59,13 +62,5 @@ class CreditLimit extends Model
         // Chain fluent methods for configuration options
         return LogOptions::defaults()
             ->logOnly(['*']);
-    }
-
-    /**
-     * Update the available value.
-     */
-    public function updateAvailable(): void
-    {
-        $this->vrDisponivel = $this->vrLimite - ($this->vrUtilizado + $this->vrReservado);
     }
 }

@@ -2,13 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\BillToReceive;
-use App\Models\CreditLimit;
-use App\Models\Organization;
-use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -17,36 +14,50 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@email.com',
-            'type' => 'administrator',
-        ]);
+        try {
+            DB::beginTransaction();
 
-        User::factory()->count(4)->create(['type' => 'administrator']);
+            // Users admin
+            User::factory()->create([
+                'name' => 'Admin',
+                'email' => 'admin@email.com',
+                'type' => 'administrator',
+            ]);
 
-        for($i = 0; $i < 5; $i++) {
             User::factory()
+                ->count(2)
+                ->deleted()
+                ->create(['type' => 'administrator']);
+
+            User::factory()
+                ->count(2)
                 ->unverified()
-                ->has(
-                    Organization::factory()->count(rand(1, 2))
-                        ->has(CreditLimit::factory())
-                        ->has(BillToReceive::factory()->count(30), 'billsToReceive')
-                        ->has(Sale::factory()->count(15))
-                )
+                ->deactivated()
+                ->create(['type' => 'administrator']);
+
+            // Users customer
+            User::factory()
+                ->create([
+                    'name' => 'User',
+                    'email' => 'user@email.com',
+                    'type' => 'customer',
+                ]);
+
+            User::factory()
+                ->count(50)
+                ->deleted()
                 ->create(['type' => 'customer']);
+
+            User::factory()
+                ->count(9)
+                ->unverified()
+                ->deactivated()
+                ->create(['type' => 'customer']);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
         }
-
-        User::factory()
-        ->count(10)
-        ->unverified()
-        ->deleted()
-        ->create(['type' => 'customer']);
-
-        User::factory()
-            ->count(190)
-            ->unverified()
-            ->desactivated()
-            ->create(['type' => 'customer']);
     }
 }

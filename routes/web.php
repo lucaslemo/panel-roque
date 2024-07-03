@@ -15,11 +15,11 @@ Route::middleware(['auth', 'role:Super Admin'])->group(function () {
 Route::middleware(['auth', 'role:Customer'])->group(function () {
     Route::view('dashboard', 'app.dashboard')
         ->name('app.dashboard');
-    Route::view('requests', 'app.requests')
-        ->name('app.requests');
-    Route::view('financial', 'app.financial')
-        ->name('app.financial');
-    Route::view('creditLimit', 'app.creditLimits')
+    Route::view('orders', 'app.orders')
+        ->name('app.orders');
+    Route::view('invoices', 'app.invoices')
+        ->name('app.invoices');
+    Route::view('creditLimits', 'app.creditLimits')
         ->name('app.creditLimits');
 });
 

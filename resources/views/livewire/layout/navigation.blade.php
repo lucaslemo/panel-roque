@@ -37,16 +37,16 @@ new class extends Component
 
                     <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>
                         {{ __('Users') }}
-                    </x-nav-link>                    
+                    </x-nav-link>
                     @endif
                     @if(optional(auth()->user())->hasRole('Customer'))
                     <x-nav-link :href="route('app.dashboard')" :active="request()->routeIs('app.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('app.financial')" :active="request()->routeIs('app.financial')" wire:navigate>
+                    <x-nav-link :href="route('app.invoices')" :active="request()->routeIs('app.invoices')" wire:navigate>
                         {{ __('Financial') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('app.requests')" :active="request()->routeIs('app.requests')" wire:navigate>
+                    <x-nav-link :href="route('app.orders')" :active="request()->routeIs('app.orders')" wire:navigate>
                         {{ __('Requests') }}
                     </x-nav-link>
                     <x-nav-link :href="route('app.creditLimits')" :active="request()->routeIs('app.creditLimits')" wire:navigate>

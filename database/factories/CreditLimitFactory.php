@@ -20,10 +20,10 @@ class CreditLimitFactory extends Factory
         $used = fake()->randomFloat(2, 1000, $limit);
         $reserved = fake()->randomFloat(2, 0, $limit - $used);
         return [
-            'limit' => $limit,
-            'used' => $used,
-            'reserved' => $reserved,
-            'available' => $limit - ($used + $reserved),
+            'vrLimite' => $limit,
+            'vrUtilizado' => $used,
+            'vrReservado' => $reserved,
+            'vrDisponivel' => $limit - ($used + $reserved),
         ];
     }
 }

@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         if(!App::isProduction()) {
             $this->call([
                 UserSeeder::class,
+                CustomerSeeder::class,
+                OrderSeeder::class,
             ]);
         }
     }

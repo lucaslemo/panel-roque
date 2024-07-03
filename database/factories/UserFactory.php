@@ -49,7 +49,7 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      */
-    public function desactivated(): static
+    public function deactivated(): static
     {
         return $this->state(fn (array $attributes) => [
             'active' => false,
