@@ -33,6 +33,9 @@
                 </header>
             @endif
 
+            <!-- Alert Messages -->
+            <livewire:alert-message />
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}

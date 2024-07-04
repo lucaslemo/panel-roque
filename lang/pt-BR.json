@@ -54,5 +54,11 @@
     "Available": "Disponível",
     "Bills Due": "Contas a Vencer",
     "Organization": "Organização",
-    "Customer": "Cliente"
+    "Customer": "Cliente",
+    "Activate": "Ativar",
+    "Deactivate": "Desativar",
+    "Action": "Ação",
+    "Error activating the user.": "Erro ao ativar o usuário.",
+    "Error deactivating the user.": "Erro ao desativar o usuário.",
+    "Close": "Fechar"
 }
