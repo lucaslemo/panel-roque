@@ -6,10 +6,10 @@
                 {{ $creditLimit->customer->nmCliente }}
             </h3>
             <div class="flex flex-row justify-between space-x-2">
-                <x-card title="Limit">{{ 'R$ ' . number_format($creditLimit->vrLimite, 2, ',', '.') }}</x-card>
-                <x-card title="Used">{{ 'R$ ' . number_format($creditLimit->vrUtilizado, 2, ',', '.') }}</x-card>
-                <x-card title="Reserved">{{ 'R$ ' . number_format($creditLimit->vrReservado, 2, ',', '.') }}</x-card>
-                <x-card title="Available">{{ 'R$ ' . number_format($creditLimit->vrDisponivel, 2, ',', '.') }}</x-card>
+                <x-card title="{{ __('Limit') }} ">{{ 'R$ ' . number_format($creditLimit->vrLimite, 2, ',', '.') }}</x-card>
+                <x-card title="{{ __('Used') }} ">{{ 'R$ ' . number_format($creditLimit->vrUtilizado, 2, ',', '.') }}</x-card>
+                <x-card title="{{ __('Reserved') }}">{{ 'R$ ' . number_format($creditLimit->vrReservado, 2, ',', '.') }}</x-card>
+                <x-card title="{{ __('Available') }}">{{ 'R$ ' . number_format($creditLimit->vrDisponivel, 2, ',', '.') }}</x-card>
             </div>
         </div>
     @endforeach
