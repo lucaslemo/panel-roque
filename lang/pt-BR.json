@@ -67,5 +67,6 @@
     "Users details": "Detalhes dos usuários",
     "Users online": "Usuários online",
     "Users active": "Usuários ativos",
-    "Error when fetching card data.": "Erro ao buscar os dados dos cards."
+    "Error when fetching card data.": "Erro ao buscar os dados dos cards.",
+    "Customer not found": "Cliente não encontrado"
 }
