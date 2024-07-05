@@ -60,5 +60,12 @@
     "Action": "Ação",
     "Error activating the user.": "Erro ao ativar o usuário.",
     "Error deactivating the user.": "Erro ao desativar o usuário.",
-    "Close": "Fechar"
+    "Close": "Fechar",
+    "Users last activity": "Última atividade dos usuários",
+    "Last login at": "Último login em",
+    "Active users": "Usuários ativos",
+    "Users details": "Detalhes dos usuários",
+    "Users online": "Usuários online",
+    "Users active": "Usuários ativos",
+    "Error when fetching card data.": "Erro ao buscar os dados dos cards."
 }

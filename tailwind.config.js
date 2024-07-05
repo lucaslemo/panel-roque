@@ -10,6 +10,15 @@ export default {
         './app/Http/Livewire/*.php',
     ],
 
+    safelist: [
+        'bg-red-100',
+        'border-red-500',
+        'text-red-900',
+        'bg-teal-100',
+        'border-teal-500',
+        'text-teal-900',
+    ],
+
     theme: {
         extend: {
             fontFamily: {

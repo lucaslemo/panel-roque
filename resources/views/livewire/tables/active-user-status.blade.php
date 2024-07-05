@@ -1,4 +1,5 @@
 <div class="flex flex-col space-y-1">
+    @if (isset($row->active))
     <div>
         @if ((bool)$row->active)
             <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
@@ -9,7 +10,10 @@
                 {{ __('Disabled') }}
             </span>
         @endif
+
     </div>
+    @endif
+    @if (isset($row->type))
     <div>
         @if ($row->type === 'administrator')
             <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
@@ -21,5 +25,6 @@
             </span>
         @endif
     </div>
+    @endif
 </div>
 

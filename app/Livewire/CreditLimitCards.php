@@ -11,10 +11,15 @@ class CreditLimitCards extends Component
 
     public function mount()
     {
-        $this->creditLimits = CreditLimit::with('customer')->whereHas('customer.users', function($query) {
-            $query->where('idUsuario', auth()->user()->id);
-        })
-        ->get();
+        try {
+            $this->creditLimits = CreditLimit::with('customer')->whereHas('customer.users', function($query) {
+                $query->where('idUsuario', auth()->user()->id);
+            })
+            ->get();
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching card data.'), $th->getMessage(), 'danger');
+        }
     }
 
     public function render()

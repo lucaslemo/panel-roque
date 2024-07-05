@@ -63,8 +63,8 @@ class UsersTable extends DataTableComponent
             Column::make(__('Name'), 'name')->searchable()->sortable(),
             Column::make(__('Email'), 'email')->searchable()->sortable(),
             Column::make(__('Status'), 'type')
-                ->sortable()
-                ->format(fn ($value, $row, Column $column) => view('livewire.tables.active-user-status', ['row' => $row])),
+                ->format(fn ($value, $row, Column $column) => view('livewire.tables.active-user-status', ['row' => $row]))
+                ->sortable(),
             Column::make(__('Action'), 'active')
                 ->format(fn ($value, $row, Column $column) => view('livewire.tables.button-users-table', ['row' => $row])),
         ];
