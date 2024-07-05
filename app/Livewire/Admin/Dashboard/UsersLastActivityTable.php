@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Dashboard;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
@@ -19,9 +20,10 @@ class UsersLastActivityTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return User::whereNotNull('users.last_login_at')
+        return User::select(DB::raw('MAX(sessions.last_activity) AS last_activity'))
             ->leftJoin('sessions', 'sessions.user_id', '=', 'users.id')
-            ->select('sessions.last_activity');
+            ->whereNotNull('users.last_login_at')
+            ->groupBy('users.id');
     }
 
     public function configure(): void
