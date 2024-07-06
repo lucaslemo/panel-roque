@@ -71,8 +71,8 @@ new class extends Component
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            <x-action-message class="me-3" on="password-updated">
-                {{ __('Saved.') }}
+            <x-action-message class="me-3 font-semibold text-green-500" on="password-updated">
+                {{ __('Updated successfully!') }}
             </x-action-message>
         </div>
     </form>
