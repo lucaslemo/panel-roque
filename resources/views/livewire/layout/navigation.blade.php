@@ -38,17 +38,24 @@ new class extends Component
                     <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>
                         {{ __('Users') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('admin.customers')" :active="request()->routeIs('admin.customers')" wire:navigate>
+                        {{ __('Customers') }}
+                    </x-nav-link>
                     @endif
                     @if(optional(auth()->user())->hasRole('Customer'))
                     <x-nav-link :href="route('app.dashboard')" :active="request()->routeIs('app.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('app.invoices')" :active="request()->routeIs('app.invoices')" wire:navigate>
                         {{ __('Financial') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('app.orders')" :active="request()->routeIs('app.orders')" wire:navigate>
                         {{ __('Requests') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('app.creditLimits')" :active="request()->routeIs('app.creditLimits')" wire:navigate>
                         {{ __('Credit Limit') }}
                     </x-nav-link>
@@ -104,6 +111,31 @@ new class extends Component
             @if(auth()->user()->type === 'administrator')
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" wire:navigate>
+                {{ __('Users') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('admin.customers')" :active="request()->routeIs('admin.customers')" wire:navigate>
+                {{ __('Customers') }}
+            </x-responsive-nav-link>
+            @endif
+            @if(optional(auth()->user())->hasRole('Customer'))
+            <x-responsive-nav-link :href="route('app.dashboard')" :active="request()->routeIs('app.dashboard')" wire:navigate>
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('app.invoices')" :active="request()->routeIs('app.invoices')" wire:navigate>
+                {{ __('Financial') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('app.orders')" :active="request()->routeIs('app.orders')" wire:navigate>
+                {{ __('Requests') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('app.creditLimits')" :active="request()->routeIs('app.creditLimits')" wire:navigate>
+                {{ __('Credit Limit') }}
             </x-responsive-nav-link>
             @endif
         </div>
