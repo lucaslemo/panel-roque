@@ -5,7 +5,7 @@
             <h3 class="font-semibold text-lg">
                 {{ optional($creditLimit)->customer->nmCliente ?? __('Customer not found') }}
             </h3>
-            <div class="flex flex-row justify-between space-x-2">
+            <div class="flex flex-col space-x-0 space-y-2 lg:flex-row lg:justify-between lg:space-x-2 lg:space-y-0">
                 <x-card title="{{ __('Limit') }} ">{{ 'R$ ' . number_format(optional($creditLimit)->vrLimite, 2, ',', '.') }}</x-card>
                 <x-card title="{{ __('Used') }} ">{{ 'R$ ' . number_format(optional($creditLimit)->vrUtilizado, 2, ',', '.') }}</x-card>
                 <x-card title="{{ __('Reserved') }}">{{ 'R$ ' . number_format(optional($creditLimit)->vrReservado, 2, ',', '.') }}</x-card>
