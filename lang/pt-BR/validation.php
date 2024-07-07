@@ -213,6 +213,7 @@ return [
         'group' => 'grupo',
 
         // Custom atributes
+        'type' => 'tipo',
     ],
 
 ];

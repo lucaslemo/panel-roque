@@ -60,7 +60,12 @@ class UsersTable extends DataTableComponent
     {
         return [
             Column::make('#', 'id')->sortable(),
-            Column::make(__('Name'), 'name')->searchable()->sortable(),
+            Column::make(__('Name'), 'name')
+                ->format(
+                    fn ($value, $row, Column $column) => view('livewire.tables.link-table', ['href' => route('admin.users.edit', $row->id), 'title' => $value])
+                )
+                ->searchable()
+                ->sortable(),
             Column::make(__('Email'), 'email')->searchable()->sortable(),
             Column::make(__('Status'), 'type')
                 ->format(fn ($value, $row, Column $column) => view('livewire.tables.active-user-status', ['row' => $row]))
