@@ -63,7 +63,7 @@ class User extends Authenticatable
             'usuariosPossuemClientes',
             'idUsuario',
             'idCliente',
-        );
+        )->withTimestamps();
     }
 
     /**

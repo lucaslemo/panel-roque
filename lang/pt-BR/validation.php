@@ -214,6 +214,7 @@ return [
 
         // Custom atributes
         'type' => 'tipo',
+        'user' => 'usuário'
     ],
 
 ];

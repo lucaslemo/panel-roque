@@ -49,7 +49,7 @@ class Customer extends Model
             'usuariosPossuemClientes',
             'idCliente',
             'idUsuario',
-        );
+        )->withTimestamps();
     }
 
     /**

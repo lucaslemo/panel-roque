@@ -87,5 +87,18 @@
     "Error fetching user data.": "Erro ao buscar os dados do usuário",
     "Updating": "Atualizando",
     "Administrator": "Administrador",
-    "Error updating user.": "Erro ao atualizar o usuário."
+    "Error updating user.": "Erro ao atualizar o usuário.",
+    "Customers": "Clientes",
+    "Error updating customer.": "Erro ao atualizar o cliente.",
+    "Error fetching customer data.": "Erro ao buscar dados do cliente.",
+    "Individual": "Pessoa Física",
+    "Corporation": "Pessoa Jurídica",
+    "Users associated with the customer": "Usuários associados ao cliente",
+    "Add users to the customer": "Adicionar usuários ao cliente",
+    "Add": "Adicionar",
+    "Select an option": "Selecione uma opção",
+    "Error adding user.": "Erro ao adicionar usuário.",
+    "Added successfully!": "Adicionado com sucesso!",
+    "Remove": "Remover",
+    "Error removing user.": "Erro ao remover usuário."
 }

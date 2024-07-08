@@ -26,7 +26,12 @@ class CustomersTable extends DataTableComponent
     {
         return [
             Column::make('#', 'idCliente')->sortable(),
-            Column::make(__('Name'), 'nmCliente')->searchable()->sortable(),
+            Column::make(__('Name'), 'nmCliente')
+                ->format(
+                    fn ($value, $row, Column $column) => view('livewire.tables.link-table', ['href' => route('admin.customers.edit', $row->idCliente), 'title' => $value])
+                )
+                ->searchable()
+                ->sortable(),
             Column::make(__('Type'), 'tpCliente')->searchable()->sortable(),
         ];
     }
