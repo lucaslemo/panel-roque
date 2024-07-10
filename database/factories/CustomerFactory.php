@@ -19,7 +19,9 @@ class CustomerFactory extends Factory
         $type = fake()->randomElement([true, false]);
         return [
             'nmCliente' => $type ? fake()->name() : fake()->company(),
-            'tpCliente' => $type ? 'Pessoa Física' : 'Pessoa Jurídica',
+            'extCliente' => $type ? fake()->name() : fake()->company(),
+            'tpCliente' => $type ? 'pf' : 'pj',
+            'tpCliente' => $type ? fake()->cpf() : fake()->cnpj(),
         ];
     }
 }

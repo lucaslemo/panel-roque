@@ -35,8 +35,10 @@ class Customer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'extCliente',
         'nmCliente',
         'tpCliente',
+        'codCliente',
     ];
 
     /**
