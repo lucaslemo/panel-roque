@@ -18,7 +18,7 @@ class Invoice extends Model
      *
      * @var string
      */
-    protected $table = 'contas';
+    protected $table = 'invoices';
 
     /**
      * The primary key associated with the table.

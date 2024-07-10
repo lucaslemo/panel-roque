@@ -25,7 +25,7 @@ class UsersForCustomerTable extends DataTableComponent
     public function builder(): Builder
     {
         return User::whereHas('customers', function($query) {
-            $query->where('usuariosPossuemClientes.idCliente', $this->customerId);
+            $query->where('users_has_customers.idCliente', $this->customerId);
         });
     }
 

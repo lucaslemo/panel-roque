@@ -19,7 +19,7 @@ class Customer extends Model
      *
      * @var string
      */
-    protected $table = 'clientes';
+    protected $table = 'customers';
 
     /**
      * The primary key associated with the table.
@@ -46,7 +46,7 @@ class Customer extends Model
     {
         return $this->belongsToMany(
             User::class,
-            'usuariosPossuemClientes',
+            'users_has_customers',
             'idCliente',
             'idUsuario',
         )->withTimestamps();

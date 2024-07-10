@@ -18,7 +18,7 @@ class IndependentSalesRepresentative extends Model
      *
      * @var string
      */
-    protected $table = 'representantesComerciaisAutonomos';
+    protected $table = 'sellers';
 
     /**
      * The primary key associated with the table.

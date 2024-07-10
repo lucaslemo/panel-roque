@@ -18,7 +18,7 @@ class CreditLimit extends Model
      *
      * @var string
      */
-    protected $table = 'limitesDeCredito';
+    protected $table = 'credit_limits';
 
     /**
      * The primary key associated with the table.

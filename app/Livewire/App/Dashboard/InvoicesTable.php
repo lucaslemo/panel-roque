@@ -22,8 +22,8 @@ class InvoicesTable extends DataTableComponent
         return Invoice::whereHas('customer.users', function($query) {
             $query->where('users.id', auth()->user()->id);
         })
-        ->whereNull('contas.dtPagamento')
-        ->orderBy('contas.dtVencimento', 'ASC');
+        ->whereNull('invoices.dtPagamento')
+        ->orderBy('invoices.dtVencimento', 'ASC');
     }
 
     public function configure(): void

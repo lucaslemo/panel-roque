@@ -18,7 +18,7 @@ class OrderItem extends Model
      *
      * @var string
      */
-    protected $table = 'pedidosItens';
+    protected $table = 'order_items';
 
     /**
      * The primary key associated with the table.

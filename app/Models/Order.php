@@ -19,7 +19,7 @@ class Order extends Model
      *
      * @var string
      */
-    protected $table = 'pedidosCabecalhos';
+    protected $table = 'orders';
 
     /**
      * The primary key associated with the table.
