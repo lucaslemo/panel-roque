@@ -16,11 +16,11 @@ return new class extends Migration
             $table->id('idPedidoCabecalho')->comment('Chave primária da tabela');
             $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
             $table->unsignedBigInteger('idFilial')->comment('Foreign key para a tabela filiais');
-            $table->unsignedBigInteger('idRCA')->comment('Foreign key para a tabela RCA');
 
+            $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('tpPedido')->comment('Tipo do pedido');
             $table->string('tpEntrega')->comment('Tipo da entrega');
-            $table->enum('tpCobranca', ['CHE', 'CCR', 'DIN'])->nullable()->comment('Tipo de cobrança');
+            $table->string('tpCobranca')->nullable()->comment('Tipo de cobrança');
             $table->string('statusPedido')->comment('Status do pedido');
             $table->dateTime('dtPedido')->comment('Data do pedido');
             $table->dateTime('dtFaturamento')->nullable()->comment('Data do faturamento');
@@ -36,7 +36,6 @@ return new class extends Migration
             // Indexes da tabela
             $table->foreign('idCliente')->references('idCliente')->on('clientes')->onDelete('cascade');
             $table->foreign('idFilial')->references('idFilial')->on('filiais')->onDelete('cascade');
-            $table->foreign('idRCA')->references('idRCA')->on('representantesComerciaisAutonomos')->onDelete('cascade');
         });
     }
 
