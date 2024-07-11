@@ -16,16 +16,12 @@ class FetchCustomersQueryData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $start = 0;
-    public int $end = 0;
-
     /**
      * Create a new job instance.
      */
-    public function __construct($start, $end)
+    public function __construct()
     {
-        $this->start = $start;
-        $this->end = $end;
+        //
     }
 
     /**
@@ -38,24 +34,18 @@ class FetchCustomersQueryData implements ShouldQueue
 
             DB::beginTransaction();
 
-            $response = Http::get($urlBase . "&start={$this->start}&end={$this->end}");
-
-            $customers = $response['pessoas']['id'];
-            $qty = count($customers);
-
-            Log::info("Quantidade entre {$this->start} e {$this->end}: {$qty}");
-
-            // DB::table('customers')->delete();
-
-            // $response = Http::get($urlBase);
-            // foreach($response['pessoas']['id'] as $customer) {
-            //     Customer::create([
-            //         'nmCliente' => $customer['nmPessoa'],
-            //         'extCliente' => $customer['idPessoa'],
-            //         'tpCliente' => $customer['tpPessoa'] === 'F' ? 'pf' : 'pj',
-            //         'codCliente' => $customer['tpPessoa'] === 'F' ? $customer['nrCpf'] : $customer['nrCnpj'],
-            //     ]);
-            // }
+            
+            DB::table('customers')->delete();
+            
+            $response = Http::get($urlBase);
+            foreach($response['pessoas']['id'] as $customer) {
+                Customer::create([
+                    'nmCliente' => $customer['nmPessoa'],
+                    'extCliente' => $customer['idPessoa'],
+                    'tpCliente' => $customer['tpPessoa'] === 'F' ? 'pf' : 'pj',
+                    'codCliente' => $customer['tpPessoa'] === 'F' ? $customer['nrCpf'] : $customer['nrCnpj'],
+                ]);
+            }
 
             DB::commit();
         } catch (\Throwable $th) {

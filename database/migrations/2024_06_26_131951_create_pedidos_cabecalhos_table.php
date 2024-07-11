@@ -15,18 +15,18 @@ return new class extends Migration
             // Campos da tabela
             $table->id('idPedidoCabecalho')->comment('Chave primária da tabela');
             $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
-            $table->unsignedBigInteger('idFilial')->comment('Foreign key para a tabela filiais');
+            $table->unsignedBigInteger('idFilial')->nullable()->comment('Foreign key para a tabela filiais');
 
             $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('tpPedido')->comment('Tipo do pedido');
             $table->string('tpEntrega')->comment('Tipo da entrega');
             $table->string('tpCobranca')->nullable()->comment('Tipo de cobrança');
             $table->string('statusPedido')->comment('Status do pedido');
-            $table->dateTime('dtPedido')->comment('Data do pedido');
+            $table->dateTime('dtPedido')->nullable()->comment('Data do pedido');
             $table->dateTime('dtFaturamento')->nullable()->comment('Data do faturamento');
             $table->string('statusEntrega')->nullable()->comment('Status da entrega');
             $table->dateTime('dtEntrega')->nullable()->comment('Data da entrega');
-            $table->decimal('vrTotal', $precision = 15, $scale = 2)->comment('Valor total');
+            $table->decimal('vrTotal', $precision = 15, $scale = 2)->nullable()->comment('Valor total');
             $table->string('numOrdemCompra')->nullable()->comment('Ordem de compra');
             $table->dateTime('dtCriacao')->comment('Data da criação');
 

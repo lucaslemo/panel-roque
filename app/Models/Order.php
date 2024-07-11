@@ -36,8 +36,9 @@ class Order extends Model
     protected $fillable = [
         'idCliente',
         'idFilial',
-        'idRCA',
 
+        'extPedido',
+        'nmVendedor',
         'tpPedido',
         'tpEntrega',
         'tpCobranca',

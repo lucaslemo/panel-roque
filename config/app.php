@@ -100,6 +100,8 @@ return [
     'key' => env('APP_KEY'),
 
     'query_customers' => env('QUERY_CUSTOMERS', null),
+    'query_orders' => env('QUERY_ORDERS', null),
+    'query_invoices' => env('QUERY_INVOICES', null),
 
     'previous_keys' => [
         ...array_filter(
