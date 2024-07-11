@@ -16,12 +16,16 @@ class FetchCustomersQueryData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public int $start = 0;
+    public int $end = 0;
+
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct($start, $end)
     {
-        //
+        $this->start = $start;
+        $this->end = $end;
     }
 
     /**
@@ -34,48 +38,29 @@ class FetchCustomersQueryData implements ShouldQueue
 
             DB::beginTransaction();
 
-            DB::table('customers')->delete();
+            $response = Http::get($urlBase . "&start={$this->start}&end={$this->end}");
 
-            $morePages = true;
-            $pageLength = 10;
-            $start = 0;
-            $end = $pageLength;
+            $customers = $response['pessoas']['id'];
+            $qty = count($customers);
 
-            // while($morePages) {
-            //     $response = Http::get($urlBase . "&start={$start}&end={$end}");
-            //     $customers = $response['pessoas']['id'];
+            Log::info("Quantidade entre {$this->start} e {$this->end}: {$qty}");
 
-            //     foreach($response['pessoas']['id'] as $customer) {
-            //         Customer::create([
-            //             'nmCliente' => $customer['nmPessoa'],
-            //             'extCliente' => $customer['idPessoa'],
-            //             'tpCliente' => $customer['tpPessoa'] === 'F' ? 'pf' : 'pj',
-            //             'codCliente' => $customer['tpPessoa'] === 'F' ? $customer['nrCpf'] : $customer['nrCnpj'],
-            //         ]);
-            //     }
+            // DB::table('customers')->delete();
 
-            //     $start = $end + 1;
-            //     $end += $pageLength;
-                
-            //     if (count($customers) < $pageLength) { 
-            //         $morePages = false;
-            //     }
+            // $response = Http::get($urlBase);
+            // foreach($response['pessoas']['id'] as $customer) {
+            //     Customer::create([
+            //         'nmCliente' => $customer['nmPessoa'],
+            //         'extCliente' => $customer['idPessoa'],
+            //         'tpCliente' => $customer['tpPessoa'] === 'F' ? 'pf' : 'pj',
+            //         'codCliente' => $customer['tpPessoa'] === 'F' ? $customer['nrCpf'] : $customer['nrCnpj'],
+            //     ]);
             // }
-
-            $response = Http::get($urlBase);
-            foreach($response['pessoas']['id'] as $customer) {
-                Customer::create([
-                    'nmCliente' => $customer['nmPessoa'],
-                    'extCliente' => $customer['idPessoa'],
-                    'tpCliente' => $customer['tpPessoa'] === 'F' ? 'pf' : 'pj',
-                    'codCliente' => $customer['tpPessoa'] === 'F' ? $customer['nrCpf'] : $customer['nrCnpj'],
-                ]);
-            }
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            report($th);
+            throw $th;
         }
     }
 }
