@@ -18,7 +18,7 @@ class Branch extends Model
      *
      * @var string
      */
-    protected $table = 'branches';
+    protected $table = 'companies';
 
     /**
      * The primary key associated with the table.

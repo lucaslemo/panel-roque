@@ -78,14 +78,6 @@ class Invoice extends Model
     }
 
     /**
-     * Get the independent sales representative that owns the invoice.
-     */
-    public function independentSalesRepresentative(): BelongsTo
-    {
-        return $this->belongsTo(IndependentSalesRepresentative::class, 'idRCA', 'idRCA');
-    }
-
-    /**
      * Log the model events.
      *
      * @return LogOptions

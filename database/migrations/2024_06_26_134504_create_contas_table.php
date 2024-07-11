@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
             $table->unsignedBigInteger('idPedidoCabecalho')->nullable()->comment('Foreign key para a tabela pedidos cabeçalhos');
             $table->unsignedBigInteger('idFilial')->comment('Foreign key para a tabela filiais');
-            $table->unsignedBigInteger('idRCA')->nullable()->comment('Foreign key para a tabela RCA');
 
+            $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('statusConta')->comment('Status da conta');
             $table->string('nmSituacao')->comment('Situação da conta');
             $table->enum('tpCobranca', ['CHE', 'CCR', 'DIN'])->nullable()->comment('Tipo de cobrança');
@@ -40,7 +40,6 @@ return new class extends Migration
             $table->foreign('idCliente')->references('idCliente')->on('clientes')->onDelete('cascade');
             $table->foreign('idPedidoCabecalho')->references('idPedidoCabecalho')->on('pedidosCabecalhos')->onDelete('cascade');
             $table->foreign('idFilial')->references('idFilial')->on('filiais')->onDelete('cascade');
-            $table->foreign('idRCA')->references('idRCA')->on('representantesComerciaisAutonomos')->onDelete('cascade');
         });
     }
 

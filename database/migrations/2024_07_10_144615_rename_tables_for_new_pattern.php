@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::rename('clientes', 'customers');
         Schema::rename('usuariosPossuemClientes', 'users_has_customers');
         Schema::rename('contas', 'invoices');
-        Schema::rename('filiais', 'branches');
+        Schema::rename('filiais', 'companies');
         Schema::rename('limitesDeCredito', 'credit_limits');
         Schema::rename('pedidosCabecalhos', 'orders');
         Schema::rename('pedidosItens', 'order_items');
@@ -29,7 +29,7 @@ return new class extends Migration
         Schema::rename('customers', 'clientes');
         Schema::rename('users_has_customers', 'usuariosPossuemClientes');
         Schema::rename('invoices', 'contas');
-        Schema::rename('branches', 'filiais');
+        Schema::rename('companies', 'filiais');
         Schema::rename('credit_limits', 'limitesDeCredito');
         Schema::rename('orders', 'pedidosCabecalhos');
         Schema::rename('order_items', 'pedidosItens');

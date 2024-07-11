@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class OrderItem extends Model
+class Update extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -18,37 +17,14 @@ class OrderItem extends Model
      *
      * @var string
      */
-    protected $table = 'order_items';
+    protected $table = 'updates';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idPedidoItem';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'idPedidoCabecalho',
-
-        'nmDetalhe',
-        'tpQuantidade',
-        'numQuantidade',
-        'vrUnitario',
-        'vrPeso',
-    ];
-
-    /**
-     * Get the order that owns the order item.
-     */
-    public function order(): BelongsTo
-    {
-        return $this->belongsTo(Order::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
-    }
+    protected $primaryKey = 'idAtualizacao';
 
     /**
      * Log the model events.

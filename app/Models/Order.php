@@ -68,27 +68,11 @@ class Order extends Model
     }
 
     /**
-     * Get the independent sales representative that owns the order.
-     */
-    public function independentSalesRepresentative(): BelongsTo
-    {
-        return $this->belongsTo(IndependentSalesRepresentative::class, 'idRCA', 'idRCA');
-    }
-
-    /**
      * Get the invoices for the order.
      */
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
-    }
-
-    /**
-     * Get the order items for the order.
-     */
-    public function orderItems(): HasMany
-    {
-        return $this->hasMany(OrderItem::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
     }
 
     /**
