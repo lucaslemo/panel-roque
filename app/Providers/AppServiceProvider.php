@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\StartSyncDatabase;
+use App\Listeners\SyncingDatabase;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
         });
-        }
+
+        Event::listen(
+            StartSyncDatabase::class,
+            SyncingDatabase::class
+        );
+    }
 }

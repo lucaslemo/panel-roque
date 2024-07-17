@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'login')->name('home');
@@ -29,7 +29,7 @@ Route::middleware(['auth', 'role:Customer'])->group(function () {
 
     Route::view('invoices', 'app.invoices')
         ->name('app.invoices');
-        
+
     Route::view('creditLimits', 'app.creditLimits')
         ->name('app.creditLimits');
 });
@@ -38,5 +38,9 @@ Route::middleware(['auth', 'role:Super Admin|Customer'])->group(function () {
     Route::view('profile', 'common.profile')
         ->name('common.profile');
 });
+
+Route::get('api/pessoas', [TestController::class, 'customers']);
+Route::get('api/pedidos', [TestController::class, 'orders']);
+Route::get('api/contas', [TestController::class, 'invoices']);
 
 require __DIR__.'/auth.php';

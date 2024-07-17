@@ -27,6 +27,16 @@ class Update extends Model
     protected $primaryKey = 'idAtualizacao';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'nmEntidade',
+        'numTotalDados',
+    ];
+
+    /**
      * Log the model events.
      *
      * @return LogOptions

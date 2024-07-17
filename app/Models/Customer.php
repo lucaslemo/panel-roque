@@ -38,6 +38,7 @@ class Customer extends Model
         'extCliente',
         'nmCliente',
         'tpCliente',
+        'emailCliente',
         'codCliente',
     ];
 

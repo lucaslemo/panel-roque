@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id('idCliente')->comment('Chave primária da tabela');
 
             $table->string('nmCliente')->comment('Nome do cliente');
-            $table->enum('tpCliente', ['pf', 'pj'])->comment('Tipo do cliente');
+            $table->enum('tpCliente', ['F', 'J'])->comment('Tipo do cliente');
+            $table->string('emailCliente')->comment('Email do cliente cadastrado');
             $table->string('codCliente')->comment('CPF/CNPJ do cliente');
 
             $table->timestamps();

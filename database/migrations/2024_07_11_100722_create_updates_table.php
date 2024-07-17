@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('idAtualizacao');
 
             $table->string('nmEntidade');
-            $table->dateTime('dtAtualizacao');
+            $table->integer('numTotalDados');
             $table->timestamps();
             $table->softDeletes();
         });
