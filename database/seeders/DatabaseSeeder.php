@@ -15,13 +15,13 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionsSeeder::class,
+            UserSeeder::class,
         ]);
 
         if(!App::isProduction()) {
             $this->call([
-                UserSeeder::class,
-                CustomerSeeder::class,
-                OrderSeeder::class,
+                // CustomerSeeder::class,
+                // OrderSeeder::class,
             ]);
         }
     }
