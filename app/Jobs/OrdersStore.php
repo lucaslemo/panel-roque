@@ -12,16 +12,29 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
-class FetchOrdersQueryData implements ShouldQueue
+class OrdersStore implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 60;
+
+    /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(public mixed $orders)
     {
         //
     }
@@ -32,18 +45,12 @@ class FetchOrdersQueryData implements ShouldQueue
     public function handle(): void
     {
         try {
-            $urlBase = config('app.query_orders');
-
             DB::beginTransaction();
 
-            DB::table('orders')->delete();
-
-            $response = Http::get($urlBase);
-
-            foreach($response['pedidos']['id'] as $order) {
+            foreach($this->orders as $order) {
 
                 $customer = Customer::where('extCliente', $order['idPessoa'])->first();
-                
+
                 if ($customer) {
 
                     $dtEntrega = $order['dtEntrega'] && $order['dtEntrega'] != '00/00/0000'
@@ -57,7 +64,7 @@ class FetchOrdersQueryData implements ShouldQueue
                     $dtFaturamento = $order['dtFaturamento'] && $order['dtFaturamento'] != '00/00/0000 00:00'
                         ?  Carbon::createFromFormat('d/m/Y H:i', $order['dtFaturamento'])->format('Y-m-d H:i')
                         : null;
-                        
+
                     Order::create([
                         'extPedido' => $order['idVenda'],
                         'idCliente' => $customer->idCliente,

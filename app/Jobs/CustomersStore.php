@@ -31,7 +31,7 @@ class CustomersStore implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public $customers)
+    public function __construct(public mixed $customers)
     {
         //
     }
@@ -60,7 +60,7 @@ class CustomersStore implements ShouldQueue
                     'nmCliente' => $customerData['nmPessoa'],
                     'extCliente' => $customerData['idPessoa'],
                     'tpCliente' => $customerData['tpPessoa'],
-                    'emailCliente' => $customerData['emailPessoa'] ?? 'example1@email.com',
+                    'emailCliente' => $customerData['emailPessoa'] ?? 'example' . $customerData['idPessoa'] . '@email.com',
                     'codCliente' => $customerData['tpPessoa'] === 'F' ? $customerData['nrCpf'] : $customerData['nrCnpj'],
                 ]);
 

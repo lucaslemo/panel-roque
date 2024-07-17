@@ -39,17 +39,15 @@ class Order extends Model
 
         'extPedido',
         'nmVendedor',
-        'tpPedido',
         'tpEntrega',
         'tpCobranca',
         'statusPedido',
         'dtPedido',
         'dtFaturamento',
-        'statusEntrega',
         'dtEntrega',
         'vrTotal',
         'numOrdemCompra',
-        'dtCriacao',
+        'nmArquivo',
     ];
 
     /**
