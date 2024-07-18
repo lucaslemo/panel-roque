@@ -100,5 +100,7 @@
     "Error adding user.": "Erro ao adicionar usuário.",
     "Added successfully!": "Adicionado com sucesso!",
     "Remove": "Remover",
-    "Error removing user.": "Erro ao remover usuário."
+    "Error removing user.": "Erro ao remover usuário.",
+    "Don't have an account yet?": "Não tem uma conta ainda?",
+    "Sign Up": "Registre-se"
 }

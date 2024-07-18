@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -26,9 +28,21 @@ new #[Layout('layouts.guest')] class extends Component
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $customers = Customer::where('emailCliente', $validated['email'])->get();
+
+        if (is_null($customers) || count($customers) == 0) {
+            throw ValidationException::withMessages(['email' => ['Esse email não está cadastrado no sistema.']]);
+        }
+
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered($user = User::create($validated)));
+        $user = User::create($validated);
+
+        $user->assignRole('Customer');
+
+        $user->customers()->sync($customers, false);
+
+        event(new Registered($user));
 
         Auth::login($user);
 
@@ -42,6 +56,9 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="register">
+
+        <p class="text-center font-bold text-xl">Portal do Cliente</p>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

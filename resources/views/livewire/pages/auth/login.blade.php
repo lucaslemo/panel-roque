@@ -61,11 +61,19 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
+        <div class="flex justify-between mt-4">
+            <div class="block">
+                <label for="remember" class="inline-flex items-center">
+                    <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                </label>
+            </div>
+
+            @if (Route::has('password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
         </div>
         <div class="flex items-center justify-center mt-4">
             <x-primary-button>
@@ -73,10 +81,16 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
         <div class="flex items-center justify-center mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </a>
+
+        </div>
+        <div class="flex items-center justify-center mt-2">
+            @if (Route::has('register'))
+                <span class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    {{ __("Don't have an account yet?") }}
+                    <a class="underline" href="{{ route('register') }}" wire:navigate>
+                        {{ __('Sign Up') }}
+                    </a>
+                </span>
             @endif
         </div>
     </form>
