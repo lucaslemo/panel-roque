@@ -75,6 +75,14 @@ class Order extends Model
     }
 
     /**
+     * Get the order history for the order.
+     */
+    public function orderHistory(): HasMany
+    {
+        return $this->hasMany(OrderHistory::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
+    }
+
+    /**
      * Log the model events.
      *
      * @return LogOptions

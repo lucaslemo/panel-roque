@@ -16,12 +16,13 @@ return new class extends Migration
             $table->id('idConta')->comment('Chave primária da tabela');
             $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
             $table->unsignedBigInteger('idPedidoCabecalho')->nullable()->comment('Foreign key para a tabela pedidos cabeçalhos');
-            $table->unsignedBigInteger('idFilial')->comment('Foreign key para a tabela filiais');
+            $table->unsignedBigInteger('idFilial')->nullable()->comment('Foreign key para a tabela filiais');
 
+            $table->string('extConta')->comment('Código externo da conta');
             $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('statusConta')->comment('Status da conta');
             $table->string('nmSituacao')->comment('Situação da conta');
-            $table->enum('tpCobranca', ['CHE', 'CCR', 'DIN'])->nullable()->comment('Tipo de cobrança');
+            $table->string('tpCobranca')->nullable()->comment('Tipo de cobrança');
             $table->date('dtParcela')->comment('Data da parcela');
             $table->integer('numDuplicado')->comment('Duplicado');
             $table->date('dtEmissao')->comment('Data da emissão');
@@ -31,7 +32,9 @@ return new class extends Migration
             $table->decimal('vrLiquido', $precision = 15, $scale = 2)->comment('Total liquido');
             $table->decimal('vrAtualizado', $precision = 15, $scale = 2)->comment('Total atualizado');
             $table->decimal('vrPago', $precision = 15, $scale = 2)->nullable()->comment('Valor pago');
-            $table->bigInteger('numCheque')->comment('Número do Cheque');
+            $table->boolean('isBoleto')->default(false)->comment('Se a conta é boleto ou não');
+            $table->string('nmArquivo')->nullable()->comment('Arquivo da nota fiscal');
+            $table->bigInteger('numCheque')->nullable()->comment('Número do Cheque');
 
             $table->timestamps();
             $table->softDeletes();
