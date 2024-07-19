@@ -90,7 +90,7 @@ class InvoicesTable extends DataTableComponent
             Column::make(__('Situation'), 'nmSituacao')
                 ->searchable()
                 ->sortable(),
-            Column::make(__('RCA'), 'independentSalesRepresentative.nmRCA')
+            Column::make(__('RCA'), 'nmVendedor')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Check'), 'numCheque')

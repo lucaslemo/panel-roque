@@ -35,6 +35,9 @@ class CreditLimitsTable extends DataTableComponent
         return [
             Column::make('#', 'idLimiteDeCredito')
                 ->sortable(),
+            Column::make(__('Customer'), 'customer.nmCliente')
+                ->searchable()
+                ->sortable(),
             Column::make(__('Limit'), 'vrLimite')
                 ->searchable()
                 ->sortable()
@@ -59,9 +62,6 @@ class CreditLimitsTable extends DataTableComponent
                 ->format(
                     fn($value, $row, Column $column) => $value ? 'R$ ' . number_format($value, 2, ',', '.') : null
                 ),
-            Column::make(__('Customer'), 'customer.nmCliente')
-                ->searchable()
-                ->sortable(),
         ];
     }
 }

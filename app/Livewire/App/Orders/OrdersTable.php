@@ -46,7 +46,7 @@ class OrdersTable extends DataTableComponent
                 ->inputFormat('Y-m-d H:i:s')
                 ->outputFormat('d/m/Y H:i:s')
                 ->sortable(),
-            Column::make('RCA', 'independentSalesRepresentative.nmRCA')
+            Column::make('RCA', 'nmVendedor')
                 ->searchable()
                 ->sortable(),
             DateColumn::make(__('Billing Date'), 'dtFaturamento')
@@ -66,16 +66,6 @@ class OrdersTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
             DateColumn::make(__('Delivery Date'), 'dtEntrega')
-                ->inputFormat('Y-m-d H:i:s')
-                ->outputFormat('d/m/Y H:i:s')
-                ->sortable(),
-            Column::make(__('Type'), 'tpPedido')
-                ->searchable()
-                ->sortable(),
-            Column::make(__('Delivery Status'), 'statusEntrega')
-                ->searchable()
-                ->sortable(),
-            DateColumn::make(__('Creation Date'), 'dtCriacao')
                 ->inputFormat('Y-m-d H:i:s')
                 ->outputFormat('d/m/Y H:i:s')
                 ->sortable(),

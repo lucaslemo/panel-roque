@@ -32,7 +32,19 @@ class CustomersTable extends DataTableComponent
                 )
                 ->searchable()
                 ->sortable(),
-            Column::make(__('Type'), 'tpCliente')->searchable()->sortable(),
+            Column::make(__('CPF/CNPJ'), 'codCliente')
+                ->format(
+                    fn ($value, $row, Column $column) => formatCnpjCpf($value)
+                )
+                ->searchable()
+                ->sortable(),
+            Column::make(__('Email'), 'emailCliente')->searchable()->sortable(),
+            Column::make(__('Type'), 'tpCliente')
+                ->format(
+                    fn ($value, $row, Column $column) => $value === 'F' ? 'Pessoa Física' : 'Pessoa Jurídica'
+                )
+                ->searchable()
+                ->sortable(),
         ];
     }
 }
