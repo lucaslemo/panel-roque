@@ -36,6 +36,9 @@
             <!-- Alert Messages -->
             <livewire:alert-message />
 
+            <!-- Update details  -->
+            <livewire:update-details />
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}
