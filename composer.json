@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
+        "laravel/horizon": "^5.25",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
@@ -33,7 +34,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/formatCnpjCpf.php"
+            "app/Helpers/formatCnpjCpf.php",
+            "app/Utilities/FetchQueryApi.php"
         ]
     },
     "autoload-dev": {

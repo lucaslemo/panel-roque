@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Customer;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class CustomersStore implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * The number of times the job may be attempted.
@@ -42,7 +43,8 @@ class CustomersStore implements ShouldQueue
     public function handle(): void
     {
         try {
-
+            // sleep(3);
+            // rand(1, 2) == 1 ? throw new \Exception('Teste') : null;
             foreach($this->customers as $customerData) {
                 $customer = Customer::whereNot('codCliente', '')
                     ->where(function($query) use($customerData) {

@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Customer;
 use App\Models\Invoice;
 use Carbon\Carbon;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class InvoicesStore implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * The number of times the job may be attempted.
@@ -45,6 +46,7 @@ class InvoicesStore implements ShouldQueue
     public function handle(): void
     {
         try {
+            // throw new \Exception('Teste');
             DB::beginTransaction();
 
             foreach($this->invoices as $invoice) {
