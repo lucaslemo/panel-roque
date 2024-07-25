@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class Update extends Model
+class Synchronization extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -17,14 +18,14 @@ class Update extends Model
      *
      * @var string
      */
-    protected $table = 'updates';
+    protected $table = 'syncs';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idAtualizacao';
+    protected $primaryKey = 'idSincronizacao';
 
     /**
      * The attributes that are mass assignable.
@@ -32,9 +33,17 @@ class Update extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nmEntidade',
-        'numTotalDados',
+        'dtFinalBusca',
+        'dtSincronizacao',
     ];
+
+    /**
+     * Get the sync details for the synchronization.
+     */
+    public function syncDetails(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'idSincronizacao', 'idSincronizacao');
+    }
 
     /**
      * Log the model events.
