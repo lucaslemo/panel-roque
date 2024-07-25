@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_history', function (Blueprint $table) {
-            $table->id('idHistoricoPedido');
+            // Campos da tabela
+            $table->id('idHistoricoPedido')->comment('Chave primária da tabela');
             $table->unsignedBigInteger('idPedidoCabecalho')->comment('Foreign key para a tabela de pedidos');
+
             $table->string('nmStatusPedido')->comment('Status de mudança do pedido');
             $table->dateTime('dtStatusPedido')->comment('Data da mudança de status');
 
