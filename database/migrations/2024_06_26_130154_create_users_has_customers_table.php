@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuariosPossuemClientes', function (Blueprint $table) {
+        Schema::create('users_has_customers', function (Blueprint $table) {
             // Campos da tabela
             $table->unsignedBigInteger('idUsuario')->comment('Foreign key para a tabela users');
             $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
-            
+
             $table->timestamps();
 
             // Indexes da tabela
             $table->primary(['idUsuario', 'idCliente']);
             $table->foreign('idUsuario')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('idCliente')->references('idCliente')->on('clientes')->onDelete('cascade');
+            $table->foreign('idCliente')->references('idCliente')->on('customers')->onDelete('cascade');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuariosPossuemClientes');
+        Schema::dropIfExists('users_has_customers');
     }
 };

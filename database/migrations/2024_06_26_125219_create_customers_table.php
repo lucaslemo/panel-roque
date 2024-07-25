@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             // Campos da tabela
             $table->id('idCliente')->comment('Chave primária da tabela');
 
+            $table->string('extCliente')->comment('Código externo do cliente');
             $table->string('nmCliente')->comment('Nome do cliente');
             $table->enum('tpCliente', ['F', 'J'])->comment('Tipo do cliente');
             $table->string('emailCliente')->comment('Email do cliente cadastrado');
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clientes');
+        Schema::dropIfExists('customers');
     }
 };

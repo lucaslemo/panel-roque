@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contas', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             // Campos da tabela
             $table->id('idConta')->comment('Chave primária da tabela');
-            $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
+            $table->unsignedBigInteger('idCliente')->nullable()->comment('Foreign key para a tabela clientes');
             $table->unsignedBigInteger('idPedidoCabecalho')->nullable()->comment('Foreign key para a tabela pedidos cabeçalhos');
             $table->unsignedBigInteger('idFilial')->nullable()->comment('Foreign key para a tabela filiais');
 
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('nmSituacao')->comment('Situação da conta');
             $table->string('tpCobranca')->nullable()->comment('Tipo de cobrança');
             $table->date('dtParcela')->comment('Data da parcela');
-            $table->integer('numDuplicado')->comment('Duplicado');
+            $table->integer('numDuplicata')->comment('Duplicado');
             $table->date('dtEmissao')->comment('Data da emissão');
             $table->date('dtVencimento')->comment('Data de vencimento');
             $table->date('dtPagamento')->nullable()->comment('Data do pagamento');
@@ -40,9 +40,9 @@ return new class extends Migration
             $table->softDeletes();
 
             // Indexes da tabela
-            $table->foreign('idCliente')->references('idCliente')->on('clientes')->onDelete('cascade');
-            $table->foreign('idPedidoCabecalho')->references('idPedidoCabecalho')->on('pedidosCabecalhos')->onDelete('cascade');
-            $table->foreign('idFilial')->references('idFilial')->on('filiais')->onDelete('cascade');
+            $table->foreign('idCliente')->references('idCliente')->on('customers')->onDelete('cascade');
+            $table->foreign('idPedidoCabecalho')->references('idPedidoCabecalho')->on('orders')->onDelete('cascade');
+            $table->foreign('idFilial')->references('idFilial')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -51,6 +51,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contas');
+        Schema::dropIfExists('invoices');
     }
 };

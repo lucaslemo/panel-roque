@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('limitesDeCredito', function (Blueprint $table) {
+        Schema::create('credit_limits', function (Blueprint $table) {
             // Campos da tabela
             $table->id('idLimiteDeCredito')->comment('Chave primária da tabela');
             $table->unsignedBigInteger('idCliente')->comment('Foreign key para a tabela clientes');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->softDeletes();
 
             // Indexes da tabela
-            $table->foreign('idCliente')->references('idCliente')->on('clientes')->onDelete('cascade');
+            $table->foreign('idCliente')->references('idCliente')->on('customers')->onDelete('cascade');
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('limitesDeCredito');
+        Schema::dropIfExists('credit_limits');
     }
 };

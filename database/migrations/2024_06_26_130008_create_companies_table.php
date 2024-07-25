@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->string('extCliente')->after('idCliente')->comment('Código externo do cliente');
+        Schema::create('companies', function (Blueprint $table) {
+            // Campos da tabela
+            $table->id('idFilial')->comment('Chave primária da tabela');
+
+            $table->string('nmFilial')->comment('Nome da filial');
+
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -21,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('extCliente');
-        });
+        Schema::dropIfExists('companies');
     }
 };
