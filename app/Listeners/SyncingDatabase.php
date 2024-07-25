@@ -3,17 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\StartSyncDatabase;
-use App\Jobs\CustomersStore;
-use App\Jobs\InvoicesStore;
-use App\Jobs\OrdersStore;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Update;
+use App\Models\Synchronization;
 use App\Utilities\FetchQueryApi;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class SyncingDatabase
 {
@@ -39,9 +34,17 @@ class SyncingDatabase
             $fetchOrders = new FetchQueryApi($urlBaseOrders, Order::class);
             $fetchInvoices = new FetchQueryApi($urlBaseInvoices, Invoice::class);
 
-            $fetchCustomers->start();
-            $fetchOrders->start();
-            $fetchInvoices->start();
+            $synchronization = Synchronization::create([
+                'dtFinalBusca' => null,
+                'dtSincronizacao' => null,
+            ]);
+
+            $fetchCustomers->start($synchronization);
+            $fetchOrders->start($synchronization);
+            $fetchInvoices->start($synchronization);
+
+            $synchronization->dtFinalBusca = Carbon::now();
+            $synchronization->save();
 
         } catch (\Throwable $th) {
             throw $th;

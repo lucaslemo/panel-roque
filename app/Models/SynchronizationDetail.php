@@ -33,6 +33,7 @@ class SynchronizationDetail extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'idSincronizacao',
         'nmEntidade',
         'numDadosAtualizados',
         'numDadosAtualizar',

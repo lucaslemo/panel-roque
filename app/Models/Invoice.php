@@ -42,7 +42,7 @@ class Invoice extends Model
         'nmSituacao',
         'tpCobranca',
         'dtParcela',
-        'numDuplicado',
+        'numDuplicata',
         'dtEmissao',
         'dtVencimento',
         'dtPagamento',

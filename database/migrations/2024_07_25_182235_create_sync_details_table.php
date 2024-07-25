@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sync_details', function (Blueprint $table) {
             $table->id('idDetalheSincronizacao')->comment('Chave primária da tabela');
-            $table->unsignedBigInteger('idSincronizacao')->nullable()->comment('Foreign key para a tabela clientes');
+            $table->unsignedBigInteger('idSincronizacao')->comment('Foreign key para a tabela sincronizações');
 
             $table->string('nmEntidade')->comment('Nome da entidade que foi atualizada');
             $table->integer('numDadosAtualizados')->default(0)->comment('Quantidade de dados que já foram processados');

@@ -2,15 +2,17 @@
 
 namespace App\Utilities;
 
-use App\Jobs\CustomersStore;
-use App\Jobs\InvoicesStore;
-use App\Jobs\OrdersStore;
+use App\Jobs\InsertCustomer;
+use App\Jobs\InsertInvoice;
+use App\Jobs\InsertOrder;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
-use App\Models\Update;
+use App\Models\Synchronization;
+use App\Models\SynchronizationDetail;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class FetchQueryApi {
 
@@ -44,15 +46,15 @@ class FetchQueryApi {
     {
         if ($this->model === Customer::class) {
             $this->key = 'pessoas';
-            $this->job = CustomersStore::class;
+            $this->job = InsertCustomer::class;
 
         } else if ($this->model === Order::class) {
             $this->key = 'pedidos';
-            $this->job = OrdersStore::class;
+            $this->job = InsertOrder::class;
 
         } else if ($this->model === Invoice::class) {
             $this->key = 'duplicatas';
-            $this->job = InvoicesStore::class;
+            $this->job = InsertInvoice::class;
 
         }
 
@@ -75,7 +77,7 @@ class FetchQueryApi {
     /**
      * Handle.
      */
-    public function start(): void
+    public function start(Synchronization $synchronization): void
     {
         $morePages = $this->setup();
         while($morePages) {
@@ -89,17 +91,25 @@ class FetchQueryApi {
             $chunks = $data->chunk(100);
 
             foreach($chunks as $chunk) {
-                $jobs[] = new $this->job($chunk);
-            }
+                $jobs = [];
 
-            Bus::batch($jobs)->name("Batch {$this->model}")->dispatch();
+                foreach($chunk as $item) {
+                    $jobs[] = new $this->job($item);
+                }
+
+                Bus::batch($jobs)->name("Batch {$this->model}")->dispatch();
+            }
 
             $morePages = $this->nextStep($data->count());
         }
 
-        Update::create([
+        Log::info($synchronization);
+
+        SynchronizationDetail::create([
+            'idSincronizacao' => $synchronization->idSincronizacao,
             'nmEntidade' => $this->model,
-            'numTotalDados' => $this->total,
+            'numDadosAtualizados' => 0,
+            'numDadosAtualizar' => $this->total,
         ]);
     }
 }
