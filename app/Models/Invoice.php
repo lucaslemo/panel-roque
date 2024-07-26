@@ -34,6 +34,8 @@ class Invoice extends Model
      */
     protected $fillable = [
         'idCliente',
+
+        'extCliente',
         'extConta',
         'idPedidoCabecalho',
         'idFilial',

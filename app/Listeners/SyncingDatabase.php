@@ -46,6 +46,8 @@ class SyncingDatabase
             $synchronization->dtFinalBusca = Carbon::now();
             $synchronization->save();
 
+            $fetchCustomers->linkData($synchronization);
+
         } catch (\Throwable $th) {
             throw $th;
         }

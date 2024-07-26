@@ -42,7 +42,7 @@ class Synchronization extends Model
      */
     public function syncDetails(): HasMany
     {
-        return $this->hasMany(Invoice::class, 'idSincronizacao', 'idSincronizacao');
+        return $this->hasMany(SynchronizationDetail::class, 'idSincronizacao', 'idSincronizacao');
     }
 
     /**

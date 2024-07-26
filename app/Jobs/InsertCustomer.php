@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,8 +42,6 @@ class InsertCustomer implements ShouldQueue
      */
     public function handle(): void
     {
-        rand(1, 10) == 1 ? throw new \Exception('Erro ao inserir cliente') : null;
-
         $customer = Customer::whereNot('codCliente', '')
             ->where(function($query) {
                 $query->where('codCliente', $this->customer['nrCpf']);
@@ -63,6 +62,7 @@ class InsertCustomer implements ShouldQueue
             'codCliente' => $this->customer['tpPessoa'] === 'F' ? $this->customer['nrCpf'] : $this->customer['nrCnpj'],
         ]);
 
+        $customer->updated_at = Carbon::now();
         $customer->save();
     }
 }

@@ -42,8 +42,6 @@ class InsertInvoice implements ShouldQueue
      */
     public function handle(): void
     {
-        rand(1, 10) == 1 ? throw new \Exception('Erro ao inserir conta') : null;
-
         $invoice = Invoice::where('extConta', $this->invoice['idCobrancaReceber'])
             ->first();
 
@@ -60,6 +58,7 @@ class InsertInvoice implements ShouldQueue
             : null;
 
         $invoice->fill([
+            'extCliente' => $this->invoice['idPessoa'],
             'extConta' => $this->invoice['idCobrancaReceber'],
             'idCliente' => null,
             'idPedidoCabecalho' => null,
@@ -82,6 +81,7 @@ class InsertInvoice implements ShouldQueue
             'numCheque' => null,
         ]);
 
+        $invoice->updated_at = Carbon::now();
         $invoice->save();
     }
 }

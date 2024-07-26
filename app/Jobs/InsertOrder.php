@@ -42,8 +42,6 @@ class InsertOrder implements ShouldQueue
      */
     public function handle(): void
     {
-        rand(1, 10) == 1 ? throw new \Exception('Erro ao inserir pedido') : null;
-
         $order = Order::where('extPedido', $this->order['idVenda'])
             ->first();
 
@@ -64,6 +62,7 @@ class InsertOrder implements ShouldQueue
             : null;
 
         $order->fill([
+            'extCliente' => $this->order['idPessoa'],
             'extPedido' => $this->order['idVenda'],
             'idCliente' => null,
             'idFilial' => null,
@@ -79,6 +78,7 @@ class InsertOrder implements ShouldQueue
             'nmArquivo' => null,
         ]);
 
+        $order->updated_at = Carbon::now();
         $order->save();
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idCliente')->nullable()->comment('Foreign key para a tabela clientes');
             $table->unsignedBigInteger('idFilial')->nullable()->comment('Foreign key para a tabela filiais');
 
+            $table->string('extCliente')->comment('Código externo do cliente');
             $table->string('extPedido')->comment('Código externo do pedido');
             $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('tpEntrega')->comment('Tipo da entrega');

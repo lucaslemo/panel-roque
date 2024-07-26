@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Log;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -18,8 +19,8 @@ new #[Layout('layouts.guest')] class extends Component
     {
         $this->validate();
 
-        $user = User::where('email', $this->form->email)->first();
-        if($user && !$user->active) {
+        $user = User::with('customers')->where('email', $this->form->email)->first();
+        if(is_null($user) || !$user->active || count($user->customers) == 0) {
             throw ValidationException::withMessages([
                 'form.email' => trans('auth.failed'),
             ]);

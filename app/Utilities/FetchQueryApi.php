@@ -5,14 +5,17 @@ namespace App\Utilities;
 use App\Jobs\InsertCustomer;
 use App\Jobs\InsertInvoice;
 use App\Jobs\InsertOrder;
+use App\Jobs\LinkInvoices;
+use App\Jobs\LinkOrders;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Synchronization;
 use App\Models\SynchronizationDetail;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class FetchQueryApi {
 
@@ -24,7 +27,7 @@ class FetchQueryApi {
     private int $start;
     private int $end;
     private int $total;
-    private int $index;
+    private int $indexStart;
 
     public function __construct($url, $model, int $perPage = 500, int $start = 0)
     {
@@ -36,7 +39,7 @@ class FetchQueryApi {
         $this->start = $start;
         $this->end = $start + $perPage;
         $this->total = 0;
-        $this->index = 0;
+        $this->indexStart = 0;
     }
 
     /**
@@ -69,7 +72,7 @@ class FetchQueryApi {
         $this->start = $this->end;
         $this->end += $this->perPage;
         $this->total += $count;
-        $this->index++;
+        $this->indexStart++;
 
         return $count >= $this->perPage;
     }
@@ -103,13 +106,42 @@ class FetchQueryApi {
             $morePages = $this->nextStep($data->count());
         }
 
-        Log::info($synchronization);
-
         SynchronizationDetail::create([
             'idSincronizacao' => $synchronization->idSincronizacao,
             'nmEntidade' => $this->model,
             'numDadosAtualizados' => 0,
             'numDadosAtualizar' => $this->total,
         ]);
+    }
+
+    public function linkData(Synchronization $synchronization): void
+    {
+        $index = 0;
+        do {
+            $queue = App::make('queue.connection');
+            $size = $queue->size('default');
+
+            sleep(5);
+            $index++;
+        } while ($size > 0 && $index < 120);
+
+        Customer::where('updated_at', '<', $synchronization->created_at)
+            ->update(['deleted_at' => Carbon::now()]);
+
+        $syncDetail = $synchronization->syncDetails()->where('nmEntidade', Customer::class)->first();
+
+        Customer::chunk(100, function($customers) use($synchronization, $syncDetail) {
+            $jobs = [];
+
+            foreach($customers as $customer) {
+                $jobs[] = new LinkOrders($synchronization, $customer);
+                $jobs[] = new LinkInvoices($synchronization, $customer);
+            }
+
+            Bus::batch($jobs)->name('Batch Linking Database')->dispatch();
+
+            $syncDetail->numDadosAtualizados += count($customers);
+            $syncDetail->save();
+        });
     }
 }

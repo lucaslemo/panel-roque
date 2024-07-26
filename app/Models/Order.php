@@ -37,6 +37,7 @@ class Order extends Model
         'idCliente',
         'idFilial',
 
+        'extCliente',
         'extPedido',
         'nmVendedor',
         'tpEntrega',
