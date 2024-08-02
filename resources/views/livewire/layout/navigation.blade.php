@@ -83,6 +83,12 @@ new class extends Component
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        @if (auth()->user()->email === 'admin@email.com')
+                            <x-dropdown-link :href="url('/horizon')">
+                                {{ __('Horizon') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
@@ -151,6 +157,12 @@ new class extends Component
                 <x-responsive-nav-link :href="route('common.profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                @if (auth()->user()->email === 'admin@email.com')
+                    <x-responsive-nav-link :href="url('/horizon')">
+                        {{ __('Horizon') }}
+                    </x-responsive-nav-link>   
+                @endif
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">

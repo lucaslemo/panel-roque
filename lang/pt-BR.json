@@ -103,5 +103,6 @@
     "Error removing user.": "Erro ao remover usuário.",
     "Don't have an account yet?": "Não tem uma conta ainda?",
     "Sign Up": "Registre-se",
-    "Last synced on:": "Última sincronização em:"
+    "Last synced on:": "Última sincronização em:",
+    "Error when fetching last update.": "Erro ao buscar a última atualização."
 }

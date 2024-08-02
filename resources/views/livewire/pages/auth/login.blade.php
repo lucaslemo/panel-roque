@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
         $this->validate();
 
         $user = User::with('customers')->where('email', $this->form->email)->first();
-        if(is_null($user) || !$user->active || count($user->customers) == 0) {
+        if(is_null($user) || !$user->active || ($user->hasRole('Customer') && count($user->customers) == 0)) {
             throw ValidationException::withMessages([
                 'form.email' => trans('auth.failed'),
             ]);
