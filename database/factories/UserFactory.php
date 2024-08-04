@@ -31,6 +31,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('senha'),
             'avatar' => null,
             'type' => fake()->randomElement(['administrator', 'customer']),
+            'cpf' => fake()->cpf(false),
             'active' => true,
             'remember_token' => Str::random(10),
         ];

@@ -18,6 +18,7 @@ class PermissionsSeeder extends Seeder
         DB::table('roles')->delete();
 
         Role::create(['name' => 'Super Admin']);
+        Role::create(['name' => 'Customer master']);
         Role::create(['name' => 'Customer']);
     }
 }

@@ -16,7 +16,11 @@ class UpdateDetails extends Component
         try {
             $this->update = Synchronization::latest('created_at')
                 ->first();
-            $this->lastUpdatedDate = Carbon::parse($this->update->created_at)->format('d/m/Y H:i');
+
+            $this->lastUpdatedDate = !is_null($this->update)
+                ? Carbon::parse($this->update->created_at)->format('d/m/Y H:i')
+                : __('Never');
+
         } catch (\Throwable $th) {
             report($th);
             $this->update = null;

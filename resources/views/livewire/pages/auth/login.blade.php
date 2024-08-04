@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
-use Illuminate\Support\Facades\Log;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -17,16 +16,16 @@ new #[Layout('layouts.guest')] class extends Component
      */
     public function login(): void
     {
-        $this->validate();
+        $validated = collect($this->validate());
 
-        $user = User::with('customers')->where('email', $this->form->email)->first();
-        if(is_null($user) || !$user->active || ($user->hasRole('Customer') && count($user->customers) == 0)) {
+        $user = User::with('customers')->where('cpf', $validated['cpf'])->first();
+        if(is_null($user) || !$user->active) {
             throw ValidationException::withMessages([
-                'form.email' => trans('auth.failed'),
+                'form.cpf' => trans('auth.failed'),
             ]);
         }
 
-        $this->form->authenticate();
+        $this->form->authenticate($validated);
 
         Session::regenerate();
 
@@ -42,11 +41,11 @@ new #[Layout('layouts.guest')] class extends Component
 
         <p class="text-center font-bold text-xl">Portal do Cliente</p>
 
-        <!-- Email Address -->
+        <!-- CPF -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+            <x-input-label for="cpf" :value="__('CPF')" />
+            <x-text-input wire:model="form.cpf" id="cpf" class="block mt-1 w-full" type="text" name="cpf" required autofocus autocomplete="cpf" />
+            <x-input-error :messages="$errors->get('form.cpf')" class="mt-2" />
         </div>
 
         <!-- Password -->
