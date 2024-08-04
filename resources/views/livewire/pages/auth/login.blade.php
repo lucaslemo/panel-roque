@@ -44,7 +44,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- CPF -->
         <div>
             <x-input-label for="cpf" :value="__('CPF')" />
-            <x-text-input wire:model="form.cpf" id="cpf" class="block mt-1 w-full" type="text" name="cpf" required autofocus autocomplete="cpf" />
+            <x-text-input wire:model="form.cpf" id="cpf" class="block mt-1 w-full" type="text" name="cpf" x-mask="999.999.999-99" required autofocus autocomplete="cpf" />
             <x-input-error :messages="$errors->get('form.cpf')" class="mt-2" />
         </div>
 
