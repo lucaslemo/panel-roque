@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\IndependentSalesRepresentative>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
  */
-class IndependentSalesRepresentativeFactory extends Factory
+class CompanyFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class IndependentSalesRepresentativeFactory extends Factory
     public function definition(): array
     {
         return [
-            'nmRCA' => fake()->firstName(),
+            'nmFilial' => fake()->randomNumber(2, false),
         ];
     }
 }

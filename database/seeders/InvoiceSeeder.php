@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Order;
+use App\Models\Invoice;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OrderSeeder extends Seeder
+class InvoiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,8 +17,8 @@ class OrderSeeder extends Seeder
         try {
             DB::beginTransaction();
 
-            Order::factory()
-                ->count(2000)
+            Invoice::factory()
+                ->count(3000)
                 ->create();
 
             DB::commit();

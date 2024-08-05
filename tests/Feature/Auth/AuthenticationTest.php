@@ -24,10 +24,10 @@ class AuthenticationTest extends TestCase
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $this->seed(PermissionsSeeder::class);
-        $user = User::factory(['type' => 'customer'])->create();
+        $user = User::factory(['type' => 'customer', 'active' => true])->create();
 
         $component = Volt::test('pages.auth.login')
-            ->set('form.email', $user->email)
+            ->set('form.cpf', $user->cpf)
             ->set('form.password', 'senha');
 
         $component->call('login');
@@ -42,10 +42,10 @@ class AuthenticationTest extends TestCase
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $this->seed(PermissionsSeeder::class);
-        $user = User::factory()->create();
+        $user = User::factory(['active' => true])->create();
 
         $component = Volt::test('pages.auth.login')
-            ->set('form.email', $user->email)
+            ->set('form.cpf', $user->cpf)
             ->set('form.password', 'wrong-password');
 
         $component->call('login');

@@ -2,10 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Invoice;
-use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -55,13 +53,12 @@ class CustomerTest extends TestCase
     public function test_has_invoices(): void
     {
         Customer::factory()
-            ->has(Invoice::factory()->for(Branch::factory())->count(30))
+            ->has(Invoice::factory())
             ->create();
 
         Invoice::factory()
-            ->for(Branch::factory())
             ->for(Customer::factory())->create();
 
-        $this->assertDatabaseCount('contas', 31);
+        $this->assertDatabaseCount('invoices', 2);
     }
 }

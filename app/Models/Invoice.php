@@ -34,11 +34,12 @@ class Invoice extends Model
      */
     protected $fillable = [
         'idCliente',
+        'idPedidoCabecalho',
+        'idFilial',
 
         'extCliente',
         'extConta',
-        'idPedidoCabecalho',
-        'idFilial',
+        'extPedido',
         'nmVendedor',
         'statusConta',
         'nmSituacao',
@@ -53,7 +54,7 @@ class Invoice extends Model
         'vrAtualizado',
         'vrPago',
         'isBoleto',
-        'nmArquivo',
+        'nmArquivoConta',
     ];
 
     /**

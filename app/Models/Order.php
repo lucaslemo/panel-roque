@@ -42,12 +42,14 @@ class Order extends Model
         'nmVendedor',
         'tpEntrega',
         'statusPedido',
+        'statusEntrega',
         'dtPedido',
         'dtFaturamento',
         'dtEntrega',
         'vrTotal',
         'numOrdemCompra',
-        'nmArquivo',
+        'nmArquivoDetalhes',
+        'nmArquivoNotaFiscal',
     ];
 
     /**

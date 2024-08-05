@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->string('extCliente')->comment('Código externo do cliente');
             $table->string('extConta')->comment('Código externo da conta');
+            $table->string('extPedido')->comment('Código externo do pedido');
             $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('statusConta')->comment('Status da conta');
             $table->string('nmSituacao')->comment('Situação da conta');
@@ -34,7 +35,7 @@ return new class extends Migration
             $table->decimal('vrAtualizado', $precision = 15, $scale = 2)->comment('Total atualizado');
             $table->decimal('vrPago', $precision = 15, $scale = 2)->nullable()->comment('Valor pago');
             $table->boolean('isBoleto')->default(false)->comment('Se a conta é boleto ou não');
-            $table->string('nmArquivo')->nullable()->comment('Arquivo da nota fiscal');
+            $table->string('nmArquivoConta')->nullable()->comment('Arquivo da conta');
 
             $table->timestamps();
             $table->softDeletes();

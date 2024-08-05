@@ -2,9 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Branch;
 use App\Models\Customer;
-use App\Models\IndependentSalesRepresentative;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,9 +19,7 @@ class OrderTest extends TestCase
     public function test_can_create_order(): void
     {
         $order = Order::factory()
-            ->for(IndependentSalesRepresentative::factory())
             ->for(Customer::factory())
-            ->for(Branch::factory())
             ->create();
         $this->assertNotNull($order);
     }
@@ -31,9 +27,7 @@ class OrderTest extends TestCase
     public function test_can_read_order(): void
     {
         $order = Order::factory()
-            ->for(IndependentSalesRepresentative::factory())
             ->for(Customer::factory())
-            ->for(Branch::factory())
             ->create();
         $searchId = $order->idPedidoCabecalho;
 
@@ -46,9 +40,7 @@ class OrderTest extends TestCase
     public function test_can_update_order(): void
     {
         $order = Order::factory()
-            ->for(IndependentSalesRepresentative::factory())
             ->for(Customer::factory())
-            ->for(Branch::factory())
             ->create(['dtFaturamento' => null]);
         $now = Carbon::now();
         $order->dtFaturamento = $now;
@@ -59,9 +51,7 @@ class OrderTest extends TestCase
     public function test_can_delete_order(): void
     {
         $order = Order::factory()
-            ->for(IndependentSalesRepresentative::factory())
             ->for(Customer::factory())
-            ->for(Branch::factory())
             ->create();
         $order->delete();
 

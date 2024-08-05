@@ -17,43 +17,13 @@ class UserSeeder extends Seeder
         try {
             DB::beginTransaction();
 
-            // Users admin
+            // User admin
             User::factory()->create([
                 'name' => 'Admin',
                 'email' => 'admin@email.com',
                 'type' => 'administrator',
                 'cpf' => '17475528014',
             ]);
-
-            // User::factory()
-            //     ->count(2)
-            //     ->deleted()
-            //     ->create(['type' => 'administrator']);
-
-            // User::factory()
-            //     ->count(2)
-            //     ->unverified()
-            //     ->deactivated()
-            //     ->create(['type' => 'administrator']);
-
-            // // Users customer
-            // User::factory()
-            //     ->create([
-            //         'name' => 'User',
-            //         'email' => 'user@email.com',
-            //         'type' => 'customer',
-            //     ]);
-
-            // User::factory()
-            //     ->count(50)
-            //     ->deleted()
-            //     ->create(['type' => 'customer']);
-
-            // User::factory()
-            //     ->count(9)
-            //     ->unverified()
-            //     ->deactivated()
-            //     ->create(['type' => 'customer']);
 
             DB::commit();
         } catch (\Throwable $th) {

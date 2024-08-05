@@ -2,16 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Models\BillToReceive;
-use App\Models\Branch;
 use App\Models\CreditLimit;
 use App\Models\Customer;
-use App\Models\IndependentSalesRepresentative;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\User;
-use App\Models\Organization;
-use App\Models\Sale;
 use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -68,40 +63,36 @@ class UserTest extends TestCase
         $this->seed(PermissionsSeeder::class);
         $user = User::factory()->create();
 
-        $userWithOrganizations = User::factory()->has(Customer::factory()->count(2))->create();
+        $userWithCustomers = User::factory()->has(Customer::factory()->count(2))->create();
 
         $this->assertDatabaseCount('users', 2);
 
-        $this->assertDatabaseCount('usuariosPossuemClientes', 2);
+        $this->assertDatabaseCount('users_has_customers', 2);
 
-        $this->assertDatabaseHas('usuariosPossuemClientes', ['idUsuario' => $userWithOrganizations->id]);
+        $this->assertDatabaseHas('users_has_customers', ['idUsuario' => $userWithCustomers->id]);
 
-        $this->assertDatabaseMissing('usuariosPossuemClientes', ['idUsuario' => $user->id]);
+        $this->assertDatabaseMissing('users_has_customers', ['idUsuario' => $user->id]);
     }
 
     /**
      * Testing many to many relationship.
      */
-    public function test_has_organizations_that_has_sales(): void
+    public function test_has_customers_that_has_sales(): void
     {
         $this->seed(PermissionsSeeder::class);
         $user = User::factory()
             ->has(Customer::factory()
                     ->count(2)
                     ->has(CreditLimit::factory())
-                    ->has(Invoice::factory()
-                        ->for(Branch::factory())->count(10))
-                    ->has(Order::factory()
-                        ->count(2)
-                        ->for(Branch::factory())
-                        ->for(IndependentSalesRepresentative::factory()))
+                    ->has(Invoice::factory())
+                    ->has(Order::factory()->count(2))
                 )->create();
 
         $this->assertDatabaseCount('users', 1);
-        $this->assertDatabaseCount('limitesDeCredito', 2);
-        $this->assertDatabaseCount('clientes', 2);
-        $this->assertDatabaseCount('pedidosCabecalhos', 4);
-        $this->assertDatabaseCount('contas', 20);
-        $this->assertDatabaseHas('usuariosPossuemClientes', ['idUsuario' => $user->id]);
+        $this->assertDatabaseCount('credit_limits', 2);
+        $this->assertDatabaseCount('customers', 2);
+        $this->assertDatabaseCount('orders', 4);
+        $this->assertDatabaseCount('invoices', 2);
+        $this->assertDatabaseHas('users_has_customers', ['idUsuario' => $user->id]);
     }
 }

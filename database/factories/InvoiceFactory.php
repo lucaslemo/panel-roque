@@ -24,11 +24,15 @@ class InvoiceFactory extends Factory
         $payment = fake()->randomElement([true, false]);
         $value = fake()->randomFloat(2, 200, 8000);
         return [
+            'extCliente' => fake()->randomNumber(4, false),
+            'extConta' => fake()->randomNumber(4, false),
+            'extPedido' => fake()->randomNumber(4, false),
+            'nmVendedor' => fake()->lastName(),
             'statusConta' => $payment ? 'Entregue' : 'Aberto',
             'nmSituacao' => $payment ? 'Entregue' : 'A vencer',
             'tpCobranca' => fake()->randomElement(['CHE', 'CCR', 'DIN']),
             'dtParcela' => $now->subMonth(3)->subMinutes(fake()->randomNumber(4, true)),
-            'numDuplicado' => 1,
+            'numDuplicata' => 1,
             'dtEmissao' => $now->addMinutes($downLimit),
             'dtVencimento' => $now->addMinutes($upLimit),
             'dtPagamento' => $payment ? $now->addMinutes(fake()->numberBetween($downLimit, $upLimit)) : null,
@@ -36,7 +40,8 @@ class InvoiceFactory extends Factory
             'vrLiquido' => $value,
             'vrAtualizado' => $value,
             'vrPago' => $payment ? $value : null,
-            'numCheque' => fake()->randomNumber(7),
+            'isBoleto' => fake()->randomElement([true, false]),
+            'nmArquivoConta' => null,
         ];
     }
 }

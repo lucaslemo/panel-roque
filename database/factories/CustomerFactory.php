@@ -18,10 +18,11 @@ class CustomerFactory extends Factory
     {
         $type = fake()->randomElement([true, false]);
         return [
+            'extCliente' => fake()->randomNumber(4, false),
             'nmCliente' => $type ? fake()->name() : fake()->company(),
-            'extCliente' => $type ? fake()->name() : fake()->company(),
-            'tpCliente' => $type ? 'pf' : 'pj',
-            'tpCliente' => $type ? fake()->cpf() : fake()->cnpj(),
+            'tpCliente' => $type ? 'F' : 'J',
+            'emailCliente' => fake()->unique()->safeEmail(),
+            'codCliente' => $type ? fake()->cpf(false) : fake()->cnpj(false),
         ];
     }
 }

@@ -22,12 +22,14 @@ return new class extends Migration
             $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('tpEntrega')->comment('Tipo da entrega');
             $table->string('statusPedido')->comment('Status do pedido');
+            $table->string('statusEntrega')->comment('Status da entrega do pedido');
             $table->dateTime('dtPedido')->nullable()->comment('Data do pedido');
             $table->dateTime('dtFaturamento')->nullable()->comment('Data do faturamento');
             $table->dateTime('dtEntrega')->nullable()->comment('Data da entrega');
             $table->decimal('vrTotal', $precision = 15, $scale = 2)->nullable()->comment('Valor total');
             $table->string('numOrdemCompra')->nullable()->comment('Ordem de compra');
-            $table->string('nmArquivo')->nullable()->comment('Arquivo de detalhes do pedido');
+            $table->string('nmArquivoDetalhes')->nullable()->comment('Arquivo de detalhes do pedido');
+            $table->string('nmArquivoNotaFiscal')->nullable()->comment('Arquivo da nota fiscal');
 
             $table->timestamps();
             $table->softDeletes();

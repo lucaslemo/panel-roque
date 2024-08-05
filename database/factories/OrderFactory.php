@@ -21,17 +21,19 @@ class OrderFactory extends Factory
         $minutes = 20500;
         $isDelivery = fake()->randomElement([true, false]);
         return [
-            'tpPedido' => fake()->randomElement(['Prevenda', 'Pedido', 'Orçamento']),
-            'tpEntrega' => fake()->randomElement(['CIF - própria', 'FOB']),
-            'tpCobranca' => fake()->randomElement(['CHE', 'CCR', 'DIN']),
-            'statusPedido' => $isDelivery ? 'Entregue' : fake()->randomElement(['Liberado', 'Orçamento', 'Cancelado', 'Trânsito', 'Montado']),
+            'extCliente' => fake()->randomNumber(4, false),
+            'extPedido' => fake()->randomNumber(4, false),
+            'nmVendedor' => fake()->lastName(),
+            'tpEntrega' => fake()->randomElement(['CIF', 'FOB']),
+            'statusPedido' => fake()->randomElement(['Orçamento', 'Prevenda', 'Cancelado', 'Faturado', 'Devolvido']),
+            'statusEntrega' => $isDelivery ? 'Entregue' : fake()->randomElement(['Separado', 'Montado', 'Em trânsito', 'Reprogramado', 'Devolvido']),
             'dtPedido' => $now->subMinutes($minutes),
             'dtFaturamento' => $now->addMinutes(floor($minutes/ (fake()->randomDigitNotZero() + 2) )),
-            'statusEntrega'=> $isDelivery ? 'Entregue' : fake()->randomElement(['Liberado', 'Montada', 'Em transito', null]),
             'dtEntrega' => $isDelivery ? $now->addMinutes(floor($minutes/ 2 )) : null,
             'vrTotal' => fake()->randomFloat(2, 1000, 20000),
             'numOrdemCompra' => fake()->randomNumber(7),
-            'dtCriacao' => $now->subMinutes(floor(($minutes * 3)/2)),
+            'nmArquivoDetalhes' => null,
+            'nmArquivoNotaFiscal' => null,
         ];
     }
 }
