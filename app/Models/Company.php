@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class Branch extends Model
+class Company extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 

@@ -36,7 +36,7 @@ class InvoicesTable extends DataTableComponent
         return [
             Column::make('#', 'idConta')
                 ->sortable(),
-            Column::make(__('Branch'), 'branch.nmFilial')
+            Column::make(__('Company'), 'company.nmFilial')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Charge'), 'tpCobranca')

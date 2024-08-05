@@ -59,11 +59,11 @@ class Order extends Model
     }
 
     /**
-     * Get the branch that owns the order.
+     * Get the company that owns the order.
      */
-    public function branch(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Branch::class, 'idFilial', 'idFilial');
+        return $this->belongsTo(Company::class, 'idFilial', 'idFilial');
     }
 
     /**

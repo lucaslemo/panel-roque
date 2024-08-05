@@ -36,7 +36,7 @@ class OrdersTable extends DataTableComponent
         return [
             Column::make('#', 'idPedidoCabecalho ')
                 ->sortable(),
-            Column::make(__('Branch'), 'branch.nmFilial')
+            Column::make(__('Company'), 'company.nmFilial')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Delivery Type'), 'tpEntrega')

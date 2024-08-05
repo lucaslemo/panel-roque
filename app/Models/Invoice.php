@@ -73,11 +73,11 @@ class Invoice extends Model
     }
 
     /**
-     * Get the branch that owns the invoice.
+     * Get the company that owns the invoice.
      */
-    public function branch(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Branch::class, 'idFilial', 'idFilial');
+        return $this->belongsTo(Company::class, 'idFilial', 'idFilial');
     }
 
     /**
