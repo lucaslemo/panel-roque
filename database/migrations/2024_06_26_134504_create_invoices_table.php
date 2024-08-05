@@ -35,7 +35,6 @@ return new class extends Migration
             $table->decimal('vrPago', $precision = 15, $scale = 2)->nullable()->comment('Valor pago');
             $table->boolean('isBoleto')->default(false)->comment('Se a conta é boleto ou não');
             $table->string('nmArquivo')->nullable()->comment('Arquivo da nota fiscal');
-            $table->bigInteger('numCheque')->nullable()->comment('Número do Cheque');
 
             $table->timestamps();
             $table->softDeletes();

@@ -41,7 +41,6 @@ class Order extends Model
         'extPedido',
         'nmVendedor',
         'tpEntrega',
-        'tpCobranca',
         'statusPedido',
         'dtPedido',
         'dtFaturamento',
@@ -73,6 +72,14 @@ class Order extends Model
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
+    }
+
+    /**
+     * Get the payment types for the order.
+     */
+    public function paymentTypes(): HasMany
+    {
+        return $this->hasMany(PaymentType::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class Invoice extends Model
+class PaymentType extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -18,14 +18,14 @@ class Invoice extends Model
      *
      * @var string
      */
-    protected $table = 'invoices';
+    protected $table = 'payment_type';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'idConta';
+    protected $primaryKey = 'idPagamento';
 
     /**
      * The attributes that are mass assignable.
@@ -33,51 +33,16 @@ class Invoice extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'idCliente',
-
-        'extCliente',
-        'extConta',
-        'idPedidoCabecalho',
-        'idFilial',
-        'nmVendedor',
-        'statusConta',
-        'nmSituacao',
-        'tpCobranca',
-        'dtParcela',
-        'numDuplicata',
-        'dtEmissao',
-        'dtVencimento',
-        'dtPagamento',
-        'vrBruto',
-        'vrLiquido',
-        'vrAtualizado',
-        'vrPago',
-        'isBoleto',
-        'nmArquivo',
+        'tpPagamento',
+        'vrValor',
     ];
 
     /**
-     * Get the customer that owns the invoice.
-     */
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class, 'idCliente', 'idCliente');
-    }
-
-    /**
-     * Get the order that owns the invoice.
+     * Get the order that owns the payment type.
      */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
-    }
-
-    /**
-     * Get the branch that owns the invoice.
-     */
-    public function branch(): BelongsTo
-    {
-        return $this->belongsTo(Branch::class, 'idFilial', 'idFilial');
     }
 
     /**

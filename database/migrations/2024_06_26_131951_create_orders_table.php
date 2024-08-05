@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('extPedido')->comment('Código externo do pedido');
             $table->string('nmVendedor')->comment('Nome do vendedor');
             $table->string('tpEntrega')->comment('Tipo da entrega');
-            $table->string('tpCobranca')->nullable()->comment('Tipo de cobrança');
             $table->string('statusPedido')->comment('Status do pedido');
             $table->dateTime('dtPedido')->nullable()->comment('Data do pedido');
             $table->dateTime('dtFaturamento')->nullable()->comment('Data do faturamento');
