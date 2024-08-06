@@ -21,7 +21,7 @@ class TestController extends Controller
                 }
             }
 
-            sleep(rand(2, 5));
+            // sleep(rand(2, 5));
 
             return response()->json($response);
         } catch (\Throwable $th) {
@@ -31,6 +31,7 @@ class TestController extends Controller
 
     public function orders(Request $request) {
         try {
+            // throw new \Exception('Forded error');
             $start = $request->start ?? 0;
             $end = $request->end ?? 10;
 
@@ -44,7 +45,7 @@ class TestController extends Controller
                 }
             }
 
-            sleep(rand(2, 5));
+            // sleep(rand(2, 5));
 
             return response()->json($response);
         } catch (\Throwable $th) {
@@ -67,7 +68,7 @@ class TestController extends Controller
                 }
             }
 
-            sleep(rand(2, 5));
+            // sleep(rand(2, 5));
 
             return response()->json($response);
         } catch (\Throwable $th) {

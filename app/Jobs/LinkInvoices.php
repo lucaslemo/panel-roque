@@ -28,7 +28,7 @@ class LinkInvoices implements ShouldQueue
      *
      * @var int
      */
-    public $timeout = 60;
+    public $timeout = 3600;
 
     private Synchronization $synchronization;
     private Customer $customer;
@@ -57,5 +57,7 @@ class LinkInvoices implements ShouldQueue
             $syncDetail->numDadosAtualizados += count($invoices);
             $syncDetail->save();
         });
+        $this->synchronization->dtSincronizacao = now();
+        $this->synchronization->save();
     }
 }

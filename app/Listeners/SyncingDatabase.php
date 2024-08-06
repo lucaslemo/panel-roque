@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\StartSyncDatabase;
+use App\Jobs\StartSynchronization;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -26,27 +27,28 @@ class SyncingDatabase
     public function handle(StartSyncDatabase $event): void
     {
         try {
-            $urlBaseCustomers = 'http://localhost/api/pessoas?teste=true';
-            $urlBaseOrders = 'http://localhost/api/pedidos?teste=true';
-            $urlBaseInvoices = 'http://localhost/api/contas?teste=true';
 
-            $fetchCustomers = new FetchQueryApi($urlBaseCustomers, Customer::class);
-            $fetchOrders = new FetchQueryApi($urlBaseOrders, Order::class);
-            $fetchInvoices = new FetchQueryApi($urlBaseInvoices, Invoice::class);
+            // StartSynchronization::dispatch($lastSynchronization->created_at);
 
-            $synchronization = Synchronization::create([
-                'dtFinalBusca' => null,
-                'dtSincronizacao' => null,
-            ]);
 
-            $fetchCustomers->start($synchronization);
-            $fetchOrders->start($synchronization);
-            $fetchInvoices->start($synchronization);
 
-            $synchronization->dtFinalBusca = Carbon::now();
-            $synchronization->save();
+            // $fetchCustomers = new FetchQueryApi($urlBaseCustomers, Customer::class);
+            // $fetchOrders = new FetchQueryApi($urlBaseOrders, Order::class);
+            // $fetchInvoices = new FetchQueryApi($urlBaseInvoices, Invoice::class);
 
-            $fetchCustomers->linkData($synchronization);
+            // $synchronization = Synchronization::create([
+            //     'dtFinalBusca' => null,
+            //     'dtSincronizacao' => null,
+            // ]);
+
+            // $fetchCustomers->start($synchronization);
+            // $fetchOrders->start($synchronization);
+            // $fetchInvoices->start($synchronization);
+
+            // $synchronization->dtFinalBusca = Carbon::now();
+            // $synchronization->save();
+
+            // $fetchCustomers->linkData($synchronization);
 
         } catch (\Throwable $th) {
             throw $th;

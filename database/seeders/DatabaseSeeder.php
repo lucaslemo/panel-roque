@@ -17,14 +17,15 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsSeeder::class,
             UserSeeder::class,
+            SynchronizationSeeder::class,
         ]);
 
         if(!App::isProduction()) {
             $this->call([
-                CustomerSeeder::class,
-                OrderSeeder::class,
-                InvoiceSeeder::class,
-                LinkDatabaseSeeder::class,
+                // CustomerSeeder::class,
+                // OrderSeeder::class,
+                // InvoiceSeeder::class,
+                // LinkDatabaseSeeder::class,
             ]);
         }
     }
