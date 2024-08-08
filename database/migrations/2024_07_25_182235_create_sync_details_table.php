@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('nmEntidade')->comment('Nome da entidade que foi atualizada');
             $table->integer('numDadosAtualizados')->default(0)->comment('Quantidade de dados que já foram processados');
             $table->integer('numDadosAtualizar')->nullable()->comment('Quantidade de dados que faltam processar');
+            $table->integer('numErros')->default(0)->comment('Quantidade jobs que falharam');
+            $table->boolean('isCompleto')->default(false)->comment('Se todos os jobs dessa entidade foram processados');
 
             $table->timestamps();
             $table->softDeletes();

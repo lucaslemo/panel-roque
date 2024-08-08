@@ -2,10 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Synchronization;
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 class LinkInvoices implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * The number of times the job may be attempted.
@@ -30,17 +28,14 @@ class LinkInvoices implements ShouldQueue
      */
     public $timeout = 3600;
 
-    private Synchronization $synchronization;
-    private Customer $customer;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(Synchronization $synchronization, Customer $customer)
-    {
-        $this->synchronization = $synchronization;
-        $this->customer = $customer;
-    }
+    public function __construct(
+        public Synchronization $synchronization,
+        public string $customerId,
+        public string $customerExtId,
+    ) {}
 
     /**
      * Execute the job.
@@ -48,9 +43,9 @@ class LinkInvoices implements ShouldQueue
     public function handle(): void
     {
         $syncDetail = $this->synchronization->syncDetails()->where('nmEntidade', Invoice::class)->first();
-        Invoice::where('extCliente', $this->customer->extCliente)->chunk(100, function($invoices) use($syncDetail) {
+        Invoice::where('extCliente', $this->customerExtId)->chunk(100, function($invoices) use($syncDetail) {
             foreach($invoices as $invoice) {
-                $invoice->idCliente = $this->customer->idCliente;
+                $invoice->idCliente = $this->customerId;
                 $invoice->save();
             }
 

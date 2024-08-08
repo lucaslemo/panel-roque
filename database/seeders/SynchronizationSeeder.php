@@ -26,6 +26,7 @@ class SynchronizationSeeder extends Seeder
                         'nmEntidade' => Customer::class,
                         'numDadosAtualizados' => 0,
                         'numDadosAtualizar' => 0,
+                        'isCompleto' => true,
                     ]),
                     'syncDetails'
                 )
@@ -33,6 +34,7 @@ class SynchronizationSeeder extends Seeder
                         'nmEntidade' => Order::class,
                         'numDadosAtualizados' => 0,
                         'numDadosAtualizar' => 0,
+                        'isCompleto' => true,
                     ]),
                     'syncDetails'
                 )
@@ -40,6 +42,7 @@ class SynchronizationSeeder extends Seeder
                         'nmEntidade' => Invoice::class,
                         'numDadosAtualizados' => 0,
                         'numDadosAtualizar' => 0,
+                        'isCompleto' => true,
                     ]),
                     'syncDetails'
                 )

@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Customer;
 use App\Models\SynchronizationDetail;
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,10 +12,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class FetchCustomers implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * The number of times the job may be attempted.
@@ -33,6 +33,13 @@ class FetchCustomers implements ShouldQueue
     public $timeout = 3600;
 
     /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $backoff = 3;
+
+    /**
      * Create a new job instance.
      */
     public function __construct(
@@ -47,10 +54,6 @@ class FetchCustomers implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->batch()->cancelled()) {
-            return;
-        }
-
         $url = config('app.query_customers');
         $response = Http::get($url . "&start={$this->start}&end={$this->end}&dtAtualizacao={$this->date}");
 
@@ -92,14 +95,27 @@ class FetchCustomers implements ShouldQueue
             $perPage = $this->end - $this->start;
 
             if($countData >= $perPage) {
-                $this->batch()->add(
-                    new FetchCustomers($this->synchronizationDetailId, $this->date, $this->start + $perPage, $this->end + $perPage)
-                );
+                FetchCustomers::dispatch($this->synchronizationDetailId, $this->date, $this->start + $perPage, $this->end + $perPage);
+                return;
             }
+
+            $syncDetail->isCompleto = true;
+            $syncDetail->save();
+
         } catch (\Throwable $th) {
             Log::channel('synchronization')->error($th->getMessage());
             DB::rollBack();
             throw $th;
         }
+    }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(?Throwable $exception): void
+    {
+        $syncDetail = SynchronizationDetail::findOrFail($this->synchronizationDetailId);
+        $syncDetail->numErros++;
+        $syncDetail->save();
     }
 }

@@ -12,7 +12,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -37,10 +36,9 @@ class StartSynchronization implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public int $perPage
+    ) {}
 
     /**
      * Execute the job.
@@ -75,20 +73,11 @@ class StartSynchronization implements ShouldQueue
 
             DB::commit();
 
-            $customersBatch = Bus::batch([new FetchCustomers($customersSync->idDetalheSincronizacao, $lastSynchronization->created_at, 0, 500)])
-                ->name('Fetch customers')
-                ->dispatch();
+            FetchCustomers::dispatch($customersSync->idDetalheSincronizacao, $lastSynchronization->created_at, 0, $this->perPage);
+            FetchOrders::dispatch($ordersSync->idDetalheSincronizacao, $lastSynchronization->created_at, 0, $this->perPage);
+            FetchInvoices::dispatch($invoicesSync->idDetalheSincronizacao, $lastSynchronization->created_at, 0, $this->perPage);
 
-            $ordersBatch = Bus::batch([new FetchOrders($ordersSync->idDetalheSincronizacao, $lastSynchronization->created_at, 0, 500)])
-                ->name('Fetch orders')
-                ->dispatch();
-
-            $invoicesBatch = Bus::batch([new FetchInvoices($invoicesSync->idDetalheSincronizacao, $lastSynchronization->created_at, 0, 500)])
-                ->name('Fetch invoices')
-                ->dispatch();
-
-            CheckDatabaseSynchronization::dispatch($synchronization->idSincronizacao, $customersBatch->id, $ordersBatch->id, $invoicesBatch->id, 1)
-                ->delay(now()->addSeconds(30));
+            CheckDatabaseSynchronization::dispatch($synchronization->idSincronizacao, 1)->delay(now()->addSeconds(30));
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;

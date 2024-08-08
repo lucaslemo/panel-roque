@@ -8,6 +8,8 @@ class TestController extends Controller
 {
     public function customers(Request $request) {
         try {
+            sleep(rand(5, 10));
+            rand(1, 10) == 1 ? throw new \Exception('Forced error') : null;
             $start = $request->start ?? 0;
             $end = $request->end ?? 10;
 
@@ -21,8 +23,6 @@ class TestController extends Controller
                 }
             }
 
-            // sleep(rand(2, 5));
-
             return response()->json($response);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -31,7 +31,8 @@ class TestController extends Controller
 
     public function orders(Request $request) {
         try {
-            // throw new \Exception('Forded error');
+            sleep(rand(5, 10));
+            rand(1, 10) == 1 ? throw new \Exception('Forced error') : null;
             $start = $request->start ?? 0;
             $end = $request->end ?? 10;
 
@@ -45,8 +46,6 @@ class TestController extends Controller
                 }
             }
 
-            // sleep(rand(2, 5));
-
             return response()->json($response);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -55,6 +54,8 @@ class TestController extends Controller
 
     public function invoices(Request $request) {
         try {
+            sleep(rand(5, 10));
+            rand(1, 10) == 1 ? throw new \Exception('Forced error') : null;
             $start = $request->start ?? 0;
             $end = $request->end ?? 10;
 
@@ -67,8 +68,6 @@ class TestController extends Controller
                     $response['duplicatas']['id'][] = $jsonData['duplicatas']['id'][$i];
                 }
             }
-
-            // sleep(rand(2, 5));
 
             return response()->json($response);
         } catch (\Throwable $th) {

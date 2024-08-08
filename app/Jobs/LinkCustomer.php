@@ -9,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Bus;
 
 class LinkCustomer implements ShouldQueue
 {
@@ -49,11 +48,9 @@ class LinkCustomer implements ShouldQueue
             $jobs = [];
 
             foreach($customers as $customer) {
-                $jobs[] = new LinkOrders($synchronization, $customer);
-                $jobs[] = new LinkInvoices($synchronization, $customer);
+                LinkOrders::dispatch($synchronization, $customer->idCliente, $customer->extCliente);
+                LinkInvoices::dispatch($synchronization, $customer->idCliente, $customer->extCliente);
             }
-
-            Bus::batch($jobs)->name('Batch Linking orders and invoices')->dispatch();
 
             $syncDetail->numDadosAtualizados += count($customers);
             $syncDetail->save();

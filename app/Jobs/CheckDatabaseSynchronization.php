@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 
 class CheckDatabaseSynchronization implements ShouldQueue
 {
@@ -33,9 +33,6 @@ class CheckDatabaseSynchronization implements ShouldQueue
      */
     public function __construct(
         public int $synchronizationId,
-        public string $customersBatchId,
-        public string $ordersBatchId,
-        public string $invoicesBatchId,
         public int $attempt
     ) {}
 
@@ -44,43 +41,21 @@ class CheckDatabaseSynchronization implements ShouldQueue
      */
     public function handle(): void
     {
-        $customersBatch = Bus::findBatch($this->customersBatchId);
-        $ordersBatch = Bus::findBatch($this->ordersBatchId);
-        $invoicesBatch = Bus::findBatch($this->invoicesBatchId);
-
-        $batchesExist = !is_null($customersBatch) && !is_null($ordersBatch) && !is_null($invoicesBatch);
-
-        $batchesFinished = optional($customersBatch)->finished()
-            && optional($ordersBatch)->finished()
-            && optional($invoicesBatch)->finished();
-
-        $batchesCancelled = optional($customersBatch)->cancelled()
-            || optional($ordersBatch)->cancelled()
-            || optional($invoicesBatch)->cancelled();
-
-        if ($batchesCancelled) {
-            throw new \Exception('One or more batches were cancelled');
+        if ($this->attempt >= 100) {
+            throw new \Exception('After 100 attempts, one or more jobs did not finish');
         }
 
-        if (!$batchesExist && $this->attempt >= 100) {
-            throw new \Exception('After 100 attempts, one or more batches were not found');
-        }
+        $synchronization = Synchronization::with(['syncDetails' => function($query) {
+            $query->where('isCompleto', true);
+        }])->findOrFail($this->synchronizationId);
 
-        if ($batchesFinished) {
-            $synchronization = Synchronization::findOrFail($this->synchronizationId);
-            $synchronization->dtFinalBusca = now();
-            $synchronization->save();
-            LinkCustomer::dispatch($this->synchronizationId);
+        if (count($synchronization->syncDetails) < 3) {
+            CheckDatabaseSynchronization::dispatch($this->synchronizationId, $this->attempt + 1)->delay(now()->addSeconds(60));
             return;
         }
 
-        CheckDatabaseSynchronization::dispatch(
-            $this->synchronizationId,
-            $this->customersBatchId,
-            $this->ordersBatchId,
-            $this->invoicesBatchId,
-            $this->attempt + 1
-        )
-        ->delay(now()->addSeconds(30));
+        $synchronization->dtFinalBusca = now();
+        $synchronization->save();
+        LinkCustomer::dispatch($this->synchronizationId);
     }
 }

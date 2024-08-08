@@ -37,6 +37,8 @@ class SynchronizationDetail extends Model
         'nmEntidade',
         'numDadosAtualizados',
         'numDadosAtualizar',
+        'numErros',
+        'isCompleto',
     ];
 
     /**
