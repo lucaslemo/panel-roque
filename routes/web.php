@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'login')->name('home');
@@ -42,5 +43,12 @@ Route::middleware(['auth', 'role:Super Admin|Customer'])->group(function () {
 Route::get('api/pessoas', [TestController::class, 'customers']);
 Route::get('api/pedidos', [TestController::class, 'orders']);
 Route::get('api/contas', [TestController::class, 'invoices']);
+
+Route::get('teste', function(Request $request) {
+    dump(url('/horizon'));
+    dump($request->ip());
+    dd($request);
+
+});
 
 require __DIR__.'/auth.php';

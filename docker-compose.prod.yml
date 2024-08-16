@@ -1,0 +1,132 @@
+services:
+  laravel:
+    image: serversideup/php:8.3-fpm
+    container_name: laravel
+    environment:
+      AUTORUN_ENABLED: 'true'
+      PHP_DATE_TIMEZONE: 'America/Fortaleza'
+      PHP_SESSION_COOKIE_SECURE: 0
+      # PHP_OPCACHE_ENABLE: 1
+    networks:
+      - deploy-link-app
+      - deploy-link-database
+      - deploy-link-cache
+    volumes:
+      - .:/var/www/html/
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/mime.types:/etc/nginx/mime.types:ro
+      - ./docker/nginx/site-opts.d:/etc/nginx/site-opts.d
+      - ./docker/nginx/server-opts.d:/etc/nginx/server-opts.d
+    ports:
+      - '${FORWARD_NGINX_HTTP_PORT:-80}:80'
+      - '${FORWARD_NGINX_HTTPS_PORT:-443}:443'
+    networks:
+      - deploy-link-app
+    depends_on:
+      - phpmyadmin
+      - laravel
+
+  phpmyadmin:
+    image: 'phpmyadmin:latest'
+    container_name: phpmyadmin
+    networks:
+      - deploy-link-app
+      - deploy-link-database
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT='${FORWARD_DB_PORT:-3306}:3306'
+    depends_on:
+      - mysql
+
+  redis:
+    image: 'redis:alpine'
+    container_name: redis
+    volumes:
+      - 'deploy-redis:/data'
+    networks:
+      - deploy-link-cache
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      retries: 3
+      timeout: 5s
+
+  mysql:
+    image: 'mysql/mysql-server:8.0'
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - 'deploy-mysql:/var/lib/mysql'
+    networks:
+      - deploy-link-database
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - '-p${DB_PASSWORD}'
+      retries: 3
+      timeout: 5s
+
+  horizon:
+    image: serversideup/php:8.3-cli
+    container_name: horizon
+    command: ["php", "/var/www/html/artisan", "horizon"]
+    environment:
+      PHP_FPM_POOL_NAME: 'panel-roque-horizon'
+    volumes:
+      - .:/var/www/html/
+    networks:
+      - deploy-link-database
+      - deploy-link-cache
+    depends_on:
+      - laravel
+      - mysql
+      - redis
+
+  schedule:
+    image: serversideup/php:8.3-cli
+    container_name: schedule
+    command: ["php", "/var/www/html/artisan", "schedule:work"]
+    environment:
+      PHP_FPM_POOL_NAME: "panel-roque-schedule"
+    volumes:
+      - .:/var/www/html/
+    networks:
+      - deploy-link-database
+      - deploy-link-cache
+    depends_on:
+      - laravel
+      - mysql
+      - redis
+
+networks:
+  deploy-link-app:
+    driver: bridge
+  deploy-link-cache:
+    driver: bridge
+  deploy-link-database:
+    driver: bridge
+
+volumes:
+  deploy-mysql:
+    driver: local
+  deploy-redis:
+    driver: local
+
