@@ -1,0 +1,60 @@
+name: Deploy Panel Roque
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: Deploy with ssh
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: ctype, dom, fileinfo, filter, hash, openssl, pcre, pdo, session, tokenizer, mbstring, xml, curl, json, mysql
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      - name: Build assets with npm
+        run: npm install && npm run build
+
+      - name: Prepare deploy directory
+        run: |
+          zip -r release.zip ./
+          mkdir -p release
+
+      - name: Transfer files via SSH
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "release.zip"
+          target: "/var/panel-roque"
+
+      - name: Deploy application via SSH
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /var/panel-roque
+            unzip -o release.zip -d ./
+            rm -rf release.zip
+            docker compose -f ./docker-compose.prod.yml up -d
+            chown -R www-data:www-data .
+
+      - name: Clean up local files
+        run: rm -rf release.zip release
