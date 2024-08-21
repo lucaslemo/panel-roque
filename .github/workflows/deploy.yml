@@ -26,14 +26,11 @@ jobs:
         with:
           node-version: '20.15.1'
 
-      - name: Test
-        run: ls -la
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
       - name: Configure environment
         run: cp .env.example .env && php artisan key:generate && php artisan storage:link
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
       - name: Build assets with npm
         run: npm install --save-dev vite laravel-vite-plugin && npm run build
