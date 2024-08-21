@@ -23,9 +23,8 @@ services:
     container_name: nginx
     restart: on-failure
     volumes:
-      - ./docker/nginx/sites-available:/etc/nginx/sites-enabled
-      # - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      # - ./docker/nginx/mime.types:/etc/nginx/mime.types:ro
+       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./docker/nginx/mime.types:/etc/nginx/mime.types:ro
       # - ./docker/nginx/site-opts.d:/etc/nginx/site-opts.d
       # - ./docker/nginx/server-opts.d:/etc/nginx/server-opts.d
     ports:
