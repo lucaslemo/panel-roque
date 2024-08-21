@@ -21,13 +21,15 @@ jobs:
           php-version: '8.3'
           extensions: ctype, dom, fileinfo, filter, hash, openssl, pcre, pdo, session, tokenizer, mbstring, xml, curl, json, mysql
 
+      - name: Set up NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: '10.8.1'
+
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
       - name: Build assets with npm
-        uses: actions/setup-node@v3
-        with:
-          node-version: '10.8.1'
         run: npm install --save-dev vite laravel-vite-plugin && npm run build
 
       - name: Prepare deploy directory
