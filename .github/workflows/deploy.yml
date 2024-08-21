@@ -40,7 +40,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "release.zip"
-          target: "/var/panel-roque"
+          target: ${{ vars.RELEASE_DIR }}
 
       - name: Deploy application via SSH
         uses: appleboy/ssh-action@v0.1.4
@@ -50,11 +50,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /var/panel-roque
-            unzip -o release.zip -d ./
+            cd ${{ vars.APP_DIR }}
+            docker compose -f ./docker-compose.prod.yml down
+            rm * -rf
+            cd ${{ vars.RELEASE_DIR }}
+            unzip -o release.zip -d ${{ vars.APP_DIR }}
+            cp .env ${{ vars.APP_DIR }}
             rm -rf release.zip
-            docker compose -f ./docker-compose.prod.yml up -d
+            cd ${{ vars.APP_DIR }}
             chown -R www-data:www-data .
+            docker compose -f ./docker-compose.prod.yml up -d
 
       - name: Clean up local files
         run: rm -rf release.zip release
