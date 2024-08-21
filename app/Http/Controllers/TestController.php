@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
@@ -23,6 +24,7 @@ class TestController extends Controller
                 }
             }
 
+            Log::info($fileName);
             return response()->json($response);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -46,6 +48,7 @@ class TestController extends Controller
                 }
             }
 
+            Log::info($fileName);
             return response()->json($response);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -69,6 +72,7 @@ class TestController extends Controller
                 }
             }
 
+            Log::info($fileName);
             return response()->json($response);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
