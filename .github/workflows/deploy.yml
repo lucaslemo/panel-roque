@@ -25,7 +25,10 @@ jobs:
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
       - name: Build assets with npm
-        run: npm install && npm run build
+        uses: actions/setup-node@v3
+        with:
+          node-version: '10.8.1'
+        run: npm install --save-dev vite laravel-vite-plugin && npm run build
 
       - name: Prepare deploy directory
         run: |
