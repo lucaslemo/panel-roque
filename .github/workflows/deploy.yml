@@ -59,7 +59,7 @@ jobs:
             rm -rf release.zip
             cd ${{ vars.APP_DIR }}
             chown -R www-data:www-data .
-            docker compose -f ./docker-compose.prod.yml up -d
+            docker compose -f ./docker-compose.prod.yml up -d --build
 
       - name: Clean up local files
         run: rm -rf release.zip release
