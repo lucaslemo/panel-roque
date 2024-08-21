@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: '20.15.1'
 
+      - name: Configure environment
+        run: cp .env.example .env && php artisan key:generate && php artisan storage:link
+
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
