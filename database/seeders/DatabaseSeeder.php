@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionsSeeder::class,
-            SynchronizationSeeder::class,
         ]);
 
         if(App::isProduction()) {
@@ -35,6 +34,7 @@ class DatabaseSeeder extends Seeder
         if(!App::isProduction()) {
             $this->call([
                 UserSeeder::class,
+                SynchronizationSeeder::class,
                 // CustomerSeeder::class,
                 // OrderSeeder::class,
                 // InvoiceSeeder::class,
