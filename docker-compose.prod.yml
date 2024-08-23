@@ -21,7 +21,7 @@ services:
   nginx:
     image: nginx:latest
     container_name: nginx
-    restart: aways
+    restart: always
     volumes:
       - ./docker/nginx:/etc/nginx
       - .:/var/www/html
