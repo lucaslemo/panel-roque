@@ -83,7 +83,7 @@ new class extends Component
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        @if (auth()->user()->email === 'admin@email.com')
+                        @if (auth()->user()->email === 'lucaslemodev@gmail.com')
                             <x-dropdown-link :href="url('/horizon')">
                                 {{ __('Horizon') }}
                             </x-dropdown-link>
@@ -158,10 +158,10 @@ new class extends Component
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                @if (auth()->user()->email === 'admin@email.com')
+                @if (auth()->user()->email === 'lucaslemodev@gmail.com')
                     <x-responsive-nav-link :href="url('/horizon')">
                         {{ __('Horizon') }}
-                    </x-responsive-nav-link>   
+                    </x-responsive-nav-link>
                 @endif
 
                 <!-- Authentication -->
