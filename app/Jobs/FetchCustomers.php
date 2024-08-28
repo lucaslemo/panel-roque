@@ -23,7 +23,7 @@ class FetchCustomers implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 2;
+    public $tries = 5;
 
     /**
      * The number of seconds the job can run before timing out.
@@ -37,7 +37,7 @@ class FetchCustomers implements ShouldQueue
      *
      * @var int
      */
-    public $backoff = 3;
+    public $backoff = 5;
 
     /**
      * Create a new job instance.
