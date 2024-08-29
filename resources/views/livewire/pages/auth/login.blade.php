@@ -39,20 +39,20 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="login">
 
-        <p class="text-center font-bold text-xl">Portal do Cliente</p>
+        <p class="font-medium text-black text-base mb-8">Informe seu CPF e senha para acessar o seu portal:</p>
 
         <!-- CPF -->
         <div>
             <x-input-label for="cpf" :value="__('CPF')" />
-            <x-text-input wire:model="form.cpf" id="cpf" class="block mt-1 w-full" type="text" name="cpf" x-mask="999.999.999-99" required autofocus autocomplete="cpf" />
+            <x-text-input wire:model="form.cpf" id="cpf" class="block mb-6 w-full" type="text" name="cpf" x-mask="999.999.999-99" required autofocus autocomplete="cpf" />
             <x-input-error :messages="$errors->get('form.cpf')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Your Password')" />
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
+            <x-text-input wire:model="form.password" id="password" class="block mb-6 w-full"
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
@@ -61,16 +61,16 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <!-- Remember Me -->
-        <div class="flex justify-between mt-4">
+        <div class="flex justify-between mb-6">
             <div class="block">
                 <label for="remember" class="inline-flex items-center">
-                    <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                    <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-primary shadow-sm focus:ring-primary-700" name="remember">
+                    <span class="ms-3 text-sm text-subtitle">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
+                <a class="text-sm text-primary hover:text-primary-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
@@ -79,19 +79,6 @@ new #[Layout('layouts.guest')] class extends Component
             <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>
-        </div>
-        <div class="flex items-center justify-center mt-4">
-
-        </div>
-        <div class="flex items-center justify-center mt-2">
-            @if (Route::has('register'))
-                <span class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    {{ __("Don't have an account yet?") }}
-                    <a class="underline" href="{{ route('register') }}" wire:navigate>
-                        {{ __('Sign Up') }}
-                    </a>
-                </span>
-            @endif
         </div>
     </form>
 </div>
