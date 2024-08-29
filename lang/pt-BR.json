@@ -5,8 +5,8 @@
     "Log Out" : "Sair",
     "Email" : "E-mail",
     "Password" : "Senha",
-    "Remember me" : "Lembrar de mim",
-    "Forgot your password?" : "Esqueceu sua senha?",
+    "Remember me" : "Lembrar minha senha",
+    "Forgot your password?" : "Esqueci a senha",
     "Name" : "Nome",
     "Already registered?": "Já possui uma conta?",
     "Confirm" : "Confirmar",
@@ -106,5 +106,6 @@
     "Last synced on:": "Última sincronização em:",
     "Error when fetching last update.": "Erro ao buscar a última atualização.",
     "Never": "Nunca",
-    "Company": "Filial"
+    "Company": "Filial",
+    "Your Password": "Sua senha"
 }
