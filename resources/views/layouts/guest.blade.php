@@ -30,14 +30,14 @@
                     <h1 class="font-bold text-5xl text-primary w-56">Portal do Cliente</h1>
                 </div>
                 <div class="mt-10 w-64 h-64">
-                    <img src="{{ Vite::asset('resources/assets/imgs/mascote_teste.png') }}" class="max-w-full h-auto" alt="Mascote da Roque">
+                    <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="max-w-full h-auto" alt="Mascote da Roque">
                 </div>
             </div>
 
             <!-- Conteúdo -->
             <div class="w-1/2 py-36 px-20">
                 <div class="w-full max-w-md px-8 py-10 bg-white shadow-md rounded-lg">
-                    <img src="{{ Vite::asset('resources/assets/imgs/logo_principal.png') }}" class="w-7/12 h-auto mx-auto mb-10" alt="Logo da Roque">
+                    <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-7/12 h-auto mx-auto mb-10" alt="Logo da Roque">
                     {{ $slot }}
                 </div>
             </div>
