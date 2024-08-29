@@ -15,25 +15,31 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                @if (!Route::is('login'))
-                    <a href="/" wire:navigate>
-                @else
-                    <a href="#">
-                @endif
-                    <x-application-logo class="w-200 h-20 fill-current text-gray-500" />
-                </a>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen flex bg-background">
+            <!-- Mascote -->
+            <div class="flex items-start w-1/2 bg-white py-36 px-20">
+
+                <div class="flex items-center">
+                    <div class="bg-primary rounded-md me-8 w-3.5 h-36"></div>
+                    <h1 class="font-bold text-5xl text-primary w-56">Portal do Cliente</h1>
+                </div>
+                <div class="mt-10 w-64 h-64">
+                    <img src="{{ Vite::asset('resources/assets/imgs/mascote_teste.png') }}" class="max-w-full h-auto" alt="Mascote da Roque">
+                </div>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
+            <!-- Conteúdo -->
+            <div class="w-1/2 py-36 px-20">
+                <div class="w-full max-w-md px-8 py-10 bg-white shadow-md rounded-lg">
+                    <img src="{{ Vite::asset('resources/assets/imgs/logo_principal.png') }}" class="w-7/12 h-auto mx-auto mb-10" alt="Logo da Roque">
+                    {{ $slot }}
+                </div>
             </div>
         </div>
     </body>
