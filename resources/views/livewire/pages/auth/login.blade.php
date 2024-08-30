@@ -49,7 +49,7 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="login">
 
-        <p class="font-medium text-black text-normal mb-6 xl:mb-10">Informe seu CPF e senha para acessar o seu portal:</p>
+        <p class="font-medium text-black text-medium mb-6 xl:mb-10">Informe seu CPF e senha para acessar o seu portal:</p>
 
         <!-- CPF -->
         <div class="group-label-input mb-4 xl:mb-6">
