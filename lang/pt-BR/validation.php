@@ -117,7 +117,7 @@ return [
         'mixed' => 'O campo :attribute deve conter pelo menos uma letra maiúscula e uma minúscula.',
         'numbers' => 'O campo :attribute deve conter pelo menos um número.',
         'symbols' => 'O campo :attribute deve conter pelo menos um símbolo.',
-        'uncompromised' => 'O dado :attribute apareceu em um vazamento de dados. Escolha um :attribute diferente.',
+        'uncompromised' => 'A :attribute inserida não é segura o bastante. Escolha uma :attribute diferente.',
     ],
     'present' => 'O campo :attribute deve estar presente.',
     'prohibited' => 'O campo :attribute é proibido.',

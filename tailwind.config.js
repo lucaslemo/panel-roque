@@ -31,7 +31,7 @@ export default {
                 'h4': ['26px', '110%'],
                 'h5': ['20px', '110%'],
                 'large': ['20px', '110%'],
-                'normal': ['16px', '110%'],
+                'normal': ['16px', '120%'],
                 'small': ['14px', '110%'],
                 'subtitle': ['12px', '110%'],
                 'small-subtitle': ['10px', '110%'],

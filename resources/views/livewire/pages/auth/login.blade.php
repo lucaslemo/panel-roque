@@ -59,25 +59,27 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <!-- Password -->
-        <div class="mt-4 group-label-input relative mb-4 xl:mb-8">
+        <div class="mt-4 group-label-input mb-4 xl:mb-8">
             <x-input-label for="password" :value="__('Your Password')" />
 
-            <x-text-input wire:model="form.password" id="password" class="block pr-10 w-full"
-                            type="{{ $showPassword ? 'text' : 'password' }}"
-                            name="password"
-                            @focus-password.window="$refs.password.focus()"
-                            x-ref="password"
-                            required autocomplete="current-password" />
+            <div class="relative">
+                <x-text-input wire:model="form.password" id="password" class="block pr-10 w-full"
+                    type="{{ $showPassword ? 'text' : 'password' }}"
+                    name="password"
+                    @focus-password.window="$refs.password.focus()"
+                    x-ref="password"
+                    required autocomplete="current-password" />
 
-            <button wire:click="password" type="button" id="toggle-password" class="absolute inset-y-0 right-3 top-6">
-                @if ($showPassword)
-                    <!-- Ícone de olho fechado -->
-                    <img src={{ asset('build/assets/imgs/offeye.svg') }} class="h-5 w-5" alt="Ícone olho fechado"/>
-                @else
-                    <!-- Ícone de olho aberto -->
-                    <img src={{ asset('build/assets/imgs/oneye.svg') }} class="h-5 w-5" alt="Ícone olho fechado"/>
-                @endif
-            </button>
+                <button wire:click.prevent="password" type="button" id="toggle-password" class="absolute inset-y-0 right-3">
+                    @if ($showPassword)
+                        <!-- Ícone de olho fechado -->
+                        <img src={{ asset('build/assets/imgs/offeye.svg') }} class="h-5 w-5" alt="Ícone olho fechado"/>
+                    @else
+                        <!-- Ícone de olho aberto -->
+                        <img src={{ asset('build/assets/imgs/oneye.svg') }} class="h-5 w-5" alt="Ícone olho aberto"/>
+                    @endif
+                </button>
+            </div>
 
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>

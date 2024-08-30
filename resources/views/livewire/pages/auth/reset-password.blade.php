@@ -36,7 +36,7 @@ new #[Layout('layouts.guest')] class extends Component
         $this->validate([
             'token' => ['required'],
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()->uncompromised()->letters()->numbers()],
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -71,23 +71,22 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="resetPassword">
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <!-- Email Address Hidden fild -->
+        <input wire:model="email" type="hidden" name="email" disabled>
+
+        <p class="font-medium text-black text-medium mb-4">{{ __('Do you Forgot your password?') }}</p>
+        <p class="font-normal text-black text-normal mb-8">{{ __("Now, create a new password. Remember to include letters and numbers.") }}</p>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div class="group-label-input mb-4">
+            <x-input-label for="password" :value="__('Create a new password')" />
             <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        <div class="group-label-input mb-4 xl:mb-10">
+            <x-input-label for="password_confirmation" :value="__('Repeat the created password')" />
 
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
                           type="password"
@@ -96,10 +95,16 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-center mt-4">
+        <div class="flex items-center justify-center mb-4 xl:mb-6">
             <x-primary-button>
                 {{ __('Reset Password') }}
             </x-primary-button>
+        </div>
+
+        <div class="flex items-center justify-center">
+            <x-secondary-button type="button" href="{{ route('login') }}" wire:navigate>
+                {{ __('Back to Log in') }}
+            </x-secondary-button>
         </div>
     </form>
 </div>

@@ -37,7 +37,7 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <p class="font-medium text-black text-medium mb-6">{{ __('Do you Forgot your password?') }}</p>
+    <p class="font-medium text-black text-medium mb-4">{{ __('Do you Forgot your password?') }}</p>
     <p class="font-normal text-black text-normal mb-8">{{ __("Enter the email address associated with your account and we'll send you a link to reset your password.") }}</p>
 
     <!-- Session Status -->
