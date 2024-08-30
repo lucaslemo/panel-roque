@@ -43,7 +43,7 @@ export default {
                 'title': '#1E1E1E',
                 'subtitle': '#A3A3A3',
                 'disabled': '#C7C7C7',
-                'border': '#ECECEC',
+                'line': '#ECECEC',
                 'background': '#F6F6F6',
                 'background-100': '#ECECEC',
                 'black': '#494949',

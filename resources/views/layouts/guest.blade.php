@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
@@ -22,22 +22,23 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen flex bg-background">
-            <!-- Mascote -->
-            <div class="flex items-start w-1/2 bg-white py-36 px-20">
-
+            <!-- Lado Mascote -->
+            <div class="flex items-start w-1/2 bg-white px-[70px] pt-48">
                 <div class="flex items-center">
+                    <!-- Barra azul e título -->
                     <div class="bg-primary rounded-md me-8 w-3.5 h-36"></div>
-                    <h1 class="font-bold text-5xl text-primary w-56">Portal do Cliente</h1>
+                    <h1 class="font-bold text-5xl text-primary w-56 me-1">Portal do Cliente</h1>
                 </div>
-                <div class="mt-10 w-64 h-64">
-                    <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="max-w-full h-auto" alt="Mascote da Roque">
-                </div>
+                <!-- Mascote -->
+                <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="h-[512px] w-auto mt-12" alt="Mascote da Roque">
             </div>
 
-            <!-- Conteúdo -->
-            <div class="w-1/2 py-36 px-20">
-                <div class="w-full max-w-md px-8 py-10 bg-white shadow-md rounded-lg">
-                    <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-7/12 h-auto mx-auto mb-10" alt="Logo da Roque">
+            <!-- Lado Conteúdo -->
+            <div class="w-1/2 px-[70px] pt-48">
+                <!-- Card -->
+                <div class="w-full max-w-md pt-10 pb-12 px-6 bg-white shadow-md rounded-lg">
+                    <!-- Logo Roque -->
+                    <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-14 mx-auto mb-10" alt="Logo da Roque">
                     {{ $slot }}
                 </div>
             </div>
