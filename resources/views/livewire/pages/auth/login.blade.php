@@ -49,17 +49,17 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="login">
 
-        <p class="font-medium text-black text-base mb-10">Informe seu CPF e senha para acessar o seu portal:</p>
+        <p class="font-medium text-black text-normal mb-6 xl:mb-10">Informe seu CPF e senha para acessar o seu portal:</p>
 
         <!-- CPF -->
-        <div class="group-label-input mb-6">
+        <div class="group-label-input mb-4 xl:mb-6">
             <x-input-label for="cpf" :value="__('CPF')" />
             <x-text-input wire:model="form.cpf" id="cpf" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autofocus autocomplete="cpf" />
             <x-input-error :messages="$errors->get('form.cpf')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4 group-label-input relative mb-8">
+        <div class="mt-4 group-label-input relative mb-4 xl:mb-8">
             <x-input-label for="password" :value="__('Your Password')" />
 
             <x-text-input wire:model="form.password" id="password" class="block pr-10 w-full"
@@ -84,21 +84,19 @@ new #[Layout('layouts.guest')] class extends Component
 
 
         <!-- Remember Me -->
-        <div class="flex justify-between mb-8">
-            <div class="block">
+        <div class="flex justify-between items-center mb-4 xl:mb-8">
                 <label for="remember" class="inline-flex items-center">
                     <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-primary shadow-sm focus:ring-primary-700" name="remember">
-                    <span class="ms-3 text-sm text-subtitle">{{ __('Remember me') }}</span>
+                    <span class="ms-2 xl:ms-3 text-subtitle xl:text-small">{{ __('Remember me') }}</span>
                 </label>
-            </div>
 
             @if (Route::has('password.request'))
-                <a class="text-sm text-primary hover:text-primary-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" href="{{ route('password.request') }}" wire:navigate>
+                <a class="text-subtitle xl:text-small text-primary hover:text-primary-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
         </div>
-        <div class="flex items-center justify-center mt-4">
+        <div class="flex items-center justify-center">
             <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>

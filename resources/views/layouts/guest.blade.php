@@ -21,27 +21,27 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen flex bg-background">
+        <main class="min-h-screen flex flex-col md:flex-row bg-background">
             <!-- Lado Mascote -->
-            <div class="flex items-start w-1/2 bg-white px-[70px] pt-48">
+            <section class="flex items-start w-full md:w-1/2 md:bg-white px-[30px] xl:px-[70px] pt-8 md:pt-24 xl:pt-48">
                 <div class="flex items-center">
                     <!-- Barra azul e título -->
-                    <div class="bg-primary rounded-md me-8 w-3.5 h-36"></div>
-                    <h1 class="font-bold text-5xl text-primary w-56 me-1">Portal do Cliente</h1>
+                    <div class="bg-primary rounded-md me-4 xl:me-8 w-3.5 h-14 md:h-28 xl:h-36"></div>
+                    <h1 class="font-bold text-h4 md:text-h3 xl:text-h1 text-primary md:w-[148px] xl:w-60">Portal do Cliente</h1>
                 </div>
                 <!-- Mascote -->
-                <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="h-[512px] w-auto mt-12" alt="Mascote da Roque">
-            </div>
+                <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="hidden md:block h-[341px] xl:h-[512px] w-auto md:mt-10 xl:mt-12 pe-10" alt="Mascote da Roque">
+            </section>
 
             <!-- Lado Conteúdo -->
-            <div class="w-1/2 px-[70px] pt-48">
+            <section class="w-full md:w-1/2 px-[30px] xl:px-[70px] pt-24 md:pt-24 xl:pt-48 pb-24 xl:pb-48">
                 <!-- Card -->
-                <div class="w-full max-w-md pt-10 pb-12 px-6 bg-white shadow-md rounded-lg">
+                <div class="w-full max-w-md pt-8 pb-12 xl:pt-10 xl:pb-12 px-4 xl:px-6 bg-white shadow-menu rounded-lg">
                     <!-- Logo Roque -->
-                    <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-14 mx-auto mb-10" alt="Logo da Roque">
+                    <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-12 xl:h-14 mx-auto mb-8 xl:mb-12" alt="Logo da Roque">
                     {{ $slot }}
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </body>
 </html>
