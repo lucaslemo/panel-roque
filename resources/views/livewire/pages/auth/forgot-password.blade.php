@@ -37,31 +37,30 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    </div>
+    <p class="font-medium text-black text-medium mb-4">{{ __('Do you Forgot your password?') }}</p>
+    <p class="font-normal text-black text-normal mb-8">{{ __("Enter the email address associated with your account and we'll send you a link to reset your password.") }}</p>
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="sendPasswordResetLink">
         <!-- Email Address -->
-        <div>
+        <div class="group-label-input mb-4 xl:mb-8">
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-center mt-4">
+        <div class="flex items-center justify-center mb-4 xl:mb-6">
             <x-primary-button>
-                {{ __('Email Password Reset Link') }}
+                {{ __('Send link') }}
             </x-primary-button>
         </div>
 
-        <div class="flex items-center justify-center mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
+        <div class="flex items-center justify-center">
+            <x-secondary-button type="button" href="{{ route('login') }}" wire:navigate>
                 {{ __('Back to Log in') }}
-            </a>
+            </x-secondary-button>
         </div>
     </form>
 </div>
