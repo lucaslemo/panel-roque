@@ -17,6 +17,9 @@ new #[Layout('layouts.guest')] class extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public $showPassword = false;
+    public $showConfirmedPassword = false;
+
 
     /**
      * Mount the component.
@@ -67,6 +70,24 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirectRoute('login', navigate: true);
     }
+
+    /**
+     * Toggle visibility of password input.
+     */
+     public function togglePassword(): void
+    {
+        $this->showPassword = !$this->showPassword;
+        $this->dispatch('focus-password');
+    }
+
+    /**
+     * Toggle visibility of password input.
+     */
+     public function toggleConfirmedPassword(): void
+    {
+        $this->showConfirmedPassword = !$this->showConfirmedPassword;
+        $this->dispatch('focus-confirmed-password');
+    }
 }; ?>
 
 <div>
@@ -80,7 +101,24 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Password -->
         <div class="group-label-input mb-4">
             <x-input-label for="password" :value="__('Create a new password')" />
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+            <div class="relative">
+                <x-text-input wire:model="password" id="password" class="block mt-1 w-full" 
+                    type="{{ $showPassword ? 'text' : 'password' }}"
+                    name="password" 
+                    @focus-password.window="$refs.password.focus()" 
+                    x-ref="password" 
+                    required autocomplete="new-password" />
+            
+                <button wire:click.prevent="togglePassword" type="button" id="toggle-password" class="absolute inset-y-0 right-3">
+                    @if ($showPassword)
+                        <!-- Ícone de olho fechado -->
+                        <img src={{ asset('build/assets/imgs/offeye.svg') }} class="h-5 w-5" alt="Ícone olho fechado"/>
+                    @else
+                        <!-- Ícone de olho aberto -->
+                        <img src={{ asset('build/assets/imgs/oneye.svg') }} class="h-5 w-5" alt="Ícone olho aberto"/>
+                    @endif
+                </button>
+            </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -88,9 +126,23 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="group-label-input mb-4 xl:mb-10">
             <x-input-label for="password_confirmation" :value="__('Repeat the created password')" />
 
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                          type="password"
-                          name="password_confirmation" required autocomplete="new-password" />
+            <div class="relative">
+                <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
+                              type="{{ $showConfirmedPassword ? 'text' : 'password' }}"
+                              @focus-confirmed-password.window="$refs.confirmedPassword.focus()" 
+                              x-ref="confirmedPassword"
+                              name="password_confirmation" required autocomplete="new-password" />
+
+                <button wire:click.prevent="toggleConfirmedPassword" type="button" id="toggle-confirmed-password" class="absolute inset-y-0 right-3">
+                    @if ($showConfirmedPassword)
+                        <!-- Ícone de olho fechado -->
+                        <img src={{ asset('build/assets/imgs/offeye.svg') }} class="h-5 w-5" alt="Ícone olho fechado"/>
+                    @else
+                        <!-- Ícone de olho aberto -->
+                        <img src={{ asset('build/assets/imgs/oneye.svg') }} class="h-5 w-5" alt="Ícone olho aberto"/>
+                    @endif
+                </button>
+            </div>
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
