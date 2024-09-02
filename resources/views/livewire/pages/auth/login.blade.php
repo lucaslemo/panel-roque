@@ -89,7 +89,7 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="flex justify-between items-center mb-4 xl:mb-8">
                 <label for="remember" class="inline-flex items-center">
                     <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-primary shadow-sm focus:ring-primary-700" name="remember">
-                    <span class="ms-2 xl:ms-3 text-subtitle xl:text-small">{{ __('Remember me') }}</span>
+                    <span class="ms-2 xl:ms-3 text-subtitle text-subtitle-color xl:text-small">{{ __('Remember me') }}</span>
                 </label>
 
             @if (Route::has('password.request'))

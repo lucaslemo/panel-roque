@@ -23,7 +23,7 @@
     <body class="font-sans antialiased">
         <main class="min-h-screen flex flex-col md:flex-row bg-background">
             <!-- Lado Mascote -->
-            <section class="flex items-start w-full md:w-1/2 md:bg-white px-[30px] xl:px-[70px] pt-8 md:pt-24 xl:pt-48">
+            <section class="flex items-start w-full md:w-1/2 min-h-36 md:min-h-0 bg-white px-[30px] xl:px-[70px] pt-8 xl:pt-24 xl:pt-48">
                 <div class="flex items-center">
                     <!-- Barra azul e título -->
                     <div class="bg-primary rounded-md me-4 xl:me-8 w-3.5 h-14 md:h-28 xl:h-36"></div>
@@ -34,7 +34,7 @@
             </section>
 
             <!-- Lado Conteúdo -->
-            <section class="w-full md:w-1/2 px-[30px] xl:px-[70px] pt-24 md:pt-24 xl:pt-48 pb-24 xl:pb-48">
+            <section class="w-full md:w-1/2 px-[30px] xl:px-[70px] pt-12 xl:pt-24 xl:pt-48 pb-24 xl:pb-48">
                 <!-- Card -->
                 <div class="w-full max-w-md pt-8 pb-12 xl:pt-10 xl:pb-12 px-4 xl:px-6 bg-white shadow-menu rounded-lg">
                     <!-- Logo Roque -->
