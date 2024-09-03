@@ -66,7 +66,7 @@ new class extends Component
             </div>
 
             <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
+                <x-secondary-button x-on:click="$dispatch('close')" class="font-semibold">
                     {{ __('Cancel') }}
                 </x-secondary-button>
 

@@ -102,13 +102,13 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="group-label-input mb-4">
             <x-input-label for="password" :value="__('Create a new password')" />
             <div class="relative">
-                <x-text-input wire:model="password" id="password" class="block mt-1 w-full" 
+                <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
                     type="{{ $showPassword ? 'text' : 'password' }}"
-                    name="password" 
-                    @focus-password.window="$refs.password.focus()" 
-                    x-ref="password" 
+                    name="password"
+                    @focus-password.window="$refs.password.focus()"
+                    x-ref="password"
                     required autocomplete="new-password" />
-            
+
                 <button wire:click.prevent="togglePassword" type="button" id="toggle-password" class="absolute inset-y-0 right-3">
                     @if ($showPassword)
                         <!-- Ícone de olho fechado -->
@@ -129,7 +129,7 @@ new #[Layout('layouts.guest')] class extends Component
             <div class="relative">
                 <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
                               type="{{ $showConfirmedPassword ? 'text' : 'password' }}"
-                              @focus-confirmed-password.window="$refs.confirmedPassword.focus()" 
+                              @focus-confirmed-password.window="$refs.confirmedPassword.focus()"
                               x-ref="confirmedPassword"
                               name="password_confirmation" required autocomplete="new-password" />
 
@@ -154,7 +154,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center justify-center">
-            <x-secondary-button type="button" href="{{ route('login') }}" wire:navigate>
+            <x-secondary-button type="button" href="{{ route('login') }}" class="font-semibold" wire:navigate>
                 {{ __('Back to Log in') }}
             </x-secondary-button>
         </div>
