@@ -68,6 +68,15 @@ export default {
                 'picker': '0 20px 25px rgba(0, 0, 0, 0.1)',
                 'modal': '0 25px 30px rgba(0, 0, 0, 0.1)',
             },
+            keyframes: {
+                pulse: {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(1.03)' },
+                },
+            },
+            animation: {
+                pulse: 'pulse 0.4s ease-in-out',
+            },
         },
     },
 
