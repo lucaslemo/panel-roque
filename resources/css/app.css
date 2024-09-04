@@ -8,3 +8,32 @@
     @apply font-normal;
 }
 
+.table-head
+{
+    @apply h-10 px-6 py-3 border-b border-e text-small font-normal text-subtitle-color;
+}
+
+.table-body
+{
+    @apply h-14 px-6 py-4 text-small text-black;
+}
+
+.table-page-button
+{
+    @apply flex justify-center items-center size-10 shadow-button border rounded-lg;
+}
+
+.green-circle
+{
+    @apply size-2 me-2 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80;
+}
+
+.yellow-circle
+{
+    @apply size-2 me-2 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80;
+}
+
+.stone-circle
+{
+    @apply size-2 me-2 rounded-full bg-stone-500/50 ring-1 ring-inset ring-stone-600/20 shadow-sm hover:bg-stone-500/80;
+}

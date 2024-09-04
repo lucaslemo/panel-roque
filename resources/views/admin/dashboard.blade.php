@@ -2,7 +2,7 @@
     <div class="py-12">
 
         <!-- Cards -->
-        <section class="flex flex-col md:flex-row justify-between">
+        <section class="flex flex-col md:flex-row justify-between mb-4 xl:mb-8">
             <livewire:users-cards />
             <div class="flex flex-col justify-between w-full md:w-80 mt-4 md:mt-0 ms-0 md:ms-4">
 
@@ -12,6 +12,11 @@
                 <!-- Busca de usuários -->
                 <livewire:input-search />
             </div>
+        </section>
+
+        <!-- Datatable -->
+        <section class="overflow-x-auto bg-white shadow-card rounded-lg p-4">
+            <livewire:users-datatable />
         </section>
 
         {{--  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
