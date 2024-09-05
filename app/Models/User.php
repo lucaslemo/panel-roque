@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'avatar',
         'type',
+        'cpf',
         'active',
         'last_login_at',
     ];
@@ -86,5 +87,21 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole('Super Admin');
+    }
+
+    /**
+     * Name of type
+     *
+     * @return string
+     */
+    public function getTypeName(): string
+    {
+        if ((int) $this->type === 1) {
+            return __('Administrator');
+        } else if ((int) $this->type === 2) {
+            return __('Customer administrator');
+        } else {
+            return __('Customer default');
+        }
     }
 }

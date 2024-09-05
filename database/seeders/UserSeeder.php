@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             User::factory()->create([
                 'name' => 'Admin',
                 'email' => 'admin@email.com',
-                'type' => 'administrator',
+                'type' => 1,
                 'cpf' => '17475528014',
             ]);
 

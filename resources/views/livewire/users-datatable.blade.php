@@ -27,7 +27,7 @@
                 <th class="px-6 py-3 border-b">&nbsp;</th>
             </tr>
         </thead>
-    
+
         <!-- Body da tabela -->
         <tbody>
             @foreach ($data as $key => $item)
@@ -46,7 +46,7 @@
                             </div>
                         @endforeach
                     </td>
-                    <td class="table-body border-t border-e">{{ __(ucfirst($item->type)) }}</td>
+                    <td class="table-body border-t border-e">{{ $item->getTypeName() }}</td>
                     <td class="table-body border-t border-e flex justify-center items-center">
                         @if ($item->active === false)
                             <!-- Status inativo -->
@@ -70,8 +70,8 @@
 
     <!-- Botões de ação -->
     <div class="flex flex-row space-x-1 justify-end mt-2">
-        
-        <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border border-subtitle-color text-subtitle-color rounded-lg">
+
+        <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border border-subtitle-color text-subtitle-color rounded-lg" disabled>
             <svg class="size-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7071 5.29289C16.0976 5.68342 16.0976 6.31658 15.7071 6.70711L10.4142 12L15.7071 17.2929C16.0976 17.6834 16.0976 18.3166 15.7071 18.7071C15.3166 19.0976 14.6834 19.0976 14.2929 18.7071L8.29289 12.7071C7.90237 12.3166 7.90237 11.6834 8.29289 11.2929L14.2929 5.29289C14.6834 4.90237 15.3166 4.90237 15.7071 5.29289Z" />
             </svg>
@@ -79,9 +79,9 @@
 
         @for ($i = 0; $i < $totalPages; $i++)
             @if ($i < 4 || $i === $page || $i > ($totalPages - 4))
-                <button type="button" class="table-page-button {{ $i === $page ? 'border-primary text-primary' : 'border-subtitle-color text-subtitle-color' }}">
+                <button wire:click="goToPage({{ $i }})" type="button" class="table-page-button {{ $i === $page ? 'border-primary text-primary' : 'border-subtitle-color text-subtitle-color' }}">
                     {{ $i + 1 }}
-                </button> 
+                </button>
             @endif
         @endfor
 

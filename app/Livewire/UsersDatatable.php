@@ -13,24 +13,37 @@ class UsersDatatable extends Component
     public $totalPages = 0;
     public $page = 0;
 
+    public function goToPage(int $page)
+    {
+        if ($page >= 0 && $page < $this->totalPages) {
+            $this->page = $page;
+            $this->fetchData();
+        }
+    }
+
     public function nextPage()
     {
-        $this->page++;
-        $this->fetchData();
+        if ($this->page < $this->totalPages - 1) {
+            $this->page++;
+            $this->fetchData();
+        }
     }
 
     public function previousPage()
     {
-        $this->page--;
-        $this->fetchData();
+        if ($this->page > 0) {
+            $this->page--;
+            $this->fetchData();
+        }
     }
 
-    public function fetchData()
+    private function fetchData()
     {
-        $this->totalData = User::count();
-        $this->totalPages = $this->totalData / $this->perPages;
+        $this->totalData = User::whereNot('type', 1)->count(); // Exclui o tipo super admin
+        $this->totalPages = ceil($this->totalData / $this->perPages);
 
         $this->data = User::with('customers')
+            ->whereNot('type', 1) // Exclui o tipo super admin
             ->skip($this->page * $this->perPages)
             ->take($this->perPages)
             ->get();

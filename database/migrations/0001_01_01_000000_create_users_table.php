@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
-            $table->enum('type', ['administrator', 'customer'])->default('customer');
+            $table->enum('type', [1, 2, 3])->default(2)->comment('1 Super admin, 2 Customer admin, 3 Customer default');
             $table->boolean('active')->default(false);
             $table->rememberToken();
             $table->timestamps();

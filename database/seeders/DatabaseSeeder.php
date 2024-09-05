@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'lucaslemodev@gmail.com',
                 'email_verified_at' => now(),
                 'password' => '$2y$12$ZYXd2eaSNO5HuZGghTX.9efF6HSW/AgmEtyzpk5HUCqSO5rdfXpoK',
-                'type' => 'administrator',
+                'type' => 1,
                 'cpf' => '06952649310',
                 'active' => true,
             ]);
