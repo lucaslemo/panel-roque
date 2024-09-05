@@ -8,6 +8,11 @@
     @apply font-normal;
 }
 
+.group-label-input:focus-within svg
+{
+    @apply fill-primary;
+}
+
 .table-head
 {
     @apply h-10 px-6 py-3 border-b border-e text-small font-normal text-subtitle-color;

@@ -24,6 +24,14 @@ export default {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
+            spacing: {
+                'desktop-margin': '70px',
+                'laptop-margin': '45px',
+                'mobile-margin': '30px',
+                'big-mascot': '512px',
+                'medium-mascot': '410px',
+                'small-mascot': '338px',
+            },
             fontSize: {
                 'h1': ['52px', '110%'],
                 'h2': ['40px', '110%'],
@@ -54,6 +62,8 @@ export default {
                 'danger': '#FF7070',
                 'title': '#1E1E1E',
                 'subtitle-color': '#A3A3A3',
+                'label-color': '#8C8C8C',
+                'border-color': '#BEBEBE',
                 'disabled': '#C7C7C7',
                 'line': '#ECECEC',
                 'background': '#F6F6F6',
