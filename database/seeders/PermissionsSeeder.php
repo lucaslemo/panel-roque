@@ -21,8 +21,8 @@ class PermissionsSeeder extends Seeder
 
         // Cria os papéis e permissões
         Role::create(['name' => 'Super Admin']);
-        Role::create(['name' => 'Customer default']);
-        $roleCustomerAdmin = Role::create(['name' => 'Customer admin']);
+        Role::create(['name' => 'Customer Default']);
+        $roleCustomerAdmin = Role::create(['name' => 'Customer Admin']);
         $permissionCreateNewUserCustomerDefault = Permission::create(['name' => 'Can register a new user customer default']);
 
         // Atribui a permissão de criar novos usuários clientes padrão

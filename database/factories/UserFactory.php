@@ -82,11 +82,11 @@ class UserFactory extends Factory
             } else if ((int) $user->type === 2) {
 
                 // Usuário cliente administrador
-                return $user->assignRole('Customer admin');
+                return $user->assignRole('Customer Admin');
             } else {
 
                 // Usuário cliente padrão
-                return $user->assignRole('Customer default');
+                return $user->assignRole('Customer Default');
             }
         });
     }
