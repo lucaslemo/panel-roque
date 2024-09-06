@@ -24,6 +24,9 @@ export default {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
+            screens: {
+                'laptop': '1024px',
+            },
             spacing: {
                 'desktop-margin': '70px',
                 'laptop-margin': '45px',
