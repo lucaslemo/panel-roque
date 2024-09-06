@@ -30,9 +30,10 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('senha'),
             'avatar' => null,
-            'type' => fake()->randomElement(['administrator', 'customer']),
+            'type' => fake()->randomElement([1, 2, 3]),
             'cpf' => fake()->cpf(false),
             'active' => true,
+            'register_token' => fake()->uuid(),
             'remember_token' => Str::random(10),
         ];
     }
@@ -75,10 +76,18 @@ class UserFactory extends Factory
     public function configure()
     {
         return $this->afterMaking(function (User $user) {
-            if ($user->type === 'administrator') {
+            if ((int) $user->type === 1) {
+
+                // Usuário super admin
                 return $user->assignRole('Super Admin');
+            } else if ((int) $user->type === 2) {
+
+                // Usuário cliente administrador
+                return $user->assignRole('Customer Admin');
             } else {
-                return $user->assignRole('Customer');
+
+                // Usuário cliente padrão
+                return $user->assignRole('Customer Default');
             }
         });
     }

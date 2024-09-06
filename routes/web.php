@@ -12,16 +12,18 @@ Route::middleware(['auth', 'role:Super Admin'])->group(function () {
 
     Route::view('admin/users', 'admin.users.index')
         ->name('admin.users');
+        
     Route::view('admin/users/{id}/edit', 'admin.users.edit')
         ->name('admin.users.edit');
 
     Route::view('admin/customers', 'admin.customers.index')
         ->name('admin.customers');
+
     Route::view('admin/customers/{id}/edit', 'admin.customers.edit')
         ->name('admin.customers.edit');
 });
 
-Route::middleware(['auth', 'role:Customer'])->group(function () {
+Route::middleware(['auth', 'role:Customer Default|Customer Admin'])->group(function () {
     Route::view('dashboard', 'app.dashboard')
         ->name('app.dashboard');
 
@@ -35,7 +37,7 @@ Route::middleware(['auth', 'role:Customer'])->group(function () {
         ->name('app.creditLimits');
 });
 
-Route::middleware(['auth', 'role:Super Admin|Customer'])->group(function () {
+Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
     Route::view('profile', 'common.profile')
         ->name('common.profile');
 });

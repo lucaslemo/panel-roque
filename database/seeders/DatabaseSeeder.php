@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
@@ -25,9 +26,11 @@ class DatabaseSeeder extends Seeder
                 'email' => 'lucaslemodev@gmail.com',
                 'email_verified_at' => now(),
                 'password' => '$2y$12$ZYXd2eaSNO5HuZGghTX.9efF6HSW/AgmEtyzpk5HUCqSO5rdfXpoK',
-                'type' => 'administrator',
+                'type' => 1,
                 'cpf' => '06952649310',
                 'active' => true,
+                'register_token' => Str::uuid(),
+                'register_user_id' => null,
             ]);
         }
 

@@ -21,22 +21,29 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <main class="min-h-screen flex flex-col md:flex-row bg-background">
+        <main class="flex flex-col laptop:flex-row min-h-screen bg-background">
+
             <!-- Lado Mascote -->
-            <section class="flex items-start w-full md:w-1/2 md:bg-white px-[30px] xl:px-[70px] pt-8 md:pt-24 xl:pt-48">
-                <div class="flex items-center">
-                    <!-- Barra azul e título -->
-                    <div class="bg-primary rounded-md me-4 xl:me-8 w-3.5 h-14 md:h-28 xl:h-36"></div>
-                    <h1 class="font-bold text-h4 md:text-h3 xl:text-h1 text-primary md:w-[148px] xl:w-60">Portal do Cliente</h1>
+            <section class="flex items-center laptop:justify-center w-full laptop:w-1/2 pt-8 laptop:pt-0 pb-12 laptop:pb-0 ps-mobile-margin xl:ps-desktop-margin bg-white">
+                <div class="flex items-start">
+                    <span class="flex items-center">
+
+                        <!-- Barra azul e título -->
+                        <div class="bg-primary rounded-md w-4 me-4 xl:me-8 h-14 laptop:h-28 xl:h-40"></div>
+                        <h1 class="text-primary font-bold text-h4 laptop:text-h2 xl:text-h1 w-56 laptop:w-48 xl:w-60">Portal do Cliente</h1>
+                    </span>
+
+                    <!-- Mascote -->
+                    <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="hidden laptop:block h-medium-mascot xl:h-big-mascot w-auto mt-8 xl:mt-12" alt="Mascote da Roque">
                 </div>
-                <!-- Mascote -->
-                <img src="{{ asset('build/assets/imgs/mascote_teste.png') }}" class="hidden md:block h-[341px] xl:h-[512px] w-auto md:mt-10 xl:mt-12 pe-10" alt="Mascote da Roque">
             </section>
 
             <!-- Lado Conteúdo -->
-            <section class="w-full md:w-1/2 px-[30px] xl:px-[70px] pt-24 md:pt-24 xl:pt-48 pb-24 xl:pb-48">
+            <section class="flex laptop:items-center justify-center w-full laptop:w-1/2 pt-12 laptop:pt-0 pb-12 laptop:pb-0 pe-mobile-margin xl:pe-desktop-margin ps-mobile-margin laptop:ps-0">
+
                 <!-- Card -->
-                <div class="w-full max-w-md pt-8 pb-12 xl:pt-10 xl:pb-12 px-4 xl:px-6 bg-white shadow-menu rounded-lg">
+                <div class="block w-full max-w-[456px] w-[333px] md:w-[456px] pt-8 laptop:pt-10 pb-12 px-4 md:px-[30px] bg-white shadow-menu rounded-lg">
+
                     <!-- Logo Roque -->
                     <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-12 xl:h-14 mx-auto mb-8 xl:mb-12" alt="Logo da Roque">
                     {{ $slot }}

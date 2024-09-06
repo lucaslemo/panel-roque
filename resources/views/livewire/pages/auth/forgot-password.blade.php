@@ -37,8 +37,8 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <p class="font-medium text-black text-medium mb-4">{{ __('Do you Forgot your password?') }}</p>
-    <p class="font-normal text-black text-normal mb-8">{{ __("Enter the email address associated with your account and we'll send you a link to reset your password.") }}</p>
+    <p class="font-medium text-black text-normal xl:text-large mb-4">{{ __('Do you Forgot your password?') }}</p>
+    <p class="font-light text-black text-normal xl:text-lg mb-8">{{ __("Enter the email address associated with your account and we'll send you a link to reset your password.") }}</p>
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -58,7 +58,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center justify-center">
-            <x-secondary-button type="button" href="{{ route('login') }}" wire:navigate>
+            <x-secondary-button type="button" href="{{ route('login') }}" class="font-semibold" wire:navigate>
                 {{ __('Back to Log in') }}
             </x-secondary-button>
         </div>
