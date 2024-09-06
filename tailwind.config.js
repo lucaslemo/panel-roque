@@ -24,6 +24,17 @@ export default {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
+            screens: {
+                'laptop': '1024px',
+            },
+            spacing: {
+                'desktop-margin': '70px',
+                'laptop-margin': '45px',
+                'mobile-margin': '30px',
+                'big-mascot': '512px',
+                'medium-mascot': '410px',
+                'small-mascot': '338px',
+            },
             fontSize: {
                 'h1': ['52px', '110%'],
                 'h2': ['40px', '110%'],
@@ -54,6 +65,8 @@ export default {
                 'danger': '#FF7070',
                 'title': '#1E1E1E',
                 'subtitle-color': '#A3A3A3',
+                'label-color': '#8C8C8C',
+                'border-color': '#BEBEBE',
                 'disabled': '#C7C7C7',
                 'line': '#ECECEC',
                 'background': '#F6F6F6',
@@ -61,12 +74,21 @@ export default {
                 'black': '#494949',
             },
             boxShadow: {
-                'card': '0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24)',
-                'button': '0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23)',
-                'menu': '0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23)',
-                'hight-card': '0px 14px 28px rgba(0, 0, 0, 0.25), 0px 10px 10px rgba(0, 0, 0, 0.22)',
-                'picker': '0px 19px 38px rgba(0, 0, 0, 0.30), 0px 15px 12px rgba(0, 0, 0, 0.22)',
-                'modal': '0px 24px 48px rgba(0, 0, 0, 0.35), 0px 20px 16px rgba(0, 0, 0, 0.22)',
+                'card': '0 1px 2px rgba(0, 0, 0, 0.05)',
+                'button': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                'menu': '0 4px 6px rgba(0, 0, 0, 0.1)',
+                'hight-card': '0 10px 15px rgba(0, 0, 0, 0.1)',
+                'picker': '0 20px 25px rgba(0, 0, 0, 0.1)',
+                'modal': '0 25px 30px rgba(0, 0, 0, 0.1)',
+            },
+            keyframes: {
+                pulse: {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(1.03)' },
+                },
+            },
+            animation: {
+                pulse: 'pulse 0.4s ease-in-out',
             },
         },
     },
