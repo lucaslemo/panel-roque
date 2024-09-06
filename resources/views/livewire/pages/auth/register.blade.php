@@ -40,20 +40,26 @@ new #[Layout('layouts.guest')] class extends Component
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()->uncompromised()->letters()->numbers()],
         ]);
 
-        $user = User::where('register_token', $this->token)
-            ->where('email', $this->email)
+        $user = User::where('register_token', $validated['token'])
+            ->where('email', $validated['email'])
+            ->where('active', false)
             ->whereIn('type', [1, 3])
             ->whereNull('last_login_at')
             ->first();
-
-        dd($user);
 
         if (is_null($user)) {
             throw ValidationException::withMessages(['token' => ['Este token de criação de senha é inválido.']]);
         }
 
-        $validated['password'] = Hash::make($validated['password']);
-        $validated['active'] = true;
+        $user->password = Hash::make($validated['password']);
+        $user->email_verified_at = now();
+        $user->active = true;
+
+        if ((int) $user->type === 1) {
+            $user->assignRole('Super Admin');
+        }
+
+        $user->save();
 
         Auth::login($user);
 
@@ -91,7 +97,7 @@ new #[Layout('layouts.guest')] class extends Component
         <p class="font-medium text-black text-normal xl:text-large mb-4">{{ __('Create your password') }}</p>
         <p class="font-light text-black text-normal xl:text-lg mb-4 xl:mb-10">
             {{ __('Create a password to be used when logging in with the email address') }}
-            <span class="font-normal text-primary">{{ $this->email }}</span>
+            <span class="font-normal text-primary">{{ $this->email }}</span>.
             {{ __('Remember to include letters and numbers.') }}
         </p>
 
