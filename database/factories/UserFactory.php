@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'type' => fake()->randomElement([1, 2, 3]),
             'cpf' => fake()->cpf(false),
             'active' => true,
+            'register_token' => fake()->uuid(),
             'remember_token' => Str::random(10),
         ];
     }

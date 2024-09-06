@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
@@ -28,6 +29,8 @@ class DatabaseSeeder extends Seeder
                 'type' => 1,
                 'cpf' => '06952649310',
                 'active' => true,
+                'register_token' => Str::uuid(),
+                'register_user_id' => null,
             ]);
         }
 

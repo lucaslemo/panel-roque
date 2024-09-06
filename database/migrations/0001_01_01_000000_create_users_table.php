@@ -20,9 +20,13 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->enum('type', [1, 2, 3])->default(2)->comment('1 Super admin, 2 Customer admin, 3 Customer default');
             $table->boolean('active')->default(false);
+            $table->uuid('register_token')->unique();
+            $table->unsignedBigInteger('register_user_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('register_user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

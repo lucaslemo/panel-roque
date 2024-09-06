@@ -17,9 +17,8 @@ new #[Layout('layouts.guest')] class extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public $showPassword = false;
-    public $showConfirmedPassword = false;
-
+    public bool $showPassword = false;
+    public bool $showConfirmedPassword = false;
 
     /**
      * Mount the component.
@@ -132,6 +131,8 @@ new #[Layout('layouts.guest')] class extends Component
                     @endif
                 </button>
             </div>
+            <x-input-error :messages="$errors->get('token')" class="mt-2" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -141,10 +142,10 @@ new #[Layout('layouts.guest')] class extends Component
 
             <div class="relative">
                 <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                              type="{{ $showConfirmedPassword ? 'text' : 'password' }}"
-                              @focus-confirmed-password.window="$refs.confirmedPassword.focus()"
-                              x-ref="confirmedPassword"
-                              name="password_confirmation" required autocomplete="new-password" />
+                    type="{{ $showConfirmedPassword ? 'text' : 'password' }}"
+                    @focus-confirmed-password.window="$refs.confirmedPassword.focus()"
+                    x-ref="confirmedPassword"
+                    name="password_confirmation" required autocomplete="new-password" />
 
                 <button wire:click.prevent="toggleConfirmedPassword" type="button" id="toggle-confirmed-password" class="absolute inset-y-0 right-3">
                     @if ($showConfirmedPassword)

@@ -10,7 +10,7 @@ use Livewire\Volt\Component;
 new #[Layout('layouts.guest')] class extends Component
 {
     public LoginForm $form;
-    public $showPassword = false;
+    public bool $showPassword = false;
 
     /**
      * Handle an incoming authentication request.
