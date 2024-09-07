@@ -47,20 +47,22 @@
                         @endforeach
                     </td>
                     <td class="table-body border-t border-e">{{ $item->getTypeName() }}</td>
-                    <td class="table-body border-t border-e flex justify-center items-center">
-                        @if ($item->active === true)
-                            <!-- Status Ativo -->
-                            <div class="green-circle"></div>
-                            {{ __('Active') }}
-                        @elseif ($item->active === false && is_null($item->last_login_at))
-                            <!-- Status Pendente -->
-                            <div class="yellow-circle"></div>
-                            {{ __('Pending') }}
-                        @else
-                            <!-- Status inativo -->
-                            <div class="stone-circle"></div>
-                            {{ __('Inactive') }}
-                        @endif
+                    <td class="table-body border-t border-e">
+                        <div class="flex justify-center items-center">
+                            @if ($item->active === true)
+                                <!-- Status Ativo -->
+                                <div class="green-circle"></div>
+                                {{ __('Active') }}
+                            @elseif ($item->active === false && is_null($item->last_login_at))
+                                <!-- Status Pendente -->
+                                <div class="yellow-circle"></div>
+                                {{ __('Pending') }}
+                            @else
+                                <!-- Status inativo -->
+                                <div class="stone-circle"></div>
+                                {{ __('Inactive') }}
+                            @endif
+                        </div>
                     </td>
                     <td class="table-body border-t">Action</td>
                 </tr>
