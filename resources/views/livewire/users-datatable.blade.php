@@ -65,7 +65,22 @@
                                 @endif
                             </div>
                         </td>
-                        <td class="table-body border-t text-small">Action</td>
+                        <td class="table-body border-t text-small">
+                            <div class="flex flex-row itens-center">
+                                <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color me-2">
+                                    <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11 20C11 19.4477 11.4477 19 12 19H21C21.5523 19 22 19.4477 22 20C22 20.5523 21.5523 21 21 21H12C11.4477 21 11 20.5523 11 20Z" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18 3.87866C17.7026 3.87866 17.4174 3.9968 17.2071 4.20709L4.90296 16.5112L4.37437 18.6256L6.48875 18.097L18.7929 5.79288C18.897 5.68875 18.9796 5.56514 19.036 5.42909C19.0923 5.29305 19.1213 5.14724 19.1213 4.99998C19.1213 4.85273 19.0923 4.70692 19.036 4.57087C18.9796 4.43483 18.897 4.31121 18.7929 4.20709C18.6888 4.10296 18.5652 4.02037 18.4291 3.96402C18.2931 3.90767 18.1473 3.87866 18 3.87866ZM15.7929 2.79288C16.3783 2.20751 17.1722 1.87866 18 1.87866C18.4099 1.87866 18.8158 1.9594 19.1945 2.11626C19.5732 2.27312 19.9173 2.50303 20.2071 2.79288C20.4969 3.08272 20.7269 3.42681 20.8837 3.8055C21.0406 4.1842 21.1213 4.59008 21.1213 4.99998C21.1213 5.40988 21.0406 5.81576 20.8837 6.19446C20.7269 6.57316 20.4969 6.91725 20.2071 7.20709L7.7071 19.7071C7.57895 19.8352 7.41837 19.9262 7.24253 19.9701L3.24253 20.9701C2.90176 21.0553 2.54127 20.9555 2.29289 20.7071C2.04451 20.4587 1.94466 20.0982 2.02986 19.7574L3.02986 15.7574C3.07381 15.5816 3.16473 15.421 3.29289 15.2929L15.7929 2.79288Z" />
+                                    </svg>
+                                </button>
+                                <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color">
+                                    <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10 3C9.73478 3 9.48043 3.10536 9.29289 3.29289C9.10536 3.48043 9 3.73478 9 4V5H15V4C15 3.73478 14.8946 3.48043 14.7071 3.29289C14.5196 3.10536 14.2652 3 14 3H10ZM17 5V4C17 3.20435 16.6839 2.44129 16.1213 1.87868C15.5587 1.31607 14.7956 1 14 1H10C9.20435 1 8.44129 1.31607 7.87868 1.87868C7.31607 2.44129 7 3.20435 7 4V5H5C4.44772 5 4 5.44772 4 6V20C4 20.7957 4.31607 21.5587 4.87868 22.1213C5.44129 22.6839 6.20435 23 7 23H17C17.7957 23 18.5587 22.6839 19.1213 22.1213C19.6839 21.5587 20 20.7957 20 20V6C20 5.44772 19.5523 5 19 5H17ZM6 7V20C6 20.2652 6.10536 20.5196 6.29289 20.7071C6.48043 20.8946 6.73478 21 7 21H17C17.2652 21 17.5196 20.8946 17.7071 20.7071C17.8946 20.5196 18 20.2652 18 20V7H6Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             <tbody>
@@ -109,6 +124,8 @@
 
         </div>
     </div>
+
+    <!-- Parte responsiva -->
     <div class="block laptop:hidden">
         <div class="bg-white shadow-card rounded-lg p-4 mb-4">
             <div class="flex flex-row itens-center justify-center space-x-2">
@@ -153,26 +170,41 @@
                         @endif
                     </div>
                 </div>
-                <div><span class="text-black font-medium text-small">{{ __('Username') }}:</span> <span class="text-black font-light text-small">{{ $item->name }}</span></div>
-                <div><span class="text-black font-medium text-small">{{ __('Email') }}:</span> <span class="text-black font-light text-small">{{ $item->email }}</span></div>
-                <div><span class="text-black font-medium text-small">{{ __('CPF') }}:</span> <span class="text-black font-light text-small">{{ formatCnpjCpf($item->cpf) }}</span></div>
-
-                <div>
-                    <div class="text-black font-medium text-small">{{ __('Trading name') }}:</div>
-                    <div class="text-black font-light text-small ms-2">
-                        @if (count($item->customers) === 0)
-                                {{ __('Does not have') }}
-                            @endif
-                            @foreach ($item->customers as $key => $customer)
-                                <div>
-                                    {{ ($key + 1) . '. ' . $customer->nmCliente }}
-                                </div>
-                        @endforeach
+                <div class="flex justify-between">
+                    <div>
+                        <div><span class="text-black font-medium text-small">{{ __('Username') }}:</span> <span class="text-black font-light text-small">{{ $item->name }}</span></div>
+                        <div><span class="text-black font-medium text-small">{{ __('Email') }}:</span> <span class="text-black font-light text-small">{{ $item->email }}</span></div>
+                        <div><span class="text-black font-medium text-small">{{ __('CPF') }}:</span> <span class="text-black font-light text-small">{{ formatCnpjCpf($item->cpf) }}</span></div>
+                        <div>
+                            <div class="text-black font-medium text-small">{{ __('Trading name') }}:</div>
+                            <div class="text-black font-light text-small ms-2">
+                                @if (count($item->customers) === 0)
+                                        {{ __('Does not have') }}
+                                    @endif
+                                    @foreach ($item->customers as $key => $customer)
+                                        <div>
+                                            {{ ($key + 1) . '. ' . $customer->nmCliente }}
+                                        </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div><span class="text-black font-medium text-small">{{ __('Type') }}:</span> <span class="text-black font-light text-small">{{ $item->getTypeName() }}</span></div>
+                    </div>
+                    <div class="flex flex-col itens-center">
+                        <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color my-2">
+                            <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11 20C11 19.4477 11.4477 19 12 19H21C21.5523 19 22 19.4477 22 20C22 20.5523 21.5523 21 21 21H12C11.4477 21 11 20.5523 11 20Z" />
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M18 3.87866C17.7026 3.87866 17.4174 3.9968 17.2071 4.20709L4.90296 16.5112L4.37437 18.6256L6.48875 18.097L18.7929 5.79288C18.897 5.68875 18.9796 5.56514 19.036 5.42909C19.0923 5.29305 19.1213 5.14724 19.1213 4.99998C19.1213 4.85273 19.0923 4.70692 19.036 4.57087C18.9796 4.43483 18.897 4.31121 18.7929 4.20709C18.6888 4.10296 18.5652 4.02037 18.4291 3.96402C18.2931 3.90767 18.1473 3.87866 18 3.87866ZM15.7929 2.79288C16.3783 2.20751 17.1722 1.87866 18 1.87866C18.4099 1.87866 18.8158 1.9594 19.1945 2.11626C19.5732 2.27312 19.9173 2.50303 20.2071 2.79288C20.4969 3.08272 20.7269 3.42681 20.8837 3.8055C21.0406 4.1842 21.1213 4.59008 21.1213 4.99998C21.1213 5.40988 21.0406 5.81576 20.8837 6.19446C20.7269 6.57316 20.4969 6.91725 20.2071 7.20709L7.7071 19.7071C7.57895 19.8352 7.41837 19.9262 7.24253 19.9701L3.24253 20.9701C2.90176 21.0553 2.54127 20.9555 2.29289 20.7071C2.04451 20.4587 1.94466 20.0982 2.02986 19.7574L3.02986 15.7574C3.07381 15.5816 3.16473 15.421 3.29289 15.2929L15.7929 2.79288Z" />
+                            </svg>
+                        </button>
+                        <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color">
+                            <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6C22 6.55228 21.5523 7 21 7H3C2.44772 7 2 6.55228 2 6Z" />
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 3C9.73478 3 9.48043 3.10536 9.29289 3.29289C9.10536 3.48043 9 3.73478 9 4V5H15V4C15 3.73478 14.8946 3.48043 14.7071 3.29289C14.5196 3.10536 14.2652 3 14 3H10ZM17 5V4C17 3.20435 16.6839 2.44129 16.1213 1.87868C15.5587 1.31607 14.7956 1 14 1H10C9.20435 1 8.44129 1.31607 7.87868 1.87868C7.31607 2.44129 7 3.20435 7 4V5H5C4.44772 5 4 5.44772 4 6V20C4 20.7957 4.31607 21.5587 4.87868 22.1213C5.44129 22.6839 6.20435 23 7 23H17C17.7957 23 18.5587 22.6839 19.1213 22.1213C19.6839 21.5587 20 20.7957 20 20V6C20 5.44772 19.5523 5 19 5H17ZM6 7V20C6 20.2652 6.10536 20.5196 6.29289 20.7071C6.48043 20.8946 6.73478 21 7 21H17C17.2652 21 17.5196 20.8946 17.7071 20.7071C17.8946 20.5196 18 20.2652 18 20V7H6Z" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
-
-                <div><span class="text-black font-medium text-small">{{ __('Type') }}:</span> <span class="text-black font-light text-small">{{ $item->getTypeName() }}</span></div>
-
             </div>
         @endforeach
     </div>
