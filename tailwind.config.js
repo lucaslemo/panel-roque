@@ -67,7 +67,7 @@ export default {
                 'subtitle-color': '#A3A3A3',
                 'label-color': '#8C8C8C',
                 'border-color': '#BEBEBE',
-                'disabled': '#C7C7C7',
+                'disabled': '#E9ECEF',
                 'line': '#ECECEC',
                 'background': '#F6F6F6',
                 'background-100': '#ECECEC',

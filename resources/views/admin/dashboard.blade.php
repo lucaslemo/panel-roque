@@ -15,7 +15,7 @@
         </section>
 
         <!-- Datatable -->
-        <section class="overflow-x-auto bg-white shadow-card rounded-lg p-4">
+        <section>
             <livewire:users-datatable />
         </section>
 

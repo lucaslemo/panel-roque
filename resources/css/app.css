@@ -15,12 +15,12 @@
 
 .table-head
 {
-    @apply h-10 px-6 py-3 border-b border-e text-small font-normal text-subtitle-color;
+    @apply h-10 px-6 py-3 border-b border-e text-normal font-normal text-subtitle-color;
 }
 
 .table-body
 {
-    @apply h-14 px-6 py-4 text-small text-black;
+    @apply h-14 px-6 py-4 font-normal text-black;
 }
 
 .table-page-button
