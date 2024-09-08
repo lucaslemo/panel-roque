@@ -40,12 +40,16 @@
                         <td class="table-body border-t border-e text-small">
                             @if (count($item->customers) === 0)
                                 {{ __('Does not have') }}
+
+                            @elseif (count($item->customers) === 1)
+                                {{ $item->customers[0]->nmCliente }}
+                            @else
+                                @foreach ($item->customers as $key => $customer)
+                                    <div>
+                                        {{ ($key + 1) . '. ' . $customer->nmCliente }}
+                                    </div>
+                                @endforeach
                             @endif
-                            @foreach ($item->customers as $key => $customer)
-                                <div>
-                                    {{ ($key + 1) . '. ' . $customer->nmCliente }}
-                                </div>
-                            @endforeach
                         </td>
                         <td class="table-body border-t border-e text-small">{{ $item->getTypeName() }}</td>
                         <td class="table-body border-t border-e text-small">
@@ -53,18 +57,20 @@
                                 @if ((bool) $item->active === true)
                                     <!-- Status Ativo -->
                                     <div class="green-circle"></div>
-                                    {{ __('Active') }}
+                                    <span>{{ __('Active') }}</span>
                                 @elseif ((bool) $item->active === false && is_null($item->last_login_at))
                                     <!-- Status Pendente -->
                                     <div class="yellow-circle"></div>
-                                    {{ __('Pending') }}
+                                    <span>{{ __('Pending') }}</span>
                                 @else
                                     <!-- Status inativo -->
                                     <div class="stone-circle"></div>
-                                    {{ __('Inactive') }}
+                                    <span>{{ __('Inactive') }}</span>
                                 @endif
                             </div>
                         </td>
+
+                        <!-- Botões de ação -->
                         <td class="table-body border-t text-small">
                             <div class="flex flex-row itens-center">
                                 <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color me-2">
@@ -86,7 +92,7 @@
             <tbody>
         </table>
 
-        <!-- Botões de ação -->
+        <!-- Botões de paginação -->
         <div class="flex flex-row space-x-2 justify-end mt-2">
 
             <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border text-subtitle-color rounded-lg {{ (int) $page === 0 ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === 0 ? 'disabled' : '' }}>
@@ -127,6 +133,8 @@
 
     <!-- Parte responsiva -->
     <div class="block laptop:hidden">
+
+        <!-- Botões de paginação -->
         <div class="bg-white shadow-card rounded-lg p-4 mb-4">
             <div class="flex flex-row itens-center justify-center space-x-2">
                 <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border border-subtitle-color text-subtitle-color rounded-lg" disabled>
@@ -150,6 +158,8 @@
                 </button>
             </div>
         </div>
+
+        <!-- Lista dos usuários -->
         @foreach ($data as $key => $item)
             <div class="bg-white shadow-card rounded-lg p-4 mb-4">
                 <div class="flex justify-between items-center">
@@ -190,6 +200,8 @@
                         </div>
                         <div><span class="text-black font-medium text-small">{{ __('Type') }}:</span> <span class="text-black font-light text-small">{{ $item->getTypeName() }}</span></div>
                     </div>
+
+                    <!-- Botões de ação -->
                     <div class="flex flex-col itens-center">
                         <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color my-2">
                             <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
