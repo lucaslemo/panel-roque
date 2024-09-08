@@ -2,9 +2,9 @@
     <div class="py-12">
 
         <!-- Cards -->
-        <section class="flex flex-col md:flex-row justify-between mb-4 xl:mb-8">
+        <section class="flex flex-col laptop:flex-row justify-between mb-4 xl:mb-8">
             <livewire:users-cards />
-            <div class="flex flex-col justify-between w-full md:w-80 mt-4 md:mt-0 ms-0 md:ms-4">
+            <div class="flex flex-col justify-between w-full laptop:w-[328px] mt-4 laptop:mt-0 ms-0 laptop:ms-4">
 
                 <!-- Botão e modal para novo usuário -->
                 <livewire:create-user-modal />
@@ -15,7 +15,7 @@
         </section>
 
         <!-- Datatable -->
-        <section class="overflow-x-auto bg-white shadow-card rounded-lg p-4">
+        <section>
             <livewire:users-datatable />
         </section>
 
