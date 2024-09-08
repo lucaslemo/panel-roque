@@ -13,7 +13,7 @@ class UsersDatatable extends Component
     public $totalPages = 0;
     public $page = 0;
 
-    protected $listeners = ['searchName' => 'search'];
+    protected $listeners = ['searchUser' => 'search'];
 
     public function search($value)
     {
@@ -44,16 +44,33 @@ class UsersDatatable extends Component
         }
     }
 
-    private function fetchData($searchName = null)
+    private function fetchData($searchUser = null)
     {
-        $this->totalData = User::whereNot('type', 1)->when($searchName, function($query) use($searchName) {
-            $query->where('name', 'LIKE', '%' . $searchName . '%');
-        })->count(); // Exclui o tipo super admin
+        sleep(2);
+        $this->totalData = User::whereNot('type', 1) // Exclui o tipo super admin
+            ->when($searchUser, function($query) use($searchUser) {
+                $query->where(function($query) use($searchUser) {
+                    $query->orWhere('name', 'LIKE', '%' . $searchUser . '%'); // Nome do usuário
+                    $query->orWhere('email', 'LIKE', '%' . $searchUser . '%'); // Email do usuário do usuário
+                    $query->orWhere('cpf', 'LIKE', '%' . $searchUser . '%'); // Cpf do usuário do usuário
+                    $query->orWhereHas('customers', function($query) use($searchUser) {
+                        $query->where('nmCliente', 'LIKE', '%' . $searchUser . '%'); // Alguma filial com o nome pesquisado
+                    });
+                });
+            })
+            ->count();
         $this->totalPages = ceil($this->totalData / $this->perPages);
 
         $this->data = User::with('customers')
-            ->when($searchName, function($query) use($searchName) {
-                $query->where('name', 'LIKE', '%' . $searchName . '%');
+            ->when($searchUser, function($query) use($searchUser) {
+                $query->where(function($query) use($searchUser) {
+                    $query->orWhere('name', 'LIKE', '%' . $searchUser . '%'); // Nome do usuário
+                    $query->orWhere('email', 'LIKE', '%' . $searchUser . '%'); // Email do usuário do usuário
+                    $query->orWhere('cpf', 'LIKE', '%' . $searchUser . '%'); // Cpf do usuário do usuário
+                    $query->orWhereHas('customers', function($query) use($searchUser) {
+                        $query->where('nmCliente', 'LIKE', '%' . $searchUser . '%'); // Alguma filial com o nome pesquisado
+                    });
+                });
             })
             ->whereNot('type', 1) // Exclui o tipo super admin
             ->skip($this->page * $this->perPages)
@@ -70,6 +87,11 @@ class UsersDatatable extends Component
             report($th);
             $this->dispatch('showAlert', __('Error when fetching users data.'), $th->getMessage(), 'danger');
         }
+    }
+
+    public function placeholder()
+    {
+        return view('components.spinner');
     }
 
     public function render()

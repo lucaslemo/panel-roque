@@ -42,3 +42,17 @@
 {
     @apply size-[12px] me-2 rounded-full bg-stone-500/50 ring-1 ring-inset ring-stone-600/20 shadow-sm hover:bg-stone-500/80;
 }
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1); /* Borda leve ao redor */
+    border-top: 5px solid #022266; /* Borda superior com cor */
+    border-radius: 50%; /* Faz o spinner circular */
+    animation: custom-spin 1s linear infinite; /* Animação de rotação */
+}
+
+@keyframes custom-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

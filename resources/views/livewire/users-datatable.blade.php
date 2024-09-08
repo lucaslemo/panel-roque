@@ -1,5 +1,11 @@
 <div>
-    <div class="hidden laptop:block overflow-x-auto bg-white shadow-card rounded-lg p-4">
+    <div class="relative hidden laptop:block overflow-x-auto bg-white shadow-card rounded-lg p-4">
+
+        <!-- Loading Overlay -->
+        <div wire:loading.flex class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center text-white">
+            <p class="bg-white rounded-lg shadow-card font-medium text-h5 text-black px-12 py-6">{{ __('Loading...') }}</p>
+        </div>
+
         <table class="table-auto min-w-full">
             <!-- Header da tabela -->
             <thead>
