@@ -2,7 +2,7 @@
     <div class="relative hidden laptop:block overflow-x-auto bg-white shadow-card rounded-lg p-4">
 
         <!-- Loading Overlay -->
-        <div wire:loading.flex class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center text-white">
+        <div wire:loading.flex class="absolute inset-0 bg-[#000000] bg-opacity-30 flex items-center justify-center text-white z-100">
             <p class="bg-white rounded-lg shadow-card font-medium text-h5 text-black px-12 py-6">{{ __('Loading...') }}</p>
         </div>
 
@@ -16,9 +16,9 @@
                     <th class="table-head text-center">{{ __('CPF') }}</th>
                     <th class="table-head text-center">{{ __('Trading name') }}</th>
                     <th class="table-head">
-                        <x-dropdown align="right" width="24">
+                        <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <button class="flex flex-row justify-between w-full p-2">
+                                <button class="flex flex-row justify-between {{ count($filteredUserTypeValues) === 0 ? 'text-subtitle-color' : 'text-primary' }} w-full p-2">
                                     {{ __('Type') }}
 
                                     <!-- Ícone de filtro -->
@@ -29,18 +29,19 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                @foreach ($perPageOptions as $value)
-                                    <x-dropdown-link wire:click="changePageSize({{ $value }})">
-                                        {{ $value }}
-                                    </x-dropdown-link>
-                                @endforeach
+                                <x-dropdown-link class="{{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(2)">
+                                    {{ __('Customer administrator') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link class="{{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(3)">
+                                    {{ __('Customer default') }}
+                                </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </th>
                     <th class="table-head">
-                        <x-dropdown align="right" width="24">
+                        <x-dropdown align="right" width="28">
                             <x-slot name="trigger">
-                                <button class="flex flex-row justify-between w-full p-2">
+                                <button class="flex flex-row justify-between {{ count($filteredUserActiveValues) === 0 ? 'text-subtitle-color' : 'text-primary' }} w-full p-2">
                                     {{ __('Status') }}
 
                                     <!-- Ícone de filtro -->
@@ -51,11 +52,15 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                @foreach ($perPageOptions as $value)
-                                    <x-dropdown-link wire:click="changePageSize({{ $value }})">
-                                        {{ $value }}
-                                    </x-dropdown-link>
-                                @endforeach
+                                <x-dropdown-link class="{{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(1)">
+                                    {{ __('Active') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link class="{{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(2)">
+                                    {{ __('Pending') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link class="{{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(3)">
+                                    {{ __('Inactive') }}
+                                </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </th>
@@ -123,12 +128,20 @@
                         </td>
                     </tr>
                 @endforeach
+                @if (count($data) === 0)
+                    <tr>
+                        <td colspan="8">
+                            <div class="flex justify-center font-medium text-h5 text-black pb-12 pt-24">
+                                {{ __('No items found') }}.
+                            </div>
+                        </td>
+                    </tr>
+                @endif
             <tbody>
         </table>
 
         <!-- Botões de paginação e quantidade de itens por página -->
         <div class="flex flex-row justify-end mt-4">
-
             <!-- Quantidade de itens por página -->
             <div class="flex flex-row space-x-2">
                 <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border text-subtitle-color rounded-lg {{ (int) $page === 0 ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === 0 ? 'disabled' : '' }}>
@@ -157,7 +170,7 @@
                     @endif
                 @endfor
 
-                <button wire:click="nextPage" type="button" class="flex justify-center items-center size-10 shadow-button border border-subtitle-color text-subtitle-color rounded-lg {{ (int) $page === ((int) $totalPages - 1) ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === ((int) $totalPages - 1) ? 'disabled' : '' }}>
+                <button wire:click="nextPage" type="button" class="flex justify-center items-center size-10 shadow-button border text-subtitle-color rounded-lg {{ (int) $page === ((int) $totalPages - 1) || (int) $totalPages === 0 ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === ((int) $totalPages - 1) || (int) $totalPages === 0  ? 'disabled' : '' }}>
                     <svg class="size-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 5.29289C8.68342 4.90237 9.31658 4.90237 9.70711 5.29289L15.7071 11.2929C16.0976 11.6834 16.0976 12.3166 15.7071 12.7071L9.70711 18.7071C9.31658 19.0976 8.68342 19.0976 8.29289 18.7071C7.90237 18.3166 7.90237 17.6834 8.29289 17.2929L13.5858 12L8.29289 6.70711C7.90237 6.31658 7.90237 5.68342 8.29289 5.29289Z" />
                     </svg>
@@ -210,7 +223,7 @@
                     @endif
                 @endfor
 
-                <button wire:click="nextPage" type="button" class="flex justify-center items-center size-10 shadow-button border border-subtitle-color text-subtitle-color rounded-lg {{ (int) $page === ((int) $totalPages - 1) ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === ((int) $totalPages - 1) ? 'disabled' : '' }}>
+                <button wire:click="nextPage" type="button" class="flex justify-center items-center size-10 shadow-button border text-subtitle-color rounded-lg {{ (int) $page === ((int) $totalPages - 1) || (int) $totalPages === 0 ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === ((int) $totalPages - 1) || (int) $totalPages === 0 ? 'disabled' : '' }}>
                     <svg class="size-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 5.29289C8.68342 4.90237 9.31658 4.90237 9.70711 5.29289L15.7071 11.2929C16.0976 11.6834 16.0976 12.3166 15.7071 12.7071L9.70711 18.7071C9.31658 19.0976 8.68342 19.0976 8.29289 18.7071C7.90237 18.3166 7.90237 17.6834 8.29289 17.2929L13.5858 12L8.29289 6.70711C7.90237 6.31658 7.90237 5.68342 8.29289 5.29289Z" />
                     </svg>
@@ -240,9 +253,9 @@
                 </x-dropdown>
                 <span class="font-normal text-normal text-black text-nowrap mx-2">/ {{ __('pages') }}</span>
                 <!-- Filtros -->
-                <x-dropdown align="right" width="24" full="true">
+                <x-dropdown align="right" width="48" full="true">
                     <x-slot name="trigger">
-                        <button class="h-10 w-24 sm:w-28 inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
+                        <button class="h-10 w-24 sm:w-28 inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black rounded-md leading-4 {{ count($filteredUserTypeValues) === 0 && count($filteredUserActiveValues) === 0 ? 'text-black' : 'text-primary' }}">
                             <!-- Ícone de filtro -->
                             <svg class="fill-current size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M1.0929 2.57912C1.25675 2.22596 1.61069 2 2.00001 2H22C22.3893 2 22.7433 2.22596 22.9071 2.57912C23.071 2.93229 23.015 3.34845 22.7636 3.64573L15 12.8261V21C15 21.3466 14.8206 21.6684 14.5257 21.8507C14.2309 22.0329 13.8628 22.0494 13.5528 21.8944L9.5528 19.8944C9.21402 19.725 9.00001 19.3788 9.00001 19V12.8261L1.23644 3.64573C0.985046 3.34845 0.929037 2.93229 1.0929 2.57912ZM4.15532 4L10.7636 11.8143C10.9162 11.9948 11 12.2236 11 12.46V18.382L13 19.382V12.46C13 12.2236 13.0838 11.9948 13.2364 11.8143L19.8447 4H4.15532Z" />
@@ -251,11 +264,22 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        @foreach ($perPageOptions as $value)
-                            <x-dropdown-link wire:click="changePageSize({{ $value }})">
-                                {{ $value }}
-                            </x-dropdown-link>
-                        @endforeach
+                        <x-dropdown-link class="{{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(2)">
+                            {{ __('Customer administrator') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link class="{{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(3)">
+                            {{ __('Customer default') }}
+                        </x-dropdown-link>
+                        <hr>
+                        <x-dropdown-link class="{{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(1)">
+                            {{ __('Active') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link class="{{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(2)">
+                            {{ __('Pending') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link class="{{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(3)">
+                            {{ __('Inactive') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -321,6 +345,12 @@
                 </div>
             </div>
         @endforeach
+
+        @if (count($data) == 0)
+            <div class="flex justify-center font-medium text-h5 text-black pt-8">
+                {{ __('No items found') }}.
+            </div>
+    @endif
     </div>
 </div>
 
