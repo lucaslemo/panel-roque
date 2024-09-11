@@ -16,20 +16,48 @@
                     <th class="table-head text-center">{{ __('CPF') }}</th>
                     <th class="table-head text-center">{{ __('Trading name') }}</th>
                     <th class="table-head">
-                        <div class="flex justify-between">
-                            {{ __('Type') }}
-                            <svg class="fill-current size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.0929 2.57912C1.25675 2.22596 1.61069 2 2.00001 2H22C22.3893 2 22.7433 2.22596 22.9071 2.57912C23.071 2.93229 23.015 3.34845 22.7636 3.64573L15 12.8261V21C15 21.3466 14.8206 21.6684 14.5257 21.8507C14.2309 22.0329 13.8628 22.0494 13.5528 21.8944L9.5528 19.8944C9.21402 19.725 9.00001 19.3788 9.00001 19V12.8261L1.23644 3.64573C0.985046 3.34845 0.929037 2.93229 1.0929 2.57912ZM4.15532 4L10.7636 11.8143C10.9162 11.9948 11 12.2236 11 12.46V18.382L13 19.382V12.46C13 12.2236 13.0838 11.9948 13.2364 11.8143L19.8447 4H4.15532Z" />
-                            </svg>
-                        </div>
+                        <x-dropdown align="right" width="24">
+                            <x-slot name="trigger">
+                                <button class="flex flex-row justify-between w-full p-2">
+                                    {{ __('Type') }}
+
+                                    <!-- Ícone de filtro -->
+                                    <svg class="fill-current size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.0929 2.57912C1.25675 2.22596 1.61069 2 2.00001 2H22C22.3893 2 22.7433 2.22596 22.9071 2.57912C23.071 2.93229 23.015 3.34845 22.7636 3.64573L15 12.8261V21C15 21.3466 14.8206 21.6684 14.5257 21.8507C14.2309 22.0329 13.8628 22.0494 13.5528 21.8944L9.5528 19.8944C9.21402 19.725 9.00001 19.3788 9.00001 19V12.8261L1.23644 3.64573C0.985046 3.34845 0.929037 2.93229 1.0929 2.57912ZM4.15532 4L10.7636 11.8143C10.9162 11.9948 11 12.2236 11 12.46V18.382L13 19.382V12.46C13 12.2236 13.0838 11.9948 13.2364 11.8143L19.8447 4H4.15532Z" />
+                                    </svg>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                @foreach ($perPageOptions as $value)
+                                    <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                                        {{ $value }}
+                                    </x-dropdown-link>
+                                @endforeach
+                            </x-slot>
+                        </x-dropdown>
                     </th>
                     <th class="table-head">
-                        <div class="flex justify-between">
-                            {{ __('Status') }}
-                            <svg class="fill-current size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.0929 2.57912C1.25675 2.22596 1.61069 2 2.00001 2H22C22.3893 2 22.7433 2.22596 22.9071 2.57912C23.071 2.93229 23.015 3.34845 22.7636 3.64573L15 12.8261V21C15 21.3466 14.8206 21.6684 14.5257 21.8507C14.2309 22.0329 13.8628 22.0494 13.5528 21.8944L9.5528 19.8944C9.21402 19.725 9.00001 19.3788 9.00001 19V12.8261L1.23644 3.64573C0.985046 3.34845 0.929037 2.93229 1.0929 2.57912ZM4.15532 4L10.7636 11.8143C10.9162 11.9948 11 12.2236 11 12.46V18.382L13 19.382V12.46C13 12.2236 13.0838 11.9948 13.2364 11.8143L19.8447 4H4.15532Z" />
-                            </svg>
-                        </div>
+                        <x-dropdown align="right" width="24">
+                            <x-slot name="trigger">
+                                <button class="flex flex-row justify-between w-full p-2">
+                                    {{ __('Status') }}
+
+                                    <!-- Ícone de filtro -->
+                                    <svg class="fill-current size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.0929 2.57912C1.25675 2.22596 1.61069 2 2.00001 2H22C22.3893 2 22.7433 2.22596 22.9071 2.57912C23.071 2.93229 23.015 3.34845 22.7636 3.64573L15 12.8261V21C15 21.3466 14.8206 21.6684 14.5257 21.8507C14.2309 22.0329 13.8628 22.0494 13.5528 21.8944L9.5528 19.8944C9.21402 19.725 9.00001 19.3788 9.00001 19V12.8261L1.23644 3.64573C0.985046 3.34845 0.929037 2.93229 1.0929 2.57912ZM4.15532 4L10.7636 11.8143C10.9162 11.9948 11 12.2236 11 12.46V18.382L13 19.382V12.46C13 12.2236 13.0838 11.9948 13.2364 11.8143L19.8447 4H4.15532Z" />
+                                    </svg>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                @foreach ($perPageOptions as $value)
+                                    <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                                        {{ $value }}
+                                    </x-dropdown-link>
+                                @endforeach
+                            </x-slot>
+                        </x-dropdown>
                     </th>
                     <th class="px-6 py-3 border-b">&nbsp;</th>
                 </tr>
@@ -165,9 +193,9 @@
 
     <!-- Parte Mobile -->
     <div class="block laptop:hidden">
-        <div class="bg-white shadow-card rounded-lg p-4 mb-4">
+        <div class="flex flex-col md:flex-row gap-4 justify-center bg-white shadow-card rounded-lg p-4 mb-4">
             <!-- Botões de paginação -->
-            <div class="flex flex-row itens-center justify-center space-x-2 ">
+            <div class="flex flex-row itens-center justify-center space-x-2 sm:space-x-3">
                 <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border text-subtitle-color rounded-lg {{ (int) $page === 0 ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === 0 ? 'disabled' : '' }}>
                     <svg class="size-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7071 5.29289C16.0976 5.68342 16.0976 6.31658 15.7071 6.70711L10.4142 12L15.7071 17.2929C16.0976 17.6834 16.0976 18.3166 15.7071 18.7071C15.3166 19.0976 14.6834 19.0976 14.2929 18.7071L8.29289 12.7071C7.90237 12.3166 7.90237 11.6834 8.29289 11.2929L14.2929 5.29289C14.6834 4.90237 15.3166 4.90237 15.7071 5.29289Z" />
@@ -189,55 +217,47 @@
                 </button>
             </div>
 
-            <div class="flex flex-row itens-center  max-w-80 mt-4">
+            <div class="flex flex-row items-center mx-auto mt-4 md:mt-0 md:mx-0">
                 <!-- Quantidade de itens por página -->
-                <div class="w-3/5">
-                    <div class="flex items-center">
-                        <x-dropdown align="right" full="true" width="24">
-                            <x-slot name="trigger">
-                                <button class="h-10 w-full inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
-                                    {{ $perPage }}
-                                    <!-- Ícone -->
-                                    <svg class="fill-current size-2" viewBox="0 0 14 8" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.70711 7.70711C7.31658 8.09763 6.68342 8.09763 6.29289 7.70711L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683417 0.292893 0.292893Z" />
-                                    </svg>
-                                </button>
-                            </x-slot>
+                <x-dropdown align="right" width="24" full="true">
+                    <x-slot name="trigger">
+                        <button class="h-10 w-24 inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
+                            {{ $perPage }}
+                            <!-- Ícone seta para baixo -->
+                            <svg class="fill-current size-2" viewBox="0 0 14 8" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.70711 7.70711C7.31658 8.09763 6.68342 8.09763 6.29289 7.70711L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683417 0.292893 0.292893Z" />
+                            </svg>
+                        </button>
+                    </x-slot>
 
-                            <x-slot name="content">
-                                @foreach ($perPageOptions as $value)
-                                    <x-dropdown-link wire:click="changePageSize({{ $value }})">
-                                        {{ $value }}
-                                    </x-dropdown-link>
-                                @endforeach
-                            </x-slot>
-                        </x-dropdown>
-
-                        <span class="font-normal text-normal text-black text-nowrap mx-2">/ {{ __('pages') }}</span>
-                    </div>
-                </div>
-
+                    <x-slot name="content">
+                        @foreach ($perPageOptions as $value)
+                            <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                                {{ $value }}
+                            </x-dropdown-link>
+                        @endforeach
+                    </x-slot>
+                </x-dropdown>
+                <span class="font-normal text-normal text-black text-nowrap mx-2">/ {{ __('pages') }}</span>
                 <!-- Filtros -->
-                <div class="w-2/5">
-                    <x-dropdown align="right" width="24">
-                        <x-slot name="trigger">
-                            <button class="h-10 w-full inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
-                                <!-- Ícone -->
-                                <svg class="fill-current size-2" viewBox="0 0 14 8" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.70711 7.70711C7.31658 8.09763 6.68342 8.09763 6.29289 7.70711L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683417 0.292893 0.292893Z" />
-                                </svg>
-                            </button>
-                        </x-slot>
+                <x-dropdown align="right" width="24" full="true">
+                    <x-slot name="trigger">
+                        <button class="h-10 w-24 sm:w-28 inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
+                            <!-- Ícone de filtro -->
+                            <svg class="fill-current size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.0929 2.57912C1.25675 2.22596 1.61069 2 2.00001 2H22C22.3893 2 22.7433 2.22596 22.9071 2.57912C23.071 2.93229 23.015 3.34845 22.7636 3.64573L15 12.8261V21C15 21.3466 14.8206 21.6684 14.5257 21.8507C14.2309 22.0329 13.8628 22.0494 13.5528 21.8944L9.5528 19.8944C9.21402 19.725 9.00001 19.3788 9.00001 19V12.8261L1.23644 3.64573C0.985046 3.34845 0.929037 2.93229 1.0929 2.57912ZM4.15532 4L10.7636 11.8143C10.9162 11.9948 11 12.2236 11 12.46V18.382L13 19.382V12.46C13 12.2236 13.0838 11.9948 13.2364 11.8143L19.8447 4H4.15532Z" />
+                            </svg>
+                        </button>
+                    </x-slot>
 
-                        <x-slot name="content">
-                            @foreach ($perPageOptions as $value)
-                                <x-dropdown-link wire:click="changePageSize({{ $value }})">
-                                    {{ $value }}
-                                </x-dropdown-link>
-                            @endforeach
-                        </x-slot>
-                    </x-dropdown>
-                </div>
+                    <x-slot name="content">
+                        @foreach ($perPageOptions as $value)
+                            <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                                {{ $value }}
+                            </x-dropdown-link>
+                        @endforeach
+                    </x-slot>
+                </x-dropdown>
             </div>
         </div>
 
