@@ -24,7 +24,7 @@ new class extends Component
     <!-- Menu do usuário -->
     <x-dropdown align="right" width="48">
         <x-slot name="trigger">
-            <button class="h-[46px] laptop:h-[52px] laptop:min-w-[231px] inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-small rounded-md leading-4 text-black hover:text-primary focus:outline-none transition ease-in-out duration-150">
+            <button class="h-[46px] laptop:h-[52px] laptop:min-w-[231px] inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-small rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
 
                 <div class="flex flex-row items-center">
                     <!-- Avatar do usuário -->

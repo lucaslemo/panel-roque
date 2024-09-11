@@ -1,3 +1,3 @@
 <div class="flex items-center justify-center">
-    <div class="spinner"></div>
+    <span class="loader"></span>
 </div>

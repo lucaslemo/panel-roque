@@ -15,12 +15,12 @@
 
 .table-head
 {
-    @apply h-10 px-6 py-2 border-b border-e text-normal font-normal text-subtitle-color;
+    @apply h-10 px-2 2xl:px-6 border-b border-e text-normal font-normal text-subtitle-color;
 }
 
 .table-body
 {
-    @apply h-14 px-6 py-2 font-normal text-black;
+    @apply h-10 2xl:h-14 px-2 2xl:px-6 py-2 font-normal text-black;
 }
 
 .table-page-button
@@ -30,26 +30,56 @@
 
 .green-circle
 {
-    @apply size-[12px] me-2 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80;
+    @apply size-[13px] me-1 2xl:me-2 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80;
 }
 
 .yellow-circle
 {
-    @apply size-[12px] me-2 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80;
+    @apply size-[13px] me-1 2xl:me-2 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80;
 }
 
 .stone-circle
 {
-    @apply size-[12px] me-2 rounded-full bg-stone-500/50 ring-1 ring-inset ring-stone-600/20 shadow-sm hover:bg-stone-500/80;
+    @apply size-[13px] me-1 2xl:me-2 rounded-full bg-stone-500/50 ring-1 ring-inset ring-stone-600/20 shadow-sm hover:bg-stone-500/80;
 }
 
 .spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid rgba(0, 0, 0, 0.1); /* Borda leve ao redor */
-    border-top: 5px solid #022266; /* Borda superior com cor */
-    border-radius: 50%; /* Faz o spinner circular */
-    animation: custom-spin 1s linear infinite; /* Animação de rotação */
+    border: 5px solid transparent;
+    border-top: 5px solid #022266;
+    border-radius: 50%;
+    animation: custom-spin 1.5s linear infinite;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite
+}
+.loader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid #FFCC00;
+    animation: prixClipFix 2s linear infinite ;
+}
+
+@keyframes rotate {
+    100%   {transform: rotate(360deg)}
+}
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
 
 @keyframes custom-spin {
