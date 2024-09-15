@@ -100,7 +100,7 @@ class UsersDatatable extends Component
             // Atualiza a tabela
             $this->fetchData();
         } catch (\Exception $e) {
-            $this->dispatch('showAlert', __('Error activating the user.'), $e->getMessage(), 'danger');
+            $this->dispatch('showAlert', __('Error activating the user.'), __($e->getMessage()), 'danger');
         }
     }
 
@@ -122,7 +122,7 @@ class UsersDatatable extends Component
             // Atualiza a tabela
             $this->fetchData();
         } catch (\Exception $e) {
-            $this->dispatch('showAlert', __('Error deactivating the user.'), $e->getMessage(), 'danger');
+            $this->dispatch('showAlert', __('Error deactivating the user.'), __($e->getMessage()), 'danger');
         }
     }
 
@@ -204,7 +204,7 @@ class UsersDatatable extends Component
 
         } catch (\Throwable $th) {
             report($th);
-            $this->dispatch('showAlert', __('Error when fetching users data.'), $th->getMessage(), 'danger');
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
         }
     }
 

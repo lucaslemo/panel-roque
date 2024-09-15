@@ -2,12 +2,12 @@
     <div class="relative hidden laptop:block overflow-x-auto bg-white shadow-card rounded-lg p-4">
 
         <!-- Loading Overlay -->
-        <div wire:loading.flex class="absolute inset-0 bg-[#000000] bg-opacity-30 flex items-center justify-center text-white z-100">
-            <p class="bg-white rounded-lg shadow-card font-medium text-h5 text-black px-12 py-6">{{ __('Loading...') }}</p>
+        <div wire:loading.flex class="absolute inset-0 flex items-center justify-center bg-trasparent z-100">
+            <p class="bg-white rounded-lg shadow-hight-card font-medium text-h5 text-black px-12 py-6">{{ __('Loading...') }}</p>
         </div>
 
         <table class="table-auto min-w-full">
-            <!-- Header da tabela -->
+            <!-- Header da tabela wire:target.except="deactivateUser,activateUser"-->
             <thead>
                 <tr>
                     <th class="table-head text-center">#</th>
@@ -321,7 +321,7 @@
                             <!-- Status inativo -->
                             <div class="stone-circle"></div>
                             {{ __('Inactive') }}
-                            
+
                         @endif
                     </div>
                 </div>
