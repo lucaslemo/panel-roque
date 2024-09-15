@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UsersDatatable extends Component
 {
@@ -81,6 +82,47 @@ class UsersDatatable extends Component
         if ($this->page > 0) {
             $this->page--;
             $this->fetchData();
+        }
+    }
+
+    public function activateUser(int $id)
+    {
+        try {
+            if(!optional(auth()->user())->hasRole('Super Admin')){
+                throw new UnauthorizedException(403, 'User does not have the right roles.');
+            }
+
+            // Atualiza o status de atividade do usuário
+            $user = User::findOrFail($id);
+            $user->active = true;
+            $user->save();
+
+            // Atualiza a tabela
+            $this->fetchData();
+        } catch (\Exception $e) {
+            $this->dispatch('showAlert', __('Error activating the user.'), $e->getMessage(), 'danger');
+        }
+    }
+
+    public function deactivateUser(int $id)
+    {
+        try {
+            if(!optional(auth()->user())->hasRole('Super Admin')){
+                throw new UnauthorizedException(403, 'User does not have the right roles.');
+            }
+            if (auth()->user()->id == $id) {
+                throw new \Exception('For security reasons, you cannot deactivate your own account.');
+            }
+
+            // Atualiza o status de atividade do usuário
+            $user = User::findOrFail($id);
+            $user->active = false;
+            $user->save();
+
+            // Atualiza a tabela
+            $this->fetchData();
+        } catch (\Exception $e) {
+            $this->dispatch('showAlert', __('Error deactivating the user.'), $e->getMessage(), 'danger');
         }
     }
 
