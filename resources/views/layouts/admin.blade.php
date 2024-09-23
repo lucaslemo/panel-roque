@@ -20,9 +20,14 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-background px-[30px] xl:px-[70px] pt-8">
-            <!-- Page Content -->
+    <body class="font-sans antialiased bg-background">
+        <!-- Alert Messages -->
+        <livewire:alert-message />
+
+        <!-- Page Body -->
+        <div class="min-h-screen px-[30px] xl:px-[70px] pt-8">
+
+            <!-- Page Header -->
             <livewire:layout.header />
 
             <!-- Page Content -->

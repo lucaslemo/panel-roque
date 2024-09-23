@@ -6,25 +6,19 @@ use Livewire\Component;
 
 class AlertMessage extends Component
 {
-    public $title;
-    public $message;
-    public $color;
-    public $colors;
+    public string|null $title = null;
+    public string|null $message = null;
+    public string|null $color = null;
+    public string|null $type = null;
+    public array $colors = ['success' => 'teal', 'danger' => 'red'];
 
     protected $listeners = ['showAlert' => 'show'];
-
-    public function mount()
-    {
-        $this->title = null;
-        $this->message = null;
-        $this->color = null;
-        $this->colors = ['success' => 'teal', 'danger' => 'red'];
-    }
 
     public function show($title, $message, $type = 'success')
     {
         $this->title = $title;
         $this->message = $message;
+        $this->type = $type;
         $this->color = isset($this->colors[$type]) ? $this->colors[$type] : 'slate';
     }
 
