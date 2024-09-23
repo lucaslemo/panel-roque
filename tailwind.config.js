@@ -90,6 +90,9 @@ export default {
             animation: {
                 pulse: 'pulse 0.4s ease-in-out',
             },
+            zIndex: {
+                '100': '100',
+            }
         },
     },
 

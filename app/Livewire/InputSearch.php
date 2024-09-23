@@ -10,7 +10,7 @@ class InputSearch extends Component
 
     public function updated($name, $value)
     {
-        $this->dispatch('searchName', $this->inputSearch);
+        $this->dispatch('searchUser', $this->inputSearch);
     }
 
     public function render()
