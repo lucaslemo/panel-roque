@@ -181,7 +181,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center justify-center">
-            <x-secondary-button type="button" href="{{ route('login') }}" class="font-semibold" wire:navigate>
+            <x-secondary-button type="button" href="{{ route('login') }}" class="text-normal md:text-lg font-semibold" wire:navigate>
                 {{ __('Back to Log in') }}
             </x-secondary-button>
         </div>

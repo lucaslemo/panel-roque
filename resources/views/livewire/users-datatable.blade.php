@@ -97,17 +97,17 @@
                                 @if ((bool) $item->active === true)
                                     <!-- Status Ativo -->
                                     <div class="green-circle"></div>
-                                    <span>{{ __('Active') }}</span>
+                                    <span class="leading-none">{{ __('Active') }}</span>
 
                                 @elseif ((bool) $item->active === false && is_null($item->last_login_at))
                                     <!-- Status Pendente -->
                                     <div class="yellow-circle"></div>
-                                    <span>{{ __('Pending') }}</span>
+                                    <span class="leading-none">{{ __('Pending') }}</span>
 
                                 @else
                                     <!-- Status inativo -->
                                     <div class="stone-circle"></div>
-                                    <span>{{ __('Inactive') }}</span>
+                                    <span class="leading-none">{{ __('Inactive') }}</span>
 
                                 @endif
                             </div>
@@ -248,7 +248,7 @@
 
             <div class="flex flex-row items-center mx-auto mt-4 md:mt-0 md:mx-0">
                 <!-- Quantidade de itens por página -->
-                <x-dropdown align="right" width="24" full="true">
+                <x-dropdown align="right" width="24" :full="true">
                     <x-slot name="trigger">
                         <button class="h-10 w-24 inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
                             {{ $perPage }}
@@ -269,7 +269,7 @@
                 </x-dropdown>
                 <span class="font-normal text-normal text-black text-nowrap mx-2">/ {{ __('pages') }}</span>
                 <!-- Filtros -->
-                <x-dropdown align="right" width="48" full="true">
+                <x-dropdown align="right" width="48" :full="true">
                     <x-slot name="trigger">
                         <button class="h-10 w-24 sm:w-28 inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black rounded-md leading-4 {{ count($filteredUserTypeValues) === 0 && count($filteredUserActiveValues) === 0 ? 'text-black' : 'text-primary' }}">
                             <!-- Ícone de filtro -->
