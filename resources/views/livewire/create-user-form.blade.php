@@ -2,10 +2,10 @@
     <!-- Breadcrumb -->
     <x-breadcrumb-modal class="justify-between mb-8">
         <x-slot name="content">
-            <x-breadcrumb-modal-item :active="$currentPhase >= 0 ? true : false" :tail="true" class="grow">
+            <x-breadcrumb-modal-item :active="$currentPhase >= 0 ? true : false" :tail="true" :end="false" class="grow">
                 {{ __('Personal data') }}
             </x-breadcrumb-modal-item>
-            <x-breadcrumb-modal-item :active="$currentPhase >= 1 ? true : false" :tail="false">
+            <x-breadcrumb-modal-item :active="$currentPhase >= 1 ? true : false" :tail="true" :end="true" class="grow">
                 {{ __('Permissions') }}
             </x-breadcrumb-modal-item>
         </x-slot>

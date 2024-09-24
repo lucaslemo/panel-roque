@@ -1,4 +1,4 @@
-@props(['active' => false, 'tail' => true])
+@props(['active' => false, 'tail' => true, 'end' => false])
 
 <div {{ $attributes->merge(['class' => 'flex items-center']) }}>
     <div class="flex justify-center items-center bg-primary {{ $active ? 'bg-primary' : 'bg-white' }} border-2 border-primary rounded-full size-10 min-w-10">
@@ -10,5 +10,8 @@
     <span class="text-nowrap mx-2 text-lg font-medium">{{ $slot }}</span>
     @if ($tail)
         <div class="h-0.5 w-full bg-primary"></div>
+        @if ($end)
+            <div class="bg-primary rounded-full size-3 min-w-3"></div>
+        @endif
     @endif
 </div>
