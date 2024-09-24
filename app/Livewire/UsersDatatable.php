@@ -100,6 +100,7 @@ class UsersDatatable extends Component
             // Atualiza a tabela
             $this->fetchData();
         } catch (\Exception $e) {
+            report($e);
             $this->dispatch('showAlert', __('Error activating the user.'), __($e->getMessage()), 'danger');
         }
     }
@@ -122,6 +123,7 @@ class UsersDatatable extends Component
             // Atualiza a tabela
             $this->fetchData();
         } catch (\Exception $e) {
+            report($e);
             $this->dispatch('showAlert', __('Error deactivating the user.'), __($e->getMessage()), 'danger');
         }
     }
