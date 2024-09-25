@@ -37,8 +37,9 @@
         </div>
 
         <!-- Page Footer -->
-        <footer class="flex justify-center items-center h-28 w-full bg-white font-normal text-small">
-            Copyright ©&nbsp;<span class="font-bold">Roque Matcon Estrutural</span>&nbsp;| Designed by Taís Ximenes & Developed by Lucas Lemos
+        <footer class="flex flex-col md:flex-row justify-center items-center h-24 md:h-28 w-full bg-white font-normal text-small-subtitle sm:text-small">
+            <div>Copyright ©&nbsp;<span class="font-bold">Roque Matcon Estrutural</span>&nbsp;|&nbsp;</div>
+            <div>Designed by Taís Ximenes & Developed by Lucas Lemos</div>
         </footer>
     </body>
 </html>
