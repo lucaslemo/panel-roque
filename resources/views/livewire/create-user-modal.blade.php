@@ -15,7 +15,8 @@
             x-transition:leave="scale-100 opacity-100"
             x-transition:leave-start="scale-100 opacity-100"
             x-transition:leave-end="scale-90 opacity-0"
-            :class="{ 'animate-pulse': pulse }">
+            :class="{ 'animate-pulse': pulse }"
+            @keydown.escape.window="show ? $wire.closeModal() : null">
 
             <!-- Título do modal -->
             <h2 class="text-lg md:text-h5 font-medium mb-4 md:mb-6 laptop:mb-8">{{ __('Register new user') }}</h2>

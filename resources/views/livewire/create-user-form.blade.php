@@ -46,6 +46,7 @@
         </div>
     </div>
     @elseif ($currentPhase === 1)
+        @if (count($customers) > 0)
         <div class="grid grid-cols-1 laptop:grid-cols-2 gap-y-4 md:gap-y-8 mb-6 md:mb-8 laptop:mb-12">
             @foreach ($customers as $customer)
                 <x-card-button
@@ -56,7 +57,7 @@
             @endforeach
         </div>
 
-        @if (count($customers) === 0)
+        @else
             <p class="font-medium text-small md:text-normal text-black mb-12">
                 {{ __('There are no companies registered for this user yet. Check if the email is correct or if it has already been entered in the Query.') }}
             </p>
