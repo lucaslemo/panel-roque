@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="py-12">
+    <div class="pb-12 pt-6">
 
         <!-- Cards -->
         <section class="flex flex-col laptop:flex-row justify-between mb-4 xl:mb-8">
@@ -19,11 +19,5 @@
             <livewire:users-datatable lazy="on-load" />
         </section>
 
-        {{--  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <h2 class="font-semibold text-xl">{{ __('Active users') }}:</h2>
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <livewire:admin.dashboard.users-last-activity-table />
-            </div>
-        </div> --}}
     </div>
 </x-admin-layout>
