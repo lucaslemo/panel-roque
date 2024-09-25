@@ -7,7 +7,7 @@
         @click.self="pulse = true; setTimeout(() => pulse = false, 400)">
 
         <!-- Modal -->
-        <div class="bg-white rounded-lg shadow-modal p-12 max-w-5xl w-full transform transition-all duration-300 ease-in-out"
+        <div class="bg-white rounded-lg shadow-modal p-6 laptop:p-12 max-w-xs md:max-w-lg laptop:max-w-4xl 2xl:max-w-5xl w-full transform transition-all duration-300 ease-in-out"
             x-show="show"
             x-transition:enter="scale-90 opacity-0"
             x-transition:enter-start="scale-90 opacity-0"
@@ -18,7 +18,7 @@
             :class="{ 'animate-pulse': pulse }">
 
             <!-- Título do modal -->
-            <h2 class="text-h5 font-medium mb-8">{{ __('Register new user') }}</h2>
+            <h2 class="text-lg md:text-h5 font-medium mb-4 md:mb-6 laptop:mb-8">{{ __('Register new user') }}</h2>
 
             <!-- Formulário -->
             <livewire:create-user-form />

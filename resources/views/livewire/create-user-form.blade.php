@@ -12,18 +12,18 @@
     </x-breadcrumb-modal>
 
     @if ($currentPhase === 0)
-        <p class="font-medium text-normal text-label-color mb-12">
+        <p class="font-medium text-small md:text-normal text-label-color mb-6 md:mb-8 laptop:mb-12">
             {{ __('Make sure you enter the correct information. To edit, simply click on the text box. After filling in the information, simply click on the “next step” button to select which companies this user will be able to view.') }}
         </p>
     @elseif ($currentPhase === 1)
-        <p class="font-medium text-normal text-label-color mb-12">
+        <p class="font-medium text-small md:text-normal text-label-color mb-6 md:mb-8 laptop:mb-12">
             {{ __('To add permissions to the user, simply click on the branch box. After selecting all the permissions you want, simply click on the “Save data” button so that the user receives a link for registration and future access.') }}
         </p>
     @endif
 
     <!-- Formulário -->
     @if ($currentPhase === 0)
-    <div class="grid grid-cols-2 gap-x-12 gap-y-4 mb-12">
+    <div class="grid grid-cols-1 laptop:grid-cols-2 gap-x-0 md:gap-x-6 laptop:gap-x-6 2xl:gap-x-12 gap-y-4 mb-6 md:mb-8 laptop:mb-12">
         <div class="group-label-input">
             <x-input-label for="name" :value="__('Username')" />
             <x-text-input wire:model="name" id="name" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
@@ -46,7 +46,7 @@
         </div>
     </div>
     @elseif ($currentPhase === 1)
-        <div class="grid grid-cols-2 gap-y-8">
+        <div class="grid grid-cols-1 laptop:grid-cols-2 gap-y-4 md:gap-y-8 mb-6 md:mb-8 laptop:mb-12">
             @foreach ($customers as $customer)
                 <x-card-button
                     wire:click="toggleCustomer({{ $customer->idCliente }})"
@@ -57,15 +57,15 @@
         </div>
 
         @if (count($customers) === 0)
-            <p class="font-medium text-normal text-black mb-12">
+            <p class="font-medium text-small md:text-normal text-black mb-12">
                 {{ __('There are no companies registered for this user yet. Check if the email is correct or if it has already been entered in the Query.') }}
             </p>
         @endif
     @endif
 
     <!-- Botões de ação -->
-    <div class="flex justify-end space-x-6">
-        <div class="w-40">
+    <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
+        <div class="w-32 md:w-40">
             <x-secondary-button wire:click="cancel" type="button" class="text-base font-semibold">
                 {{ __('Cancel') }}
             </x-secondary-button>
