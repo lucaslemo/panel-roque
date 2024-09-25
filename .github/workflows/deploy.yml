@@ -68,6 +68,7 @@ jobs:
             cd ${{ vars.APP_DIR }}
             chown -R www-data:www-data .
             docker compose -f ./docker-compose.prod.yml up -d --build
+            docker exec -it laravel php artisan migrate --force
 
       - name: Clean up local files
         run: rm -rf release.zip release
