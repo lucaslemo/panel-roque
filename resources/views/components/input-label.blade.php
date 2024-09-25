@@ -1,7 +1,7 @@
 @props(['value', 'info'])
 
 <div class="flex">
-    <label {{ $attributes->merge(['class' => 'block font-normal text-normal md:text-lg text-label-color mb-2']) }}>
+    <label {{ $attributes->merge(['class' => 'block font-normal text-small md:text-lg text-label-color mb-2']) }}>
         {{ $value ?? $slot }}
     </label>
 

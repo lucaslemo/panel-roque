@@ -1,6 +1,6 @@
 <div>
     <!-- Breadcrumb -->
-    <x-breadcrumb-modal class="justify-between mb-8">
+    <x-breadcrumb-modal class="justify-between mb-4 md:mb-8">
         <x-slot name="content">
             <x-breadcrumb-modal-item :active="$currentPhase >= 0 ? true : false" :tail="true" :end="false" class="grow">
                 {{ __('Personal data') }}
@@ -12,7 +12,7 @@
     </x-breadcrumb-modal>
 
     @if ($currentPhase === 0)
-        <p class="font-medium text-small md:text-normal text-label-color mb-6 md:mb-8 laptop:mb-12">
+        <p class="font-medium text-small md:text-normal text-label-color mb-4 md:mb-8 laptop:mb-12">
             {{ __('Make sure you enter the correct information. To edit, simply click on the text box. After filling in the information, simply click on the “next step” button to select which companies this user will be able to view.') }}
         </p>
     @elseif ($currentPhase === 1)
