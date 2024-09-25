@@ -1,7 +1,7 @@
 <div>
     @if ($message)
         <div x-init="setTimeout(() => { $wire.type === 'success' && $wire.close() }, 2000)" class="fixed inset-0 flex items-center justify-center bg-[#000000] bg-opacity-10 z-100">
-            <div class="flex flex-row space-x-4 min-w-80 max-w-96 bg-white rounded-lg shadow-card p-4">
+            <div class="flex flex-row space-x-4 min-w-80 max-w-80 md:max-w-96 bg-white rounded-lg shadow-card p-4">
                 <div>
                     @if ($type === 'success')
                         <svg class="size-8" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
