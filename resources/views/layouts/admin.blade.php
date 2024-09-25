@@ -24,16 +24,21 @@
         <!-- Alert Messages -->
         <livewire:alert-message />
 
-        <!-- Page Body -->
-        <div class="min-h-screen px-[30px] xl:px-[70px] pt-8">
+        <!-- Page Header -->
+        <livewire:layout.header />
 
-            <!-- Page Header -->
-            <livewire:layout.header />
+        <!-- Page Body -->
+        <div class="min-h-screen px-[30px] xl:px-[70px]">
 
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Page Footer -->
+        <footer class="flex justify-center items-center h-28 w-full bg-white font-normal text-small">
+            Copyright ©&nbsp;<span class="font-bold">Roque Matcon Estrutural</span>&nbsp;| Designed by Taís Ximenes & Developed by Lucas Lemos
+        </footer>
     </body>
 </html>

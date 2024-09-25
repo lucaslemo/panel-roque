@@ -16,7 +16,7 @@ new class extends Component
     }
 }; ?>
 
-<header x-data="{ open: false }" class="flex justify-between items-center">
+<header x-data="{ open: false }" class="flex justify-between items-center px-[30px] xl:px-[70px] pt-8 pb-6">
 
     <!-- Ícone da Aplicação -->
     <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-8 laptop:h-12" alt="Logo da Roque">
