@@ -27,6 +27,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->phoneNumberCleared(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('senha'),
             'avatar' => null,
@@ -34,7 +35,9 @@ class UserFactory extends Factory
             'cpf' => fake()->cpf(false),
             'active' => true,
             'register_token' => fake()->uuid(),
+            'register_user_id' => null,
             'remember_token' => Str::random(10),
+            'last_login_at' => now()
         ];
     }
 
@@ -55,6 +58,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'active' => false,
+            'last_login_at' => null,
         ]);
     }
 

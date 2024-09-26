@@ -116,14 +116,14 @@
                         <!-- Botões de ação -->
                         <td class="table-body border-t text-small">
                             <div class="flex flex-row itens-center">
-                                <button type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color me-2">
+                                <button wire:click="$dispatch('openEditUserModal', { id: {{ $item->id }} })" type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color focus:outline-none me-2">
                                     <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11 20C11 19.4477 11.4477 19 12 19H21C21.5523 19 22 19.4477 22 20C22 20.5523 21.5523 21 21 21H12C11.4477 21 11 20.5523 11 20Z" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M18 3.87866C17.7026 3.87866 17.4174 3.9968 17.2071 4.20709L4.90296 16.5112L4.37437 18.6256L6.48875 18.097L18.7929 5.79288C18.897 5.68875 18.9796 5.56514 19.036 5.42909C19.0923 5.29305 19.1213 5.14724 19.1213 4.99998C19.1213 4.85273 19.0923 4.70692 19.036 4.57087C18.9796 4.43483 18.897 4.31121 18.7929 4.20709C18.6888 4.10296 18.5652 4.02037 18.4291 3.96402C18.2931 3.90767 18.1473 3.87866 18 3.87866ZM15.7929 2.79288C16.3783 2.20751 17.1722 1.87866 18 1.87866C18.4099 1.87866 18.8158 1.9594 19.1945 2.11626C19.5732 2.27312 19.9173 2.50303 20.2071 2.79288C20.4969 3.08272 20.7269 3.42681 20.8837 3.8055C21.0406 4.1842 21.1213 4.59008 21.1213 4.99998C21.1213 5.40988 21.0406 5.81576 20.8837 6.19446C20.7269 6.57316 20.4969 6.91725 20.2071 7.20709L7.7071 19.7071C7.57895 19.8352 7.41837 19.9262 7.24253 19.9701L3.24253 20.9701C2.90176 21.0553 2.54127 20.9555 2.29289 20.7071C2.04451 20.4587 1.94466 20.0982 2.02986 19.7574L3.02986 15.7574C3.07381 15.5816 3.16473 15.421 3.29289 15.2929L15.7929 2.79288Z" />
                                     </svg>
                                 </button>
                                 @if ($item->active)
-                                    <button wire:click="deactivateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color">
+                                    <button wire:click="deactivateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color focus:outline-none">
                                         <svg class="size-5 fill-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M1.46447 15.4645C2.40215 14.5268 3.67392 14 5 14H12C13.3261 14 14.5979 14.5268 15.5355 15.4645C16.4732 16.4021 17 17.6739 17 19V21C17 21.5523 16.5523 22 16 22C15.4477 22 15 21.5523 15 21V19C15 18.2044 14.6839 17.4413 14.1213 16.8787C13.5587 16.3161 12.7956 16 12 16H5C4.20435 16 3.44129 16.3161 2.87868 16.8787C2.31607 17.4413 2 18.2044 2 19V21C2 21.5523 1.55228 22 1 22C0.447715 22 0 21.5523 0 21V19C0 17.6739 0.526784 16.4021 1.46447 15.4645Z" />
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 4C6.84315 4 5.5 5.34315 5.5 7C5.5 8.65685 6.84315 10 8.5 10C10.1569 10 11.5 8.65685 11.5 7C11.5 5.34315 10.1569 4 8.5 4ZM3.5 7C3.5 4.23858 5.73858 2 8.5 2C11.2614 2 13.5 4.23858 13.5 7C13.5 9.76142 11.2614 12 8.5 12C5.73858 12 3.5 9.76142 3.5 7Z" />
@@ -141,7 +141,7 @@
                                             </svg>
                                         </button>
                                     @else
-                                        <button wire:click="activateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color">
+                                        <button wire:click="activateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color focus:outline-none">
                                             <svg class="size-5 fill-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M1.46447 15.4645C2.40215 14.5268 3.67392 14 5 14H12C13.3261 14 14.5979 14.5268 15.5355 15.4645C16.4732 16.4021 17 17.6739 17 19V21C17 21.5523 16.5523 22 16 22C15.4477 22 15 21.5523 15 21V19C15 18.2044 14.6839 17.4413 14.1213 16.8787C13.5587 16.3161 12.7956 16 12 16H5C4.20435 16 3.44129 16.3161 2.87868 16.8787C2.31607 17.4413 2 18.2044 2 19V21C2 21.5523 1.55228 22 1 22C0.447715 22 0 21.5523 0 21V19C0 17.6739 0.526784 16.4021 1.46447 15.4645Z" />
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 4C6.84315 4 5.5 5.34315 5.5 7C5.5 8.65685 6.84315 10 8.5 10C10.1569 10 11.5 8.65685 11.5 7C11.5 5.34315 10.1569 4 8.5 4ZM3.5 7C3.5 4.23858 5.73858 2 8.5 2C11.2614 2 13.5 4.23858 13.5 7C13.5 9.76142 11.2614 12 8.5 12C5.73858 12 3.5 9.76142 3.5 7Z" />
@@ -362,7 +362,7 @@
 
                     <!-- Botões de ação -->
                     <div class="flex flex-col itens-center">
-                        <button type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color my-2">
+                        <button wire:click="$dispatch('openEditUserModal', { id: {{ $item->id }} })" type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color focus:outline-none my-2">
                             <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M11 20C11 19.4477 11.4477 19 12 19H21C21.5523 19 22 19.4477 22 20C22 20.5523 21.5523 21 21 21H12C11.4477 21 11 20.5523 11 20Z" />
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M18 3.87866C17.7026 3.87866 17.4174 3.9968 17.2071 4.20709L4.90296 16.5112L4.37437 18.6256L6.48875 18.097L18.7929 5.79288C18.897 5.68875 18.9796 5.56514 19.036 5.42909C19.0923 5.29305 19.1213 5.14724 19.1213 4.99998C19.1213 4.85273 19.0923 4.70692 19.036 4.57087C18.9796 4.43483 18.897 4.31121 18.7929 4.20709C18.6888 4.10296 18.5652 4.02037 18.4291 3.96402C18.2931 3.90767 18.1473 3.87866 18 3.87866ZM15.7929 2.79288C16.3783 2.20751 17.1722 1.87866 18 1.87866C18.4099 1.87866 18.8158 1.9594 19.1945 2.11626C19.5732 2.27312 19.9173 2.50303 20.2071 2.79288C20.4969 3.08272 20.7269 3.42681 20.8837 3.8055C21.0406 4.1842 21.1213 4.59008 21.1213 4.99998C21.1213 5.40988 21.0406 5.81576 20.8837 6.19446C20.7269 6.57316 20.4969 6.91725 20.2071 7.20709L7.7071 19.7071C7.57895 19.8352 7.41837 19.9262 7.24253 19.9701L3.24253 20.9701C2.90176 21.0553 2.54127 20.9555 2.29289 20.7071C2.04451 20.4587 1.94466 20.0982 2.02986 19.7574L3.02986 15.7574C3.07381 15.5816 3.16473 15.421 3.29289 15.2929L15.7929 2.79288Z" />
@@ -370,7 +370,7 @@
                         </button>
 
                         @if ($item->active)
-                            <button wire:click="deactivateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color">
+                            <button wire:click="deactivateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color focus:outline-none">
                                 <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1.46447 15.4645C2.40215 14.5268 3.67392 14 5 14H12C13.3261 14 14.5979 14.5268 15.5355 15.4645C16.4732 16.4021 17 17.6739 17 19V21C17 21.5523 16.5523 22 16 22C15.4477 22 15 21.5523 15 21V19C15 18.2044 14.6839 17.4413 14.1213 16.8787C13.5587 16.3161 12.7956 16 12 16H5C4.20435 16 3.44129 16.3161 2.87868 16.8787C2.31607 17.4413 2 18.2044 2 19V21C2 21.5523 1.55228 22 1 22C0.447715 22 0 21.5523 0 21V19C0 17.6739 0.526784 16.4021 1.46447 15.4645Z" />
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 4C6.84315 4 5.5 5.34315 5.5 7C5.5 8.65685 6.84315 10 8.5 10C10.1569 10 11.5 8.65685 11.5 7C11.5 5.34315 10.1569 4 8.5 4ZM3.5 7C3.5 4.23858 5.73858 2 8.5 2C11.2614 2 13.5 4.23858 13.5 7C13.5 9.76142 11.2614 12 8.5 12C5.73858 12 3.5 9.76142 3.5 7Z" />
@@ -388,7 +388,7 @@
                                     </svg>
                                 </button>
                             @else
-                                <button wire:click="activateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color">
+                                <button wire:click="activateUser({{ $item->id }})" type="button" class="flex justify-center items-center size-12 shadow-button border rounded-lg border-border-color focus:outline-none">
                                     <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.46447 15.4645C2.40215 14.5268 3.67392 14 5 14H12C13.3261 14 14.5979 14.5268 15.5355 15.4645C16.4732 16.4021 17 17.6739 17 19V21C17 21.5523 16.5523 22 16 22C15.4477 22 15 21.5523 15 21V19C15 18.2044 14.6839 17.4413 14.1213 16.8787C13.5587 16.3161 12.7956 16 12 16H5C4.20435 16 3.44129 16.3161 2.87868 16.8787C2.31607 17.4413 2 18.2044 2 19V21C2 21.5523 1.55228 22 1 22C0.447715 22 0 21.5523 0 21V19C0 17.6739 0.526784 16.4021 1.46447 15.4645Z" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 4C6.84315 4 5.5 5.34315 5.5 7C5.5 8.65685 6.84315 10 8.5 10C10.1569 10 11.5 8.65685 11.5 7C11.5 5.34315 10.1569 4 8.5 4ZM3.5 7C3.5 4.23858 5.73858 2 8.5 2C11.2614 2 13.5 4.23858 13.5 7C13.5 9.76142 11.2614 12 8.5 12C5.73858 12 3.5 9.76142 3.5 7Z" />
