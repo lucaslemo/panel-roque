@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->unique('extCliente');
+            $table->index('extCliente');
         });
 
         Schema::table('orders', function (Blueprint $table) {
             $table->index('extCliente');
-            $table->unique('extPedido');
+            $table->index('extPedido');
         });
 
         Schema::table('invoices', function (Blueprint $table) {
             $table->index('extCliente');
-            $table->unique('extConta');
+            $table->index('extConta');
         });
     }
 
@@ -32,17 +32,17 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->dropIndex('customers_extcliente_unique');
+            $table->dropIndex('customers_extcliente_index');
         });
 
         Schema::table('orders', function (Blueprint $table) {
             $table->dropIndex('orders_extcliente_index');
-            $table->dropIndex('orders_extpedido_unique');
+            $table->dropIndex('orders_extpedido_index');
         });
 
         Schema::table('invoices', function (Blueprint $table) {
             $table->dropIndex('invoices_extcliente_index');
-            $table->dropIndex('invoices_extconta_unique');
+            $table->dropIndex('invoices_extconta_index');
         });
     }
 };
