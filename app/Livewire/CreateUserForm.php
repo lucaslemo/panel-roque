@@ -94,10 +94,13 @@ class CreateUserForm extends Component
 
             $user->assignRole('Customer Admin');
 
+            // A função array keys retorna as chaves de um array com valor true. Ex: [15 => true, 18 => false, 20 => true] -> [15, 20]
             $user->customers()->attach(array_keys($this->customerIds, true));
             DB::commit();
 
             $this->dispatch('closeCreateUserModal')->to(CreateUserModal::class);
+            $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
+            $this->dispatch('updateDataUsersDatatable')->to(UsersDatatable::class);
 
             $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
         } catch (\Exception $e) {

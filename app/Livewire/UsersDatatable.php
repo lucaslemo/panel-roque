@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
@@ -21,6 +22,9 @@ class UsersDatatable extends Component
 
     protected $listeners = ['searchUser' => 'search'];
 
+    /**
+     * Filter table for user type.
+     */
     public function filterUserType(string $value)
     {
         if (in_array($value, $this->filteredUserTypeValues)) {
@@ -32,6 +36,9 @@ class UsersDatatable extends Component
         $this->fetchData();
     }
 
+    /**
+     * Filter table for user active
+     */
     public function filterUserActive(string $value)
     {
         if (in_array($value, $this->filteredUserActiveValues)) {
@@ -43,6 +50,9 @@ class UsersDatatable extends Component
         $this->fetchData();
     }
 
+    /**
+     * Filter table for search filed.
+     */
     public function search(string|null $value = null)
     {
         if ($value === '') {
@@ -53,6 +63,9 @@ class UsersDatatable extends Component
         $this->fetchData();
     }
 
+    /**
+     * Go to the specific page.
+     */
     public function goToPage(int $page)
     {
         if ($page >= 0 && $page < $this->totalPages) {
@@ -61,6 +74,9 @@ class UsersDatatable extends Component
         }
     }
 
+    /**
+     * Change the page size.
+     */
     public function changePageSize(int $perPage)
     {
         if (in_array($perPage, $this->perPageOptions)) {
@@ -69,6 +85,9 @@ class UsersDatatable extends Component
         }
     }
 
+    /**
+     * Go to the next page.
+     */
     public function nextPage()
     {
         if ($this->page < $this->totalPages - 1) {
@@ -77,6 +96,9 @@ class UsersDatatable extends Component
         }
     }
 
+    /**
+     * Go to the previous page.
+     */
     public function previousPage()
     {
         if ($this->page > 0) {
@@ -85,6 +107,9 @@ class UsersDatatable extends Component
         }
     }
 
+    /**
+     * Ative one user.
+     */
     public function activateUser(int $id)
     {
         try {
@@ -94,17 +119,27 @@ class UsersDatatable extends Component
 
             // Atualiza o status de atividade do usuário
             $user = User::findOrFail($id);
+
+            // Usuários pendentes não pode ser ativados.
+            if (is_null($user->last_login_at)) {
+                return;
+            }
+
             $user->active = true;
             $user->save();
 
             // Atualiza a tabela
             $this->fetchData();
+            $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
         } catch (\Exception $e) {
             report($e);
             $this->dispatch('showAlert', __('Error activating the user.'), __($e->getMessage()), 'danger');
         }
     }
 
+    /**
+     * Deactivate one user.
+     */
     public function deactivateUser(int $id)
     {
         try {
@@ -117,22 +152,32 @@ class UsersDatatable extends Component
 
             // Atualiza o status de atividade do usuário
             $user = User::findOrFail($id);
+
+            // Usuários pendentes não pode ser desativados.
+            if (is_null($user->last_login_at)) {
+                return;
+            }
+
             $user->active = false;
             $user->save();
 
             // Atualiza a tabela
             $this->fetchData();
+            $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
         } catch (\Exception $e) {
             report($e);
             $this->dispatch('showAlert', __('Error deactivating the user.'), __($e->getMessage()), 'danger');
         }
     }
 
+    /**
+     * Get the data from table.
+     */
     private function fetchData()
     {
         try {
             // Conta quantidade de elementos
-            $this->totalData = User::whereNot('type', 1) // Exclui o tipo super admin
+            $this->totalData = User::whereNot('users.type', 1) // Exclui o tipo super admin
                 ->when($this->searchedValue, function($query) {
                     $query->where(function($query) {
                         $query->orWhere('id', 'LIKE', '%' . $this->searchedValue . '%'); // Id do usuário
@@ -145,7 +190,7 @@ class UsersDatatable extends Component
                     });
                 })
                 ->when(count($this->filteredUserTypeValues) > 0, function($query) {
-                    $query->whereIn('type', $this->filteredUserTypeValues);
+                    $query->whereIn('users.type', $this->filteredUserTypeValues);
                 })
                 ->when(count($this->filteredUserActiveValues) > 0, function($query) {
                     $query->where(function($query) {
@@ -184,7 +229,7 @@ class UsersDatatable extends Component
                     });
                 })
                 ->when(count($this->filteredUserTypeValues) > 0, function($query) {
-                    $query->whereIn('type', $this->filteredUserTypeValues);
+                    $query->whereIn('users.type', $this->filteredUserTypeValues);
                 })
                 ->when(count($this->filteredUserActiveValues) > 0, function($query) {
                     $query->where(function($query) {
@@ -199,7 +244,7 @@ class UsersDatatable extends Component
                         });
                     });
                 })
-                ->whereNot('type', 1) // Exclui o tipo super admin
+                ->whereNot('users.type', 1) // Exclui o tipo super admin
                 ->skip($this->page * $this->perPage)
                 ->take($this->perPage)
                 ->get();
@@ -210,11 +255,26 @@ class UsersDatatable extends Component
         }
     }
 
+        /**
+     * Update card details
+     */
+    #[On('updateDataUsersDatatable')]
+    public function updateData()
+    {
+        $this->fetchData();
+    }
+
+    /**
+     * Mount the component.
+     */
     public function mount()
     {
         $this->fetchData();
     }
 
+    /**
+     * Placeholder when table is not loaded.
+     */
     public function placeholder()
     {
         return view('components.spinner');
