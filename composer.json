@@ -36,6 +36,7 @@
         },
         "files": [
             "app/Helpers/formatCnpjCpf.php",
+            "app/Helpers/formatPhone.php",
             "app/Utilities/FetchQueryApi.php"
         ]
     },

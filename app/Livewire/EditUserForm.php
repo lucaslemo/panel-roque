@@ -6,28 +6,19 @@ use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
-class CreateUserForm extends Component
+class EditUserForm extends Component
 {
+    public int $userId = 0;
     public int $currentPhase = 0;
     public array $customerIds = [];
     public array|Collection $customers = [];
-
-    #[Validate('required|string')]
     public string $name = '';
-
-    #[Validate('required|string|cpf|unique:users,cpf')]
     public string $cpf = '';
-
-    #[Validate('required|string|email|unique:users,email')]
     public string $email = '';
-
-    #[Validate('required|string|digits_between:10,11')]
     public string $phone = '';
 
     /**
@@ -35,6 +26,7 @@ class CreateUserForm extends Component
      */
     protected function prepareForValidation($attributes): mixed
     {
+        $attributes['name'] = Str::apa($this->name);
         $attributes['cpf'] = preg_replace('/[\.-]/', '', $this->cpf);
         $attributes['phone'] = preg_replace('/[\s\(\)-]/', '', $this->phone);
 
@@ -44,9 +36,10 @@ class CreateUserForm extends Component
     /**
      * Clear fields.
      */
-    #[On('clearCreateUserForm')]
+    #[On('clearEditUserForm')]
     public function clearForm()
     {
+        $this->userId = 0;
         $this->currentPhase = 0;
         $this->customerIds = [];
         $this->customers = [];
@@ -55,11 +48,20 @@ class CreateUserForm extends Component
     }
 
     /**
-     * Search customers data from given email.
+     * Fill form data.
      */
-    private function fetchCustomers()
+    #[On('fillFormEditUserForm')]
+    public function fillFormData(int $id)
     {
         try {
+            $user = User::with('customers')->findOrFail($id);
+
+            $this->userId = $id;
+            $this->name = $user->name;
+            $this->cpf = formatCnpjCpf($user->cpf);
+            $this->email = $user->email;
+            $this->phone = formatPhone($user->phone);
+
             // Busca os clientes associados ao E-mail do usuário unique:users,email_address,'.$user->id.',user_id
             $this->customers = Customer::where('emailCliente', $this->email)->get();
             foreach($this->customers as $customer) {
@@ -68,10 +70,19 @@ class CreateUserForm extends Component
                 $this->customerIds[$customer->idCliente] = false;
             }
 
-        } catch (\Exception $e) {
-            report($e);
-            $this->dispatch('showAlert', __('Error loading company data.'), __($e->getMessage()), 'danger');
+            foreach($user->customers as $customer) {
+
+                // Marca como selecionado os clientes que o usuário já possui
+                $this->customerIds[$customer->idCliente] = true;
+            }
+
+
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
+            $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
+
     }
 
     /**
@@ -80,33 +91,32 @@ class CreateUserForm extends Component
     public function save()
     {
         try {
-            $validated = $this->validate();
-
-            $validated['name'] = Str::apa($validated['name']);
-            $validated['password'] = Hash::make(Str::password());
-            $validated['register_token'] = Str::uuid();
-            $validated['register_user_id '] = auth()->id();
+            $validated = $this->validate([
+                'name' => 'required|string',
+                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
+                'email' => 'required|string|email|unique:users,email,' . $this->userId . ',id',
+                'phone' => 'required|string|digits_between:10,11',
+            ]);
 
             DB::beginTransaction();
-            $user = new User;
+            $user = User::findOrFail($this->userId);
+
             $user->fill($validated);
             $user->save();
 
-            $user->assignRole('Customer Admin');
-
             // A função array keys retorna as chaves de um array com valor true. Ex: [15 => true, 18 => false, 20 => true] -> [15, 20]
-            $user->customers()->attach(array_keys($this->customerIds, true));
+            $user->customers()->sync(array_keys($this->customerIds, true), true);
             DB::commit();
 
-            $this->dispatch('closeCreateUserModal')->to(CreateUserModal::class);
+            $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
             $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
             $this->dispatch('updateDataUsersDatatable')->to(UsersDatatable::class);
 
-            $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
-        } catch (\Exception $e) {
+            $this->dispatch('showAlert', __('Completed'), __('The user has been updated successfully.'), 'success');
+        } catch (\Throwable $th) {
             DB::rollBack();
-            report($e);
-            $this->dispatch('showAlert', __('Error registering new user.'), __($e->getMessage()), 'danger');
+            report($th);
+            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
         }
     }
 
@@ -125,7 +135,7 @@ class CreateUserForm extends Component
      */
     public function cancel()
     {
-        $this->dispatch('closeCreateUserModal')->to(CreateUserModal::class);
+        $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
     }
 
     /**
@@ -134,15 +144,19 @@ class CreateUserForm extends Component
     public function nextPage()
     {
         if ($this->currentPhase == 0) {
-            $this->validate();
+            $this->validate([
+                'name' => 'required|string',
+                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
+                'email' => 'required|string|email|unique:users,email,' . $this->userId . ',id',
+                'phone' => 'required|string|digits_between:10,11',
+            ]);
         }
 
         $this->currentPhase++;
-        $this->fetchCustomers();
     }
 
     public function render()
     {
-        return view('livewire.create-user-form');
+        return view('livewire.edit-user-form');
     }
 }

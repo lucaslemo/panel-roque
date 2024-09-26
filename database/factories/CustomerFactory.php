@@ -18,7 +18,7 @@ class CustomerFactory extends Factory
     {
         $type = fake()->randomElement([true, false]);
         return [
-            'extCliente' => fake()->randomNumber(4, false),
+            'extCliente' => fake()->unique()->randomNumber(8, false),
             'nmCliente' => $type ? fake()->name() : fake()->company(),
             'tpCliente' => $type ? 'F' : 'J',
             'emailCliente' => fake()->unique()->safeEmail(),
