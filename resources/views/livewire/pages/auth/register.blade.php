@@ -40,14 +40,21 @@ new #[Layout('layouts.guest')] class extends Component
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()->uncompromised()->letters()->numbers()],
         ]);
 
-        $user = User::where('register_token', $validated['token'])
-            ->where('email', $validated['email'])
-            ->where('active', false)
-            ->whereIn('type', [1, 3])
-            ->whereNull('last_login_at')
-            ->first();
+        try {
+            $validated['token'] = Crypt::decryptString($validated['token']);
 
-        if (is_null($user)) {
+            $user = User::where('register_token', $validated['token'])
+                ->where('email', $validated['email'])
+                ->where('active', false)
+                ->whereIn('type', [1, 3])
+                ->whereNull('last_login_at')
+                ->first();
+
+            if (is_null($user)) {
+                throw new \Exception();
+            }
+
+        } catch (\Throwable $th) {
             throw ValidationException::withMessages(['token' => ['Este token de criação de senha é inválido.']]);
         }
 

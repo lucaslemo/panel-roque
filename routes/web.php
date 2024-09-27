@@ -12,7 +12,7 @@ Route::middleware(['auth', 'role:Super Admin'])->group(function () {
 
     Route::view('admin/users', 'admin.users.index')
         ->name('admin.users');
-        
+
     Route::view('admin/users/{id}/edit', 'admin.users.edit')
         ->name('admin.users.edit');
 
@@ -46,11 +46,11 @@ Route::get('api/pessoas', [TestController::class, 'customers']);
 Route::get('api/pedidos', [TestController::class, 'orders']);
 Route::get('api/contas', [TestController::class, 'invoices']);
 
-Route::get('teste', function(Request $request) {
-    dump(url('/horizon'));
-    dump($request->ip());
-    dd($request);
+// Route::get('teste', function() {
+//     $user = App\Models\User::find(5);
 
-});
+//     $user->notify(new App\Notifications\UserCreated($user));
+//     return 'Ok!';
+// });
 
 require __DIR__.'/auth.php';

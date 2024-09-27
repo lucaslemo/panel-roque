@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Customer;
 use App\Models\User;
+use App\Notifications\UserCreated;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -101,6 +102,8 @@ class CreateUserForm extends Component
             $this->dispatch('closeCreateUserModal')->to(CreateUserModal::class);
             $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
             $this->dispatch('updateDataUsersDatatable')->to(UsersDatatable::class);
+
+            $user->notify(new UserCreated($user));
 
             $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
         } catch (\Exception $e) {
