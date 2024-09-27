@@ -37,7 +37,12 @@ class UserCreated extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $token = Crypt::encryptString($this->user->register_token);
-        $url = route('register', urlencode($token)) . '?email=' . urlencode($this->user->email);
+
+        if ((int)$this->user->type === 2) {
+            $url = route('customer.register', urlencode($token)) . '?email=' . urlencode($this->user->email);
+        } else {
+            $url = route('register', urlencode($token)) . '?email=' . urlencode($this->user->email);
+        }
 
         return (new MailMessage)
             ->subject(Lang::get('Registration notification'))
