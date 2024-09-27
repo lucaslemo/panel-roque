@@ -24,6 +24,7 @@ class AdminCustomerRegistrationController extends Controller
 
             return view('guest.customer.register', ['token' => $token, 'user' => $user]);
         } catch (\Throwable $th) {
+            return $th->getMessage();
             return Redirect::route('register', urlencode($token) . '?email=' . urlencode($email));
         }
     }

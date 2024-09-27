@@ -47,8 +47,8 @@ Route::get('api/pedidos', [TestController::class, 'orders']);
 Route::get('api/contas', [TestController::class, 'invoices']);
 
 // Route::get('teste', function() {
-//     $userCustomer = App\Models\User::find(3);
-//     $userCustomerAdmin = App\Models\User::find(5);
+//     $userCustomer = App\Models\User::where('type', 3)->first();
+//     $userCustomerAdmin = App\Models\User::where('type', 2)->first();
 
 //     $userCustomer->notify(new App\Notifications\UserCreated($userCustomer));
 //     $userCustomerAdmin->notify(new App\Notifications\UserCreated($userCustomerAdmin));

@@ -103,6 +103,8 @@ class CreateUserForm extends Component
             $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
             $this->dispatch('updateDataUsersDatatable')->to(UsersDatatable::class);
 
+            $user->refresh();
+
             $user->notify(new UserCreated($user));
 
             $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
