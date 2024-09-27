@@ -48,11 +48,7 @@ new #[Layout('layouts.guest')] class extends Component
                 ->where('active', false)
                 ->whereIn('type', [1, 3])
                 ->whereNull('last_login_at')
-                ->first();
-
-            if (is_null($user)) {
-                throw new \Exception();
-            }
+                ->firstOrFail();
 
         } catch (\Throwable $th) {
             throw ValidationException::withMessages(['token' => ['Este token de criação de senha é inválido.']]);

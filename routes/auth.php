@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\AdminCustomerRegistrationController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
+    Route::get('customer/register/{token}', [AdminCustomerRegistrationController::class, 'index'])
+        ->name('customer.register');
+
     Volt::route('register/{token}', 'pages.auth.register')
         ->name('register');
 
