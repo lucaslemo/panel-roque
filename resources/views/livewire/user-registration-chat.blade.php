@@ -1,11 +1,11 @@
 <section class="flex flex-col w-full max-w-6xl h-[80%] shadow-modal rounded-lg bg-white">
 
     <!-- Header do chat -->
-    <div class="flex items-center justify-between w-full h-28 drop-shadow-md rounded-t-lg bg-white px-20">
+    <div class="flex items-center justify-between w-full h-20 desktop:h-28 drop-shadow-md rounded-t-lg bg-white px-20">
 
         <!-- Mascote -->
         <div class="flex flex-row items-center">
-            <img src="{{ asset('build/assets/imgs/roque_chat.png') }}" class="w-auto h-[100px] me-2" alt="Mascote da roque">
+            <img src="{{ asset('build/assets/imgs/roque_chat.png') }}" class="w-auto h-[75px] desktop:h-[100px] me-2" alt="Mascote da roque">
             <span>
                 <p class="text-lg font-bold text-black">Roque Matcon</p>
                 <p class="text-normal font-normal text-subtitle-color">Online</p>
@@ -13,28 +13,33 @@
         </div>
 
         <!-- Logo da roque -->
-        <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-9" alt="Logo da Roque">
+        <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-8 desktop:h-9" alt="Logo da Roque">
     </div>
 
     <!-- Corpo do chat -->
-    <div class="flex flex-1 flex-col overflow-y-auto space-y-4 py-6 px-20">
-        @if ($currentPhase === 0)
-            <x-chat-received-item>
-                {{ __("For your security, let's first create a login password for future access to the site, ok?") }}
+    <div class="flex flex-1 flex-col overflow-y-auto scroll-smooth space-y-4 py-6 px-20">
+
+        @foreach ($messages as $key => $message)  
+            <x-chat-received-item
+                x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }} }"
+                x-show="show"
+                x-init="$el.classList.add('hidden'); setTimeout(() => {$el.classList.remove('hidden'); show = true}, {{ $message['time'] }});"
+                x-transition:enter="transition ease-out duration-500"
+                x-transition:enter-start="opacity-0 translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                :key="$key"
+                :class="$message['animation'] ? 'hidden' : ''"
+                >
+
+                {{ $message['message'] }}
             </x-chat-received-item>
-            <x-chat-received-item>
-                {{ __('Your password must contain at least 8 characters, including letters and numbers.') }}
-            </x-chat-received-item>
-            <x-chat-received-item>
-                {{ __('Here we go. Enter the password you want.') }}
-            </x-chat-received-item>
-        @endif
+        @endforeach
     </div>
 
     <!-- Footer do chat -->
     <div class="flex items-center w-full h-28 rounded-b-lg bg-white space-x-6 px-20">
         <div class="group-label-input relative grow">
-            <x-text-input wire:model="password" id="password" class="block pr-10 w-full"
+            <x-text-input wire:model.live.debounce.250ms="password" id="password" class="block pr-10 w-full"
                 type="{{ $showPassword ? 'text' : 'password' }}"
                 placeholder="{{ __('Create a password') }}"
                 name="password"

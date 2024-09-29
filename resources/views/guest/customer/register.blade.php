@@ -25,7 +25,7 @@
         <livewire:alert-message />
 
         <!-- header -->
-        <header class="flex justify-end items-center h-28 w-full bg-white px-[30px] xl:px-[70px]">
+        <header class="flex justify-end items-center h-14 desktop:h-28 w-full bg-white px-[30px] xl:px-[70px]">
             {{-- <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="block laptop:hidden w-auto h-12" alt="Logo da Roque"> --}}
         </header>
 
