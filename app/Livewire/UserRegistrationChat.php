@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Lang;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class UserRegistrationChat extends Component
@@ -11,7 +12,7 @@ class UserRegistrationChat extends Component
     public User|null $user = null;
     public array $messages = [];
     public bool $showPassword = false;
-    public bool $buttonDisabled = false;
+    public bool $disabled = true;
     public string $password = '';
     public int $currentPhase = 0;
 
@@ -25,11 +26,35 @@ class UserRegistrationChat extends Component
     }
 
     /**
+     * Disable button.
+     */
+    #[On('disableButtonUserRegistrationChat')]
+    public function disableButton(): void
+    {
+        $this->disabled = true;
+    }
+
+    /**
+     * Activate button.
+     */
+    #[On('activateButtonUserRegistrationChat')]
+    public function activateButton(): void
+    {
+        $this->disabled = false;
+    }
+
+    /**
      * Add a message to the messages array.
      */
     public function addMessage(): void
     {
-        
+        $this->messages[] = [
+            'message' => $this->password,
+            'animation' => true,
+            'time' => 1000,
+            'phase' => $this->currentPhase++,
+            'type' => 'sent'
+        ];
     }
 
     /**
@@ -57,18 +82,24 @@ class UserRegistrationChat extends Component
                 'animation' => true,
                 'time' => 1000,
                 'phase' => 0,
+                'type' => 'received',
+                'activeButton' => false,
             ],
             [
                 'message' => Lang::get('Your password must contain at least 8 characters, including letters and numbers.'),
                 'animation' => true,
                 'time' => 2000,
                 'phase' => 0,
+                'type' => 'received',
+                'activeButton' => false,
             ],
             [
                 'message' => Lang::get('Here we go. Enter the password you want.'),
                 'animation' => true,
                 'time' => 3000,
                 'phase' => 0,
+                'type' => 'received',
+                'activeButton' => true,
             ],
         ];
     }

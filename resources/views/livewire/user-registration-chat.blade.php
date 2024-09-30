@@ -17,22 +17,33 @@
     </div>
 
     <!-- Corpo do chat -->
-    <div class="flex flex-1 flex-col overflow-y-auto scroll-smooth space-y-4 py-6 px-20">
-
-        @foreach ($messages as $key => $message)  
-            <x-chat-received-item
+    <div x-ref="messagesContainer" class="flex flex-1 flex-col overflow-y-auto scroll-smooth space-y-4 py-6 px-20">
+        @foreach ($messages as $key => $message)
+            <x-chat-message
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }} }"
                 x-show="show"
-                x-init="$el.classList.add('hidden'); setTimeout(() => {$el.classList.remove('hidden'); show = true}, {{ $message['time'] }});"
+                x-init="
+                    $el.classList.add('hidden');
+                    setTimeout(() => {
+                        $el.classList.remove('hidden');
+                        show = true;
+                        $nextTick(() => {
+                            $refs.messagesContainer.scrollTo({
+                                top: $refs.messagesContainer.scrollHeight,
+                                behavior: 'smooth'
+                            });
+                        });
+                        {{ $message['activeButton'] ? 'true' : 'false' }} && $dispatch('activateButtonUserRegistrationChat');
+                    }, {{ $message['time'] }});"
                 x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 translate-y-4"
                 x-transition:enter-end="opacity-100 translate-y-0"
                 :key="$key"
-                :class="$message['animation'] ? 'hidden' : ''"
-                >
+                :type="$message['type']"
+                :class="$message['animation'] ? 'hidden' : ''">
 
                 {{ $message['message'] }}
-            </x-chat-received-item>
+            </x-chat-message>
         @endforeach
     </div>
 
@@ -45,9 +56,10 @@
                 name="password"
                 @focus-password.window="$refs.password.focus()"
                 x-ref="password"
-                required />
+                required
+                :disabled="$disabled" />
 
-            <button wire:click.prevent="togglePassword" type="button" id="toggle-password" class="absolute inset-y-0 right-3">
+            <button wire:click.prevent="togglePassword" type="button" id="toggle-password" class="absolute inset-y-0 right-3" {{ $disabled ? 'disabled' : '' }}>
                 @if ($showPassword)
 
                     <!-- Ícone de olho fechado -->
@@ -72,7 +84,7 @@
                 @endif
             </button>
         </div>
-        <button class="flex items-center size-12 min-w-12 rounded-full {{ $buttonDisabled ? 'bg-subtitle-color' : 'bg-primary hover:bg-primary-900 active:bg-primary-800 transition ease-in-out duration-150' }} ps-1" {{ $buttonDisabled ? 'disabled' : '' }}>
+        <button class="flex items-center size-12 min-w-12 rounded-full {{ $disabled ? 'bg-subtitle-color' : 'bg-primary hover:bg-primary-900 active:bg-primary-800 transition ease-in-out duration-150' }} ps-1" {{ $disabled ? 'disabled' : '' }}>
             <svg class="fill-white w-5 h-auto mx-auto" viewBox="0 0 19 16" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.679688 15.5V9.67969L13.1797 8L0.679688 6.32031V0.5L18.1797 8L0.679688 15.5Z" />
             </svg>
