@@ -34,6 +34,7 @@
                             });
                         });
                         {{ $message['activeButton'] ? 'true' : 'false' }} && $dispatch('activateButtonUserRegistrationChat');
+                        {{ $message['activeButton'] ? 'true' : 'false' }} && setTimeout(() => {$refs.password.focus()}, 150);
                     }, {{ $message['time'] }});"
                 x-transition:enter="transition ease-out duration-500"
                 x-transition:enter-start="opacity-0 translate-y-4"
@@ -50,7 +51,8 @@
     <!-- Footer do chat -->
     <div class="flex items-center w-full h-28 rounded-b-lg bg-white space-x-6 px-20">
         <div class="group-label-input relative grow">
-            <x-text-input wire:model.live.debounce.250ms="password" id="password" class="block pr-10 w-full"
+            <x-text-input wire:model.live.debounce.250ms="password" class="block pr-10 w-full"
+                id="password"
                 type="{{ $showPassword ? 'text' : 'password' }}"
                 placeholder="{{ __('Create a password') }}"
                 name="password"
