@@ -1,23 +1,23 @@
-<section class="flex flex-col h-full shadow-modal rounded-lg bg-white">
+<section class="flex flex-col h-full shadow-none laptop:shadow-modal rounded-none laptop:rounded-lg bg-transparent laptop:bg-white">
 
     <!-- Header do chat -->
-    <div class="flex items-center justify-between w-full h-20 min-h-20 desktop:h-28 desktop:min-h-28 drop-shadow-md rounded-t-lg bg-white px-20">
+    <div class="flex items-center justify-between w-full h-20 min-h-20 desktop:h-28 desktop:min-h-28 drop-shadow-none laptop:drop-shadow-md rounded-none laptop:rounded-t-lg bg-white px-[30px] laptop:px-20">
 
         <!-- Mascote -->
         <div class="flex flex-row items-center">
-            <img src="{{ asset('build/assets/imgs/roque_chat.png') }}" class="w-auto h-[75px] desktop:h-[100px] me-2" alt="Mascote da roque">
+            <img src="{{ asset('build/assets/imgs/roque_chat.png') }}" class="w-auto h-16 laptop:h-[75px] desktop:h-[100px] me-2" alt="Mascote da roque">
             <span>
-                <p class="text-lg font-bold text-black">Roque Matcon</p>
-                <p class="text-normal font-normal text-subtitle-color">Online</p>
+                <p class="text-normal laptop:text-lg font-bold text-black">Roque Matcon</p>
+                <p class="text-small laptop:text-normal font-normal text-subtitle-color">Online</p>
             </span>
         </div>
 
         <!-- Logo da roque -->
-        <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-8 desktop:h-9" alt="Logo da Roque">
+        <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-7 laptop:h-8 desktop:h-9" alt="Logo da Roque">
     </div>
 
     <!-- Corpo do chat -->
-    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-full space-y-4 py-6 px-20">
+    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-full min-h-0 space-y-3 laptop:space-y-4 pt-6 px-[30px] laptop:px-20">
         @foreach ($messages as $message)
             <x-chat-message
                 class="{{ $message['animation'] ? 'hidden' : ''}}"
@@ -43,7 +43,7 @@
     </div>
 
     <!-- Footer do chat -->
-    <div class="flex items-center w-full h-28 min-h-28 rounded-b-lg bg-white space-x-6 px-20"
+    <div class="flex items-center w-full h-28 min-h-28 rounded-b-lg bg-transparent laptop:bg-white space-x-2 md:space-x-6 px-[30px] laptop:px-20"
         x-data="{ disabled: true, showPassword: false }"
         @remove-disabled.window="disabled = false">
 

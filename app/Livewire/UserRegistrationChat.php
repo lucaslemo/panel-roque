@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
-
+use Illuminate\Support\Str;
 class UserRegistrationChat extends Component
 {
     public User|null $user = null;
