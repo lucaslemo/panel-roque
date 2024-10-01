@@ -30,7 +30,7 @@
         </header>
 
         <!-- Main content -->
-        <main class="flex flex-1 justify-center my-14 h-full px-[30px] xl:px-[70px]">
+        <main class="flex grow justify-center items-center px-[30px] xl:px-[70px]">
             <livewire:user-registration-chat :user="$user"/>
         </main>
     </body>

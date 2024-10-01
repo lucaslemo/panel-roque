@@ -1,4 +1,4 @@
-<section class="flex flex-col w-full max-w-6xl h-full shadow-modal rounded-lg bg-white">
+<section class="flex flex-col w-full max-w-6xl h-[86%] desktop:h-3/4 shadow-modal rounded-lg bg-white">
 
     <!-- Header do chat -->
     <div class="flex items-center justify-between w-full h-20 desktop:h-28 drop-shadow-md rounded-t-lg bg-white px-20">
