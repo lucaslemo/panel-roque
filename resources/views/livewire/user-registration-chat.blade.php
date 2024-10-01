@@ -30,7 +30,7 @@
                         show = true;
                         $nextTick(() => {
                             $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'});
-                            {{ $loop->last ? 'true' : 'false' }} === true && $dispatch('remove-disabled');
+                            {{ $loop->last ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
                         });
                     }, {{ $message['time'] }});"
                 x-transition:enter="transition ease-out duration-500"
@@ -53,8 +53,10 @@
             <x-text-input id="password" name="password" class="block pr-10 w-full"
                 wire:model="password"
                 placeholder="{{ __('Create a password') }}"
+                x-ref="inputPassword"
                 x-bind:type="showPassword ? 'text' : 'password'"
                 x-bind:disabled="disabled"
+                @focus-password.window="setTimeout(() => $refs.inputPassword.focus(), 100)"
                 required />
 
             <button type="button" class="absolute inset-y-0 right-3 focus:outline-none"
