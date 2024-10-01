@@ -50,9 +50,8 @@
         <div class="group-label-input relative grow">
 
             <!-- Input do password  -->
-            <x-text-input id="password" name="password" class="block pr-10 w-full"
+            <x-text-input id="password" name="password" class="block pr-10 w-full" placeholder="{{ __('Create a password') }}"
                 wire:model="password"
-                placeholder="{{ __('Create a password') }}"
                 x-ref="inputPassword"
                 x-bind:type="showPassword ? 'text' : 'password'"
                 x-bind:disabled="disabled"
@@ -85,10 +84,9 @@
 
         <!-- Botão de envio -->
         <button type="button" class="flex items-center size-12 min-w-12 rounded-full focus:outline-none ps-1"
-            wire:click="addMessage"
-            x-on:keydown.enter.window="!disabled && $wire.addMessage()"
-            x-on:keyup.enter.window="disabled = true"
-            x-on:click="disabled = true"
+            x-on:keydown.enter.window="$refs.inputPassword.value.length > 0 && (!disabled && $wire.passwordSubmit())"
+            x-on:keyup.enter.window="$refs.inputPassword.value.length > 0 && (disabled = true)"
+            x-on:click="$refs.inputPassword.value.length > 0 && (disabled = true && $wire.passwordSubmit())"
             x-bind:class="disabled ? 'bg-subtitle-color' : 'bg-primary hover:bg-primary-900 active:bg-primary-800 transition ease-in-out duration-150'"
             x-bind:disabled="disabled">
 

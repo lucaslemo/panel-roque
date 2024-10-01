@@ -1,7 +1,7 @@
 @props(['type' => 'received'])
 
 @if ($type === 'received')
-    <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-2xl h-max bg-background rounded-t-lg rounded-r-lg py-2 px-5']) }}>
+    <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-2xl h-max bg-background rounded-lg py-2 px-5']) }}>
         <button x-data="{ text: `{{ $slot }}`}" type="button" class="focus:outline-none transition ease-in-out duration-150 me-5"
             x-on:click="readTextAloud(text)">
 
