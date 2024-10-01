@@ -67,6 +67,12 @@ class UserRegistrationChat extends Component
                 'time' => 2000,
                 'type' => 'received',
             ];
+            $this->messages[] = [
+                'message' => Lang::get("Make sure your data is correct. To correct it, simply click on \"Edit\". If the data is correct, simply click on \"Confirm Data\" to proceed to the next step."),
+                'animation' => true,
+                'time' => 3000,
+                'type' => 'received',
+            ];
         }
 
         $this->password = '';

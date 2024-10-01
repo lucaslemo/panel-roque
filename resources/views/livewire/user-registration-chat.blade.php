@@ -30,7 +30,7 @@
                         show = true;
                         $nextTick(() => {
                             setTimeout(() => $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'}), 100)
-                            {{ $loop->last ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
+                            {{ $loop->last && $stage <= 1 ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
                         });
                     }, {{ $message['time'] }});"
                 x-transition:enter="transition ease-out duration-500"
