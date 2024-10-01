@@ -30,7 +30,7 @@
         </header>
 
         <!-- Main content -->
-        <main class="w-full max-w-7xl px-[30px] xl:px-[70px] py-12">
+        <main class="w-full max-w-7xl h-full px-[30px] xl:px-[70px] py-20 desktop:py-28">
             <livewire:user-registration-chat :user="$user"/>
         </main>
     </body>

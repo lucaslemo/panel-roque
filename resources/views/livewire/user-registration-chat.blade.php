@@ -1,7 +1,7 @@
-<section class="shadow-modal rounded-lg bg-white">
+<section class="flex flex-col h-full shadow-modal rounded-lg bg-white">
 
     <!-- Header do chat -->
-    <div class="flex items-center justify-between w-full h-20 desktop:h-28 drop-shadow-md rounded-t-lg bg-white px-20">
+    <div class="flex items-center justify-between w-full h-20 min-h-20 desktop:h-28 desktop:min-h-28 drop-shadow-md rounded-t-lg bg-white px-20">
 
         <!-- Mascote -->
         <div class="flex flex-row items-center">
@@ -17,7 +17,7 @@
     </div>
 
     <!-- Corpo do chat -->
-    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-80 desktop:h-96 space-y-4 py-6 px-20">
+    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-full space-y-4 py-6 px-20">
         @foreach ($messages as $message)
             <x-chat-message
                 class="{{ $message['animation'] ? 'hidden' : ''}}"
@@ -43,7 +43,7 @@
     </div>
 
     <!-- Footer do chat -->
-    <div class="flex items-center w-full h-28 rounded-b-lg bg-white space-x-6 px-20"
+    <div class="flex items-center w-full h-28 min-h-28 rounded-b-lg bg-white space-x-6 px-20"
         x-data="{ disabled: true, showPassword: false }"
         @remove-disabled.window="disabled = false">
 
