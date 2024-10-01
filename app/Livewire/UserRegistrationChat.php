@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -19,10 +20,11 @@ class UserRegistrationChat extends Component
     /**
      * Add a new message on the messages history.
      */
-    private function addNewMessage(string $message, bool $animation = true, int $time = 0, string $type = 'received'): void
+    private function addNewMessage(string $message, array $data = [], bool $animation = true, int $time = 0, string $type = 'received'): void
     {
         $this->messages[] = [
             'message' => $message,
+            'data' => $data,
             'animation' => $animation,
             'time' => $time,
             'type' => $type,
@@ -35,18 +37,18 @@ class UserRegistrationChat extends Component
     public function passwordSubmit(): void
     {
         // Valida a senha fornecida
-        $validated = Validator::make(
+        $validator = Validator::make(
             ['password' => $this->password, 'password_confirmation' => $this->password_confirmation],
             ['password' => $this->stage === 0 ? ['required', 'string', Password::defaults()->uncompromised()->letters()->numbers()] : ['required', 'confirmed']],
         );
 
         // Cria a mensagem do usuário
-        $type = $validated->fails() ? 'error' : 'sent';
-        $this->addNewMessage($this->password, true, 0, $type);
+        $type = $validator->fails() ? 'error' : 'sent';
+        $this->addNewMessage($this->password, [], true, 0, $type);
 
         // Mensagens de erro
-        foreach ($validated->errors()->get('password') as $key => $error) {
-            $this->addNewMessage($error, true, ($key + 1) * 1000, 'received');
+        foreach ($validator->errors()->get('password') as $key => $error) {
+            $this->addNewMessage($error, [], true, ($key + 1) * 1000, 'received');
         }
 
         // Cria as novas mensagens no chat
@@ -55,10 +57,21 @@ class UserRegistrationChat extends Component
             $this->password_confirmation = $this->password;
 
             // Mensagem para confirmar senha
-            $this->addNewMessage(Lang::get('Please enter your password again.'), true, 1000, 'received');
+            $this->addNewMessage(Lang::get('Please enter your password again.'), [], true, 1000, 'received');
 
         } else if ($type === 'sent' && $this->stage === 1) {
             $this->stage += 1;
+
+            try {
+                $validated = $validator->validated();
+
+                // Atualiza a nova senha do usuário
+                $this->user->password = Hash::make($validated['password']);
+                $this->user->save();
+            } catch (\Throwable $th) {
+                report($th);
+                $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+            }
 
             // Mensagens para senha criada com sucesso
             $newMessages = [
@@ -68,8 +81,10 @@ class UserRegistrationChat extends Component
             ];
 
             foreach ($newMessages as $key => $message) {
-                $this->addNewMessage($message, true, ($key + 1) * 1000, 'received');
+                $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
             }
+
+            $this->addNewMessage(Lang::get('Personal Data'), ['user' => $this->user], true, 4000, 'info');
         }
 
         $this->password = '';
@@ -103,8 +118,10 @@ class UserRegistrationChat extends Component
         ];
 
         foreach ($initialMessages as $key => $message) {
-            $this->addNewMessage($message, true, ($key + 1) * 1000, 'received');
+            $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
         }
+
+        // $this->addNewMessage(Lang::get('Personal Data'), ['user' => $this->user], false, 0, 'info');
     }
 
     public function render()

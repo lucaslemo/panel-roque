@@ -1,7 +1,7 @@
-@props(['type' => 'received'])
+@props(['type' => 'received', 'data' => []])
 
 @if ($type === 'received')
-    <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg py-2 px-2 md:px-5']) }}>
+    <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg py-3 px-3 md:px-5']) }}>
         <button x-data="{ text: `{{ $slot }}`}" type="button" class="focus:outline-none transition ease-in-out duration-150 me-3 md:me-4"
             x-on:click="readTextAloud(text)">
 
@@ -12,10 +12,34 @@
             </svg>
         </button>
 
-        <!-- Text da mensagem -->
+        <!-- Texto da mensagem -->
         <p class="text-normal md:text-lg font-normal">
             {{ $slot }}
         </p>
+    </div>
+@elseif ($type === 'info')
+    <div {{ $attributes->merge(['class' => 'self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg p-3 md:p-5']) }}>
+        <!-- Título da informação -->
+        <div class="flex justify-between items-center mb-3">
+            <p class="text-normal font-medium">{{ $slot }}</p>
+
+            <svg class="size-4 fill-primary" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.25 9C11.25 8.30964 10.6904 7.75 10 7.75C9.30964 7.75 8.75 8.30964 8.75 9H11.25ZM9.11612 10.8839C9.60427 11.372 10.3957 11.372 10.8839 10.8839L18.8388 2.92893C19.327 2.44078 19.327 1.64932 18.8388 1.16117C18.3507 0.67301 17.5592 0.67301 17.0711 1.16117L10 8.23223L2.92893 1.16117C2.44078 0.67301 1.64932 0.67301 1.16117 1.16117C0.67301 1.64932 0.67301 2.44078 1.16117 2.92893L9.11612 10.8839ZM8.75 9V10H11.25V9H8.75Z" />
+            </svg>
+        </div>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Full name')</span>: {{ $data['user']->name }}</p>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Email')</span>: {{ $data['user']->email }}</p>
+        <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($data['user']->phone) }}</p>
+
+        <!-- Botões de ação -->
+        <div class="flex flex-row space-x-6">
+            <x-secondary-button type="button" class="w-1/3 text-normal font-medium h-12">
+                {{ __('Edit') }}
+            </x-secondary-button>
+            <x-primary-button-custom type="button" class="w-2/3 text-normal font-medium text-nowrap h-12">
+                {{ __('Confirm Data') }}
+            </x-primary-button-custom>
+        </div>
     </div>
 @elseif ($type === 'sent' || $type === 'error')
     <div {{ $attributes->merge(['class' => "flex items-center justify-center self-end max-w-2xl h-max text-white rounded-lg py-2 px-2 md:px-5 " . ($type === 'sent' ? "bg-primary" : "bg-danger")]) }}>

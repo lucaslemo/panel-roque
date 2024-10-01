@@ -22,6 +22,7 @@
             <x-chat-message
                 class="{{ $message['animation'] ? 'hidden' : ''}}"
                 type="{{ $message['type'] }}"
+                :data="$message['data']"
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }}, visible: false }"
                 x-show="show"
                 x-init="
