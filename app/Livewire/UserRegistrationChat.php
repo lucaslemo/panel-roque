@@ -22,8 +22,8 @@ class UserRegistrationChat extends Component
     public function addMessage(): void
     {
         $validated = Validator::make(
-            ['password' => $this->password],
-            ['password' => ['required', 'string', $this->stage === 1 ? 'confirmed' : '', Password::defaults()->uncompromised()->letters()->numbers()]],
+            ['password' => $this->password, 'password_confirmation' => $this->password_confirmation],
+            ['password' => $this->stage === 0 ? ['required', 'string', Password::defaults()->uncompromised()->letters()->numbers()] : ['required', 'confirmed']],
         );
 
         $type = $validated->fails() ? 'error' : 'sent';

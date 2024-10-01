@@ -1,4 +1,4 @@
-<section class="flex flex-col w-full max-w-6xl h-[86%] desktop:h-3/4 shadow-modal rounded-lg bg-white">
+<section class="shadow-modal rounded-lg bg-white">
 
     <!-- Header do chat -->
     <div class="flex items-center justify-between w-full h-20 desktop:h-28 drop-shadow-md rounded-t-lg bg-white px-20">
@@ -17,10 +17,10 @@
     </div>
 
     <!-- Corpo do chat -->
-    <div x-ref="messagesContainer" class="flex flex-1 flex-col overflow-y-auto scroll-smooth space-y-4 py-6 px-20">
+    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-80 desktop:h-96 space-y-4 py-6 px-20">
         @foreach ($messages as $message)
             <x-chat-message
-                class="{{ $message['animation'] ? 'hidden' : ''}} "
+                class="{{ $message['animation'] ? 'hidden' : ''}}"
                 type="{{ $message['type'] }}"
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }}, visible: false }"
                 x-show="show"
@@ -29,7 +29,7 @@
                         $el.classList.remove('hidden');
                         show = true;
                         $nextTick(() => {
-                            $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'});
+                            setTimeout(() => $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'}), 100)
                             {{ $loop->last ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
                         });
                     }, {{ $message['time'] }});"
@@ -86,6 +86,8 @@
         <!-- Botão de envio -->
         <button type="button" class="flex items-center size-12 min-w-12 rounded-full focus:outline-none ps-1"
             wire:click="addMessage"
+            x-on:keydown.enter.window="!disabled && $wire.addMessage()"
+            x-on:keyup.enter.window="disabled = true"
             x-on:click="disabled = true"
             x-bind:class="disabled ? 'bg-subtitle-color' : 'bg-primary hover:bg-primary-900 active:bg-primary-800 transition ease-in-out duration-150'"
             x-bind:disabled="disabled">

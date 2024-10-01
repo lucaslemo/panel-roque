@@ -20,17 +20,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="flex flex-col font-sans antialiased bg-background min-h-screen h-screen">
+    <body class="flex flex-1 justify-center items-center font-sans antialiased bg-background min-h-screen h-screen">
         <!-- Alert Messages -->
         <livewire:alert-message />
 
         <!-- Header principal -->
-        <header class="flex justify-end items-center h-14 desktop:h-28 w-full bg-white px-[30px] xl:px-[70px]">
-            {{-- <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="block laptop:hidden w-auto h-12" alt="Logo da Roque"> --}}
+        <header class="block laptop:hidden flex justify-end items-center h-14 desktop:h-28 w-full bg-white px-[30px] xl:px-[70px]">
+            <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="block laptop:hidden w-auto h-12" alt="Logo da Roque">
         </header>
 
         <!-- Main content -->
-        <main class="flex grow justify-center items-center px-[30px] xl:px-[70px]">
+        <main class="w-full max-w-7xl px-[30px] xl:px-[70px] py-12">
             <livewire:user-registration-chat :user="$user"/>
         </main>
     </body>
