@@ -7,7 +7,7 @@
         </div>
 
         <table class="table-auto min-w-full">
-            <!-- Header da tabela wire:target.except="deactivateUser,activateUser"-->
+            <!-- Header da tabela -->
             <thead>
                 <tr>
                     <th class="table-head text-center">#</th>

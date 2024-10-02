@@ -62,7 +62,7 @@ class EditUserForm extends Component
             $this->email = $user->email;
             $this->phone = formatPhone($user->phone);
 
-            // Busca os clientes associados ao E-mail do usuário unique:users,email_address,'.$user->id.',user_id
+            // Busca os clientes associados ao E-mail do usuário
             $this->customers = Customer::where('emailCliente', $this->email)->get();
             foreach($this->customers as $customer) {
 
@@ -82,7 +82,6 @@ class EditUserForm extends Component
             $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
             $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
-
     }
 
     /**
@@ -131,7 +130,7 @@ class EditUserForm extends Component
     }
 
     /**
-     * Close the model.
+     * Close the modal.
      */
     public function cancel()
     {

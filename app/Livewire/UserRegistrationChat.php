@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
-use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+
 class UserRegistrationChat extends Component
 {
     public User|null $user = null;
@@ -29,6 +30,50 @@ class UserRegistrationChat extends Component
             'time' => $time,
             'type' => $type,
         ];
+    }
+
+    /**
+     * Reload user info.
+     */
+    #[On('refreshUserUserRegistrationChat')]
+    public function refreshUser(): void
+    {
+        try {
+            $this->user->refresh();
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
+     * Reload user info.
+     */
+    public function confirmEdition(): void
+    {
+        try {
+            if ($this->stage === 2) {
+                $this->user->refresh();
+                $customers = $this->user->customers;
+
+                // Cria a mensagem do usuário
+                $this->addNewMessage(Lang::get('Confirm Data'), [], true, 0, 'button');
+
+                // Cria as mensagens do sistema
+                $this->addNewMessage(Lang::get('Okay! Now check out which companies you can view here:'), [], true, 1000, 'received');
+
+                $time = 0;
+                foreach($customers as $key => $customer) {
+                    $this->addNewMessage($customer->nmCliente, ['code' => formatCnpjCpf($customer->codCliente)], true, ($key + 2) * 1000, 'customer');
+                    $time = ($key + 2) * 1000;
+                }
+
+                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received');
+            }
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
     }
 
     /**
@@ -120,8 +165,6 @@ class UserRegistrationChat extends Component
         foreach ($initialMessages as $key => $message) {
             $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
         }
-
-        // $this->addNewMessage(Lang::get('Personal Data'), ['user' => $this->user], false, 0, 'info');
     }
 
     public function render()

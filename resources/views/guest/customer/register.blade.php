@@ -24,6 +24,9 @@
         <!-- Alert Messages -->
         <livewire:alert-message />
 
+        <!-- Modal para editar um usuário -->
+        <livewire:edit-customer-modal />
+
         <!-- Main content -->
         <main class="w-full max-w-7xl h-full px-0 laptop:px-[30px] xl:px-[70px] py-0 laptop:py-20 desktop:py-28">
             <livewire:user-registration-chat :user="$user"/>

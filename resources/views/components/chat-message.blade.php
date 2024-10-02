@@ -32,14 +32,35 @@
         <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($data['user']->phone) }}</p>
 
         <!-- Botões de ação -->
-        <div class="flex flex-row space-x-6">
-            <x-secondary-button type="button" class="w-1/3 text-normal font-medium h-12">
+        <div x-data="{disabled: false}" class="flex flex-row space-x-3 md:space-x-6">
+            <x-secondary-button type="button" class="w-1/3 text-normal font-medium h-12"
+                wire:click="$dispatch('openEditCustomerModal', { id: {{ $data['user']->id }} })"
+                x-bind:disabled="disabled">
+
                 {{ __('Edit') }}
             </x-secondary-button>
-            <x-primary-button-custom type="button" class="w-2/3 text-normal font-medium text-nowrap h-12">
+            <x-primary-button-custom type="button" class="w-2/3 text-normal font-medium text-nowrap h-12"
+                wire:click="confirmEdition"
+                x-on:click="setTimeout(() => disabled = true, 100)"
+                x-bind:disabled="disabled">
+
                 {{ __('Confirm Data') }}
             </x-primary-button-custom>
         </div>
+    </div>
+@elseif ($type === 'customer')
+    <div {{ $attributes->merge(['class' => 'self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg p-3 md:p-5']) }}>
+        <!-- Título da informação -->
+        <p class="text-normal font-medium mb-3">{{ $slot }}</p>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('CNPJ/CPF')</span>: {{ $data['code'] }}</p>
+    </div>
+@elseif ($type === 'button')
+    <div {{ $attributes->merge(['class' => "flex items-center justify-center self-end max-w-2xl h-max text-white rounded-lg py-2 px-2 md:px-5 bg-primary"]) }}>
+
+        <!-- Texto da mensagem -->
+        <p class="text-normal md:text-lg font-normal inline-block align-middle">
+            {{ $slot }}
+        </p>
     </div>
 @elseif ($type === 'sent' || $type === 'error')
     <div {{ $attributes->merge(['class' => "flex items-center justify-center self-end max-w-2xl h-max text-white rounded-lg py-2 px-2 md:px-5 " . ($type === 'sent' ? "bg-primary" : "bg-danger")]) }}>
