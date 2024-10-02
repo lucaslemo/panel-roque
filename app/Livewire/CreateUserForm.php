@@ -66,7 +66,7 @@ class CreateUserForm extends Component
             foreach($this->customers as $customer) {
 
                 // Guardar os ids dos clientes em um vetor para definir quem será selecionado
-                $this->customerIds[$customer->idCliente] = false;
+                $this->customerIds[$customer->idCliente] = true;
             }
 
         } catch (\Exception $e) {

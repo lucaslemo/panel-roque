@@ -51,7 +51,8 @@ new #[Layout('layouts.guest')] class extends Component
                 ->firstOrFail();
 
         } catch (\Throwable $th) {
-            throw ValidationException::withMessages(['token' => ['Este token de criação de senha é inválido.']]);
+            report($th);
+            throw ValidationException::withMessages(['token' => [__('This password creation token is invalid.')]]);
         }
 
         $user->password = Hash::make($validated['password']);
