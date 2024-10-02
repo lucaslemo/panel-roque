@@ -3,28 +3,168 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class UserRegistrationChat extends Component
 {
     public User|null $user = null;
-    public bool $showPassword = false;
-    public bool $buttonDisabled = false;
+    public int $stage = 0;
+    public array $messages = [];
     public string $password = '';
-    public int $currentPhase = 0;
+    public string $password_confirmation = '';
 
     /**
-     * Toggle visibility of password input.
+     * Add a new message on the messages history.
      */
-    public function togglePassword(): void
+    private function addNewMessage(string $message, array $data = [], bool $animation = true, int $time = 0, string $type = 'received'): void
     {
-        $this->showPassword = !$this->showPassword;
-        $this->dispatch('focus-password');
+        $this->messages[] = [
+            'message' => $message,
+            'data' => $data,
+            'animation' => $animation,
+            'time' => $time,
+            'type' => $type,
+        ];
     }
 
+    /**
+     * Reload user info.
+     */
+    #[On('refreshUserUserRegistrationChat')]
+    public function refreshUser(): void
+    {
+        try {
+            $this->user->refresh();
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
+     * Reload user info.
+     */
+    public function confirmEdition(): void
+    {
+        try {
+            if ($this->stage === 2) {
+                $this->user->refresh();
+                $customers = $this->user->customers;
+
+                // Cria a mensagem do usuário
+                $this->addNewMessage(Lang::get('Confirm Data'), [], true, 0, 'button');
+
+                // Cria as mensagens do sistema
+                $this->addNewMessage(Lang::get('Okay! Now check out which companies you can view here:'), [], true, 1000, 'received');
+
+                $time = 0;
+                foreach($customers as $key => $customer) {
+                    $this->addNewMessage($customer->nmCliente, ['code' => formatCnpjCpf($customer->codCliente)], true, ($key + 2) * 1000, 'customer');
+                    $time = ($key + 2) * 1000;
+                }
+
+                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received');
+            }
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
+     * Handle the user action with the chat.
+     */
+    public function passwordSubmit(): void
+    {
+        // Valida a senha fornecida
+        $validator = Validator::make(
+            ['password' => $this->password, 'password_confirmation' => $this->password_confirmation],
+            ['password' => $this->stage === 0 ? ['required', 'string', Password::defaults()->uncompromised()->letters()->numbers()] : ['required', 'confirmed']],
+        );
+
+        // Cria a mensagem do usuário
+        $type = $validator->fails() ? 'error' : 'sent';
+        $this->addNewMessage($this->password, [], true, 0, $type);
+
+        // Mensagens de erro
+        foreach ($validator->errors()->get('password') as $key => $error) {
+            $this->addNewMessage($error, [], true, ($key + 1) * 1000, 'received');
+        }
+
+        // Cria as novas mensagens no chat
+        if ($type === 'sent' && $this->stage === 0) {
+            $this->stage += 1;
+            $this->password_confirmation = $this->password;
+
+            // Mensagem para confirmar senha
+            $this->addNewMessage(Lang::get('Please enter your password again.'), [], true, 1000, 'received');
+
+        } else if ($type === 'sent' && $this->stage === 1) {
+            $this->stage += 1;
+
+            try {
+                $validated = $validator->validated();
+
+                // Atualiza a nova senha do usuário
+                $this->user->password = Hash::make($validated['password']);
+                $this->user->save();
+            } catch (\Throwable $th) {
+                report($th);
+                $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+            }
+
+            // Mensagens para senha criada com sucesso
+            $newMessages = [
+                Lang::get('Password registered.'),
+                Lang::get('We have some information about you in the system, such as your phone number and email address. Do you want to validate that your data is correct?'),
+                Lang::get("Make sure your data is correct. To correct it, simply click on \"Edit\". If the data is correct, simply click on \"Confirm Data\" to proceed to the next step."),
+            ];
+
+            foreach ($newMessages as $key => $message) {
+                $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
+            }
+
+            $this->addNewMessage(Lang::get('Personal Data'), ['user' => $this->user], true, 4000, 'info');
+        }
+
+        $this->password = '';
+    }
+
+    /**
+     * Each request made update the animation trigger for every message on screen.
+     */
+    public function hydrate()
+    {
+        $messages = [];
+        foreach($this->messages as $message) {
+            $message['animation'] = false;
+            $messages[] = $message;
+        }
+        $this->messages = $messages;
+    }
+
+
+    /**
+     * Mount the initial data for chat.
+     */
     public function mount(User $user)
     {
         $this->user = $user;
+
+        $initialMessages = [
+            Lang::get("For your security, let's first create a login password for future access to the site, ok?"),
+            Lang::get('Your password must contain at least 8 characters, including letters and numbers.'),
+            Lang::get('Here we go. Enter the password you want.'),
+        ];
+
+        foreach ($initialMessages as $key => $message) {
+            $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
+        }
     }
 
     public function render()

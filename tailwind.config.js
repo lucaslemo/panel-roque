@@ -26,6 +26,7 @@ export default {
             },
             screens: {
                 'laptop': '1024px',
+                'desktop': '1920px',
             },
             spacing: {
                 'desktop-margin': '70px',

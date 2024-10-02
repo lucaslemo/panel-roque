@@ -55,7 +55,6 @@ new #[Layout('layouts.guest')] class extends Component
         }
 
         $user->password = Hash::make($validated['password']);
-        $user->email_verified_at = now();
         $user->active = true;
 
         if ((int) $user->type === 1) {

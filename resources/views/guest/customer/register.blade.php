@@ -20,17 +20,15 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="flex flex-col font-sans antialiased bg-background min-h-screen h-screen">
+    <body class="flex flex-1 flex-col justify-center items-center font-sans antialiased bg-background min-h-screen h-screen">
         <!-- Alert Messages -->
         <livewire:alert-message />
 
-        <!-- header -->
-        <header class="flex justify-end items-center h-28 w-full bg-white px-[30px] xl:px-[70px]">
-            {{-- <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="block laptop:hidden w-auto h-12" alt="Logo da Roque"> --}}
-        </header>
+        <!-- Modal para editar um usuário -->
+        <livewire:edit-customer-modal />
 
         <!-- Main content -->
-        <main class="flex flex-1 justify-center items-center h-full px-[30px] xl:px-[70px]">
+        <main class="w-full max-w-7xl h-full px-0 laptop:px-[30px] xl:px-[70px] py-0 laptop:py-20 desktop:py-28">
             <livewire:user-registration-chat :user="$user"/>
         </main>
     </body>
