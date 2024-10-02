@@ -17,12 +17,14 @@
     </div>
 
     <!-- Corpo do chat -->
-    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-full min-h-0 space-y-3 laptop:space-y-4 pt-6 px-[30px] laptop:px-20">
+    <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-full min-h-0 space-y-3 laptop:space-y-4 py-6 px-[30px] laptop:px-20">
         @foreach ($messages as $message)
             <x-chat-message
                 class="{{ $message['animation'] ? 'hidden' : ''}}"
                 type="{{ $message['type'] }}"
                 :data="$message['data']"
+                :user="$user"
+                :stage="$stage"
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }}, visible: false }"
                 x-show="show"
                 x-init="

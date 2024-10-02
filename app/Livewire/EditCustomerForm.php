@@ -76,14 +76,19 @@ class EditCustomerForm extends Component
             $user = User::findOrFail($this->userId);
 
             $user->fill($validated);
-            $user->save();
 
+            $shouldUpdate = $user->isDirty();
+
+            $user->save();
             DB::commit();
 
             $this->dispatch('refreshUserUserRegistrationChat')->to(UserRegistrationChat::class);
             $this->dispatch('closeEditCustomerModal')->to(EditCustomerModal::class);
 
-            $this->dispatch('showAlert', __('Completed'), __('The user has been updated successfully.'), 'success');
+            if ($shouldUpdate) {
+                $this->dispatch('showAlert', __('Completed'), __('The user has been updated successfully.'), 'success');
+            }
+
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);

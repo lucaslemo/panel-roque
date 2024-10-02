@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
@@ -12,9 +13,30 @@ use Livewire\Attributes\On;
 
 class UserRegistrationChat extends Component
 {
+    /**
+     * The user who is finalizing his registration.
+     */
     public User|null $user = null;
+
+    /**
+     * The current stage the chat is in.
+     * 0 - Creating password.
+     *
+     * 1 - Password confirmation.
+     *
+     * 2 - Editing user data.
+     *
+     * 3 - Creating new users.
+     *
+     * 4 - Access the Portal
+     */
     public int $stage = 0;
+
+    /**
+     * @var array{id:int, array{message:string, data:array, animation:bool, time:int, type:string}} $messages
+     */
     public array $messages = [];
+
     public string $password = '';
     public string $password_confirmation = '';
 
@@ -47,12 +69,55 @@ class UserRegistrationChat extends Component
     }
 
     /**
-     * Reload user info.
+     * Ends the interaction and logs the user in.
+     */
+    public function finishChat(): void
+    {
+        try {
+            if ($this->stage === 3) {
+                $this->stage += 1;
+                $this->addNewMessage(Lang::get('No'), [], true, 0, 'button');
+                $this->addNewMessage(Lang::get('Okay. Your registration was successful!'), [], true, 1000, 'received');
+                $this->addNewMessage(Lang::get('Welcome to our Customer Portal! See you soon.'), [], true, 2000, 'received');
+
+                $this->addNewMessage('', [], true, 3000, 'buttonAccess');
+            }
+        } catch (\Throwable $th) {
+            $this->stage -= 1;
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
+     * Ends the interaction and logs the user in.
+     */
+    public function openPortal(): void
+    {
+        try {
+            $this->user->active = true;
+
+            $this->user->save();
+
+            Auth::login($this->user);
+
+            $this->redirectIntended(default: route('app.dashboard', absolute: false), navigate: true);
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
+     * Confirm user edition.
      */
     public function confirmEdition(): void
     {
         try {
             if ($this->stage === 2) {
+                $this->stage += 1;
+
+                // Atualiza os dados do usuário e busca os clientes.
                 $this->user->refresh();
                 $customers = $this->user->customers;
 
@@ -69,9 +134,12 @@ class UserRegistrationChat extends Component
                 }
 
                 $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received');
+
+                $this->addNewMessage('', [], true, $time + 2000, 'buttonNewUser');
             }
         } catch (\Throwable $th) {
             report($th);
+            $this->stage -= 1;
             $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
         }
     }
@@ -113,23 +181,24 @@ class UserRegistrationChat extends Component
                 // Atualiza a nova senha do usuário
                 $this->user->password = Hash::make($validated['password']);
                 $this->user->save();
+
+                // Mensagens para senha criada com sucesso
+                $newMessages = [
+                    Lang::get('Password registered.'),
+                    Lang::get('We have some information about you in the system, such as your phone number and email address. Do you want to validate that your data is correct?'),
+                    Lang::get("Make sure your data is correct. To correct it, simply click on \"Edit\". If the data is correct, simply click on \"Confirm Data\" to proceed to the next step."),
+                ];
+
+                foreach ($newMessages as $key => $message) {
+                    $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
+                }
+
+                $this->addNewMessage(Lang::get('Personal Data'), [], true, 4000, 'info');
             } catch (\Throwable $th) {
                 report($th);
+                $this->stage -= 1;
                 $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
             }
-
-            // Mensagens para senha criada com sucesso
-            $newMessages = [
-                Lang::get('Password registered.'),
-                Lang::get('We have some information about you in the system, such as your phone number and email address. Do you want to validate that your data is correct?'),
-                Lang::get("Make sure your data is correct. To correct it, simply click on \"Edit\". If the data is correct, simply click on \"Confirm Data\" to proceed to the next step."),
-            ];
-
-            foreach ($newMessages as $key => $message) {
-                $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
-            }
-
-            $this->addNewMessage(Lang::get('Personal Data'), ['user' => $this->user], true, 4000, 'info');
         }
 
         $this->password = '';
