@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class EditUserForm extends Component
 {
@@ -62,8 +63,13 @@ class EditUserForm extends Component
             $this->email = $user->email;
             $this->phone = formatPhone($user->phone);
 
-            // Busca os clientes associados ao E-mail do usuário
-            $this->customers = Customer::where('emailCliente', $this->email)->get();
+            if ((int)$user->type === 2) {
+                // Busca os clientes associados ao E-mail do usuário
+                $this->customers = Customer::where('emailCliente', $this->email)->get();
+            } else {
+                $this->customers = User::with('customers')->findOrFail($user->register_user_id)->customers;
+            }
+
             foreach($this->customers as $customer) {
 
                 // Guardar os ids dos clientes em um vetor para definir quem será selecionado
@@ -90,6 +96,10 @@ class EditUserForm extends Component
     public function save()
     {
         try {
+            if (! optional(auth()->user())->isAdmin()) {
+                throw new UnauthorizedException('403', __("Oops! You don't have the required authorization."));
+            }
+
             $validated = $this->validate([
                 'name' => 'required|string',
                 'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
@@ -116,6 +126,7 @@ class EditUserForm extends Component
             DB::rollBack();
             report($th);
             $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
+            $this->cancel();
         }
     }
 

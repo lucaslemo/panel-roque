@@ -92,8 +92,8 @@
 
         <!-- Botão de ação -->
         <div class="w-1/3">
-            <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true"
-                wire:click="$dispatch('openEditCustomerModal', { id: {{ $user->id }} })">
+            <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true">
+                {{-- wire:click="$dispatch('openEditUserModal', { id: {{ $data['user']->id }} })"> --}}
 
                 {{ __('Edit') }}
             </x-secondary-button>

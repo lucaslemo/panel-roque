@@ -14,6 +14,7 @@ use Livewire\Component;
 
 class CreateCustomerForm extends Component
 {
+    public int $userId = 0;
     public int $currentPhase = 0;
     public array $customerIds = [];
     public array|Collection $customers = [];
@@ -47,6 +48,7 @@ class CreateCustomerForm extends Component
     #[On('clearCreateCustomerForm')]
     public function clearForm()
     {
+        $this->userId = 0;
         $this->currentPhase = 0;
         $this->customerIds = [];
         $this->customers = [];
@@ -61,7 +63,9 @@ class CreateCustomerForm extends Component
     public function fetchCustomers(int $id)
     {
         try {
-            // Busca os clientes associados ao E-mail do usuário unique:users,email_address,'.$user->id.',user_id
+            $this->userId = $id;
+
+            // Busca os clientes associados ao E-mail do usuário
             $this->customers = User::with('customers')->findOrFail($id)->customers;
             foreach($this->customers as $customer) {
 
@@ -76,7 +80,7 @@ class CreateCustomerForm extends Component
     }
 
     /**
-     * Save a new user on database.
+     * Save a new user on database. openCreateCustomerModal
      */
     public function save()
     {
@@ -87,7 +91,7 @@ class CreateCustomerForm extends Component
             $validated['password'] = Hash::make(Str::password());
             $validated['type'] = 3;
             $validated['register_token'] = Str::uuid();
-            $validated['register_user_id '] = auth()->id();
+            $validated['register_user_id'] = $this->userId;
 
             DB::beginTransaction();
             $user = new User;

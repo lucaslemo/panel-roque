@@ -27,8 +27,11 @@
         <!-- Modal para criar um usuário -->
         <livewire:create-customer-modal />
 
-        <!-- Modal para editar um usuário -->
+        <!-- Modal para editar o usuário -->
         <livewire:edit-customer-modal />
+
+        <!-- Modal para editar um usuário criado -->
+        <livewire:edit-user-modal />
 
         <!-- Main content -->
         <main class="w-full max-w-7xl h-full px-0 laptop:px-[30px] xl:px-[70px] py-0 laptop:py-20 desktop:py-28">

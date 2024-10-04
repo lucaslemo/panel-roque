@@ -12,6 +12,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class CreateUserForm extends Component
 {
@@ -61,7 +62,7 @@ class CreateUserForm extends Component
     private function fetchCustomers()
     {
         try {
-            // Busca os clientes associados ao E-mail do usuário unique:users,email_address,'.$user->id.',user_id
+            // Busca os clientes associados ao E-mail do usuário
             $this->customers = Customer::where('emailCliente', $this->email)->get();
             foreach($this->customers as $customer) {
 
@@ -81,12 +82,16 @@ class CreateUserForm extends Component
     public function save()
     {
         try {
+            if (! optional(auth()->user())->isAdmin()) {
+                throw new UnauthorizedException('403', __("Oops! You don't have the required authorization."));
+            }
+
             $validated = $this->validate();
 
             $validated['name'] = Str::apa($validated['name']);
             $validated['password'] = Hash::make(Str::password());
             $validated['register_token'] = Str::uuid();
-            $validated['register_user_id '] = auth()->id();
+            $validated['register_user_id'] = auth()->id();
 
             DB::beginTransaction();
             $user = new User;
@@ -112,6 +117,7 @@ class CreateUserForm extends Component
             DB::rollBack();
             report($e);
             $this->dispatch('showAlert', __('Error registering new user.'), __($e->getMessage()), 'danger');
+            $this->cancel();
         }
     }
 

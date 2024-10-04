@@ -22,12 +22,12 @@ class DevSeeder extends Seeder
             DB::beginTransaction();
 
             User::factory()
-                ->count(1000)
+                ->count(20)
                 ->state(new Sequence(
-                    fn (Sequence $sequence) => ['type' => rand(2, 3)],
+                    fn (Sequence $sequence) => ['type' => 2],
                 ))
                 ->deactivated()
-                ->has(Customer::factory()->count(rand(1, 5))->has(CreditLimit::factory()))
+                ->has(Customer::factory()->count(3)->has(CreditLimit::factory()))
                 ->create();
 
             User::with('customers')->chunk(500, function(Collection $users) {
