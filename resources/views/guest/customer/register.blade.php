@@ -24,6 +24,9 @@
         <!-- Alert Messages -->
         <livewire:alert-message />
 
+        <!-- Modal para criar um usuário -->
+        <livewire:create-customer-modal />
+
         <!-- Modal para editar um usuário -->
         <livewire:edit-customer-modal />
 

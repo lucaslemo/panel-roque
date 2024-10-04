@@ -13,7 +13,7 @@
 
     @if ($currentPhase === 0)
         <p class="font-medium text-small md:text-normal text-label-color mb-4 md:mb-8 laptop:mb-12">
-            {{ __('Make sure you enter the correct information. To edit, simply click on the text box. After filling in the information, simply click on the “next step” button to select which companies this user will be able to view.') }}
+            {{ __('Make sure you enter the correct information. After filling it out, simply click on the “next step” button to select which companies this user will be able to view.') }}
         </p>
     @elseif ($currentPhase === 1)
         <p class="font-medium text-small md:text-normal text-label-color mb-6 md:mb-8 laptop:mb-12">

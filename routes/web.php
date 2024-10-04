@@ -46,13 +46,13 @@ Route::get('api/pessoas', [TestController::class, 'customers']);
 Route::get('api/pedidos', [TestController::class, 'orders']);
 Route::get('api/contas', [TestController::class, 'invoices']);
 
-// Route::get('teste', function() {
-//     $userCustomer = App\Models\User::where('type', 3)->first();
-//     $userCustomerAdmin = App\Models\User::where('type', 2)->first();
+Route::get('teste', function() {
+    $userCustomer = App\Models\User::where('type', 3)->whereNull('last_login_at')->where('active', false)->first();
+    $userCustomerAdmin = App\Models\User::where('type', 2)->whereNull('last_login_at')->where('active', false)->first();
 
-//     $userCustomer->notify(new App\Notifications\UserCreated($userCustomer));
-//     $userCustomerAdmin->notify(new App\Notifications\UserCreated($userCustomerAdmin));
-//     return 'Ok!';
-// });
+    $userCustomer->notify(new App\Notifications\UserCreated($userCustomer));
+    $userCustomerAdmin->notify(new App\Notifications\UserCreated($userCustomerAdmin));
+    return 'Ok!';
+});
 
 require __DIR__.'/auth.php';

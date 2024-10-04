@@ -135,7 +135,7 @@ class UserRegistrationChat extends Component
 
                 $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received');
 
-                $this->addNewMessage('', [], true, $time + 2000, 'buttonNewUser');
+                $this->addNewMessage('', ['shouldDisabled' => false], true, $time + 2000, 'buttonNewUser');
             }
         } catch (\Throwable $th) {
             report($th);
@@ -211,12 +211,35 @@ class UserRegistrationChat extends Component
     {
         $messages = [];
         foreach($this->messages as $message) {
+            if ($message['type'] === 'buttonNewUser') {
+                $message['data']['shouldDisabled'] = true;
+            }
             $message['animation'] = false;
             $messages[] = $message;
         }
         $this->messages = $messages;
     }
 
+    /**
+     * Create the message for ner users.
+     */
+    #[On('newUserUserRegistrationChat')]
+    public function newUser(User $newUser): void
+    {
+        try {
+            if ($this->stage === 3) {
+                $this->addNewMessage(Lang::get('Registered user'), ['user' => $newUser], true, 0, 'newUser');
+
+                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, 1000, 'received');
+
+                $this->addNewMessage('', ['shouldDisabled' => false], true, 2000, 'buttonNewUser');
+            }
+        } catch (\Throwable $th) {
+            $this->stage -= 1;
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
 
     /**
      * Mount the initial data for chat.

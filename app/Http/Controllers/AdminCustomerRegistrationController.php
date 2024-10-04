@@ -25,7 +25,7 @@ class AdminCustomerRegistrationController extends Controller
             return view('guest.customer.register', ['token' => $token, 'user' => $user]);
         } catch (\Throwable $th) {
             report($th);
-            abort(403, __('This password creation token is invalid.'));
+            abort(401, __('This password creation token is invalid.'));
         }
     }
 }

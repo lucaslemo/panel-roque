@@ -26,14 +26,6 @@ class DevSeeder extends Seeder
                 ->state(new Sequence(
                     fn (Sequence $sequence) => ['type' => rand(2, 3)],
                 ))
-                ->has(Customer::factory()->count(rand(1, 5))->has(CreditLimit::factory()))
-                ->create();
-
-            User::factory()
-                ->count(200)
-                ->state(new Sequence(
-                    fn (Sequence $sequence) => ['type' => rand(2, 3)],
-                ))
                 ->deactivated()
                 ->has(Customer::factory()->count(rand(1, 5))->has(CreditLimit::factory()))
                 ->create();
