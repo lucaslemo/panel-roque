@@ -178,6 +178,7 @@ class UserRegistrationChat extends Component
         $validator = Validator::make(
             ['password' => $this->password, 'password_confirmation' => $this->password_confirmation],
             ['password' => $this->stage === 0 ? ['required', 'string', Password::defaults()->uncompromised()->letters()->numbers()] : ['required', 'confirmed']],
+            ['password.confirmed' => Lang::get('The passwords you entered do not match. Please enter the created password again.')]
         );
 
         // Cria a mensagem do usuário

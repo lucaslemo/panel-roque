@@ -10,6 +10,7 @@
     "Name" : "Nome",
     "User status": "Status do usuário",
     "User type": "Tipo de usuário",
+    "The passwords you entered do not match. Please enter the created password again.": "As senhas digitadas não correspondem. Por favor, digite a senha criada novamente.",
     "Already registered?": "Já possui uma conta?",
     "Confirm" : "Confirmar",
     "Companies he will have access to": "Empresas que ele terá acesso",
