@@ -188,6 +188,9 @@ class UserRegistrationChat extends Component
         // Mensagens de erro
         foreach ($validator->errors()->get('password') as $key => $error) {
             $this->addNewMessage($error, [], true, ($key + 1) * 1000, 'received');
+
+            // Retornar para a fase inicial de criação da senha caso algum erro de validação ocorra.
+            $this->stage = 0;
         }
 
         // Cria as novas mensagens no chat
