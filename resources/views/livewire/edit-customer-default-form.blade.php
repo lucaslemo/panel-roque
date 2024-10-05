@@ -25,23 +25,23 @@
     @if ($currentPhase === 0)
     <div class="grid grid-cols-1 laptop:grid-cols-2 gap-x-0 md:gap-x-6 laptop:gap-x-6 2xl:gap-x-12 gap-y-4 mb-6 md:mb-8 laptop:mb-12">
         <div class="group-label-input">
-            <x-input-label for="name_edit" :value="__('Username')" />
-            <x-text-input wire:model="name" id="name_edit" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
+            <x-input-label for="name_default_edit" :value="__('Username')" />
+            <x-text-input wire:model="name" id="name_default_edit" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
         <div class="group-label-input">
-            <x-input-label for="cpf_edit" :value="__('CPF')" />
-            <x-text-input wire:model="cpf" id="cpf_edit" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autocomplete="cpf" />
+            <x-input-label for="cpf_default_edit" :value="__('CPF')" />
+            <x-text-input wire:model="cpf" id="cpf_default_edit" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autocomplete="cpf" />
             <x-input-error :messages="$errors->get('cpf')" class="mt-2" />
         </div>
         <div class="group-label-input">
-            <x-input-label for="email_edit" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email_edit" class="block w-full" type="email" name="email" required autocomplete="email" />
+            <x-input-label for="email_default_edit" :value="__('Email')" />
+            <x-text-input wire:model="email" id="email_default_edit" class="block w-full" type="email" name="email" required autocomplete="email" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
         <div class="group-label-input">
-            <x-input-label for="phone_edit" :value="__('Phone')" />
-            <x-text-input wire:model="phone" id="phone_edit" class="block w-full" type="text" name="phone" x-mask:dynamic="$input.replace(/\D/g, '').length > 10 ? '(99) 99999-9999' : '(99) 9999-9999'" required autocomplete="phone" />
+            <x-input-label for="phone_default_edit" :value="__('Phone')" />
+            <x-text-input wire:model="phone" id="phone_default_edit" class="block w-full" type="text" name="phone" x-mask:dynamic="$input.replace(/\D/g, '').length > 10 ? '(99) 99999-9999' : '(99) 9999-9999'" required autocomplete="phone" />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
     </div>

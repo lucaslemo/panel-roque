@@ -111,7 +111,7 @@ class CreateCustomerForm extends Component
 
             $user->notify(new UserCreated($user));
 
-            $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
+            // $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
         } catch (\Exception $e) {
             DB::rollBack();
             report($e);
