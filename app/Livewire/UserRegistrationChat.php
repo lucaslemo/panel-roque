@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
@@ -37,6 +38,8 @@ class UserRegistrationChat extends Component
      */
     public array $messages = [];
 
+    public array|Collection $usersDefault = [];
+
     public string $password = '';
     public string $password_confirmation = '';
 
@@ -55,6 +58,14 @@ class UserRegistrationChat extends Component
     }
 
     /**
+     * Add a new user created by the admin.
+     */
+    private function addNewUserDefault(User $user)
+    {
+        $this->usersDefault[$user->id] = $user;
+    }
+
+    /**
      * Reload user info.
      */
     #[On('refreshUserUserRegistrationChat')]
@@ -62,6 +73,20 @@ class UserRegistrationChat extends Component
     {
         try {
             $this->user->refresh();
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
+     * Reload user info.
+     */
+    #[On('refreshUserDefaultUserRegistrationChat')]
+    public function refreshUserDefault(int $id): void
+    {
+        try {
+            $this->usersDefault[$id]->refresh();
         } catch (\Throwable $th) {
             report($th);
             $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
@@ -205,6 +230,29 @@ class UserRegistrationChat extends Component
     }
 
     /**
+     * Create the message for ner users.
+     */
+    #[On('newUserUserRegistrationChat')]
+    public function newUser(User $newUser): void
+    {
+        try {
+            if ($this->stage === 3) {
+                $this->addNewUserDefault($newUser);
+
+                $this->addNewMessage(Lang::get('Registered user'), ['userId' => $newUser->id], true, 0, 'newUser');
+
+                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, 1000, 'received');
+
+                $this->addNewMessage('', ['shouldDisabled' => false], true, 2000, 'buttonNewUser');
+            }
+        } catch (\Throwable $th) {
+            $this->stage -= 1;
+            report($th);
+            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
+        }
+    }
+
+    /**
      * Each request made update the animation trigger for every message on screen.
      */
     public function hydrate()
@@ -218,27 +266,6 @@ class UserRegistrationChat extends Component
             $messages[] = $message;
         }
         $this->messages = $messages;
-    }
-
-    /**
-     * Create the message for ner users.
-     */
-    #[On('newUserUserRegistrationChat')]
-    public function newUser(User $newUser): void
-    {
-        try {
-            if ($this->stage === 3) {
-                $this->addNewMessage(Lang::get('Registered user'), ['user' => $newUser], true, 0, 'newUser');
-
-                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, 1000, 'received');
-
-                $this->addNewMessage('', ['shouldDisabled' => false], true, 2000, 'buttonNewUser');
-            }
-        } catch (\Throwable $th) {
-            $this->stage -= 1;
-            report($th);
-            $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');
-        }
     }
 
     /**

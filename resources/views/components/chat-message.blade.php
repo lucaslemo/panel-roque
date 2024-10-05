@@ -1,4 +1,4 @@
-@props(['type' => 'received', 'user' => null, 'stage' => 0, 'data' => []])
+@props(['type' => 'received', 'user' => null, 'stage' => 0, 'data' => [], 'usersDefault' => []])
 
 @if ($type === 'received')
     <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg py-3 px-3 md:px-5']) }}>
@@ -80,20 +80,22 @@
         <!-- Título da informação -->
         <p class="text-normal font-medium mb-3">{{ $slot }}</p>
 
-        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Full name')</span>: {{ $data['user']->name }}</p>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Full name')</span>: {{ $usersDefault[$data['userId']]->name }}</p>
         <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Companies he will have access to')</span>:</p>
         <ul class="list-disc list-inside text-xs font-normal ms-2 mb-1">
-            @foreach ($data['user']->customers as $customer)
+            @forelse ($usersDefault[$data['userId']]->customers as $customer)
                 <li>{{ $customer->nmCliente }}</li>
-            @endforeach
+            @empty
+                <p class="text-small font-normal">@lang('No companies were selected')</p>
+            @endforelse
         </ul>
-        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($data['user']->phone) }}</p>
-        <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Email')</span>: {{ $data['user']->email }}</p>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($usersDefault[$data['userId']]->phone) }}</p>
+        <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Email')</span>: {{ $usersDefault[$data['userId']]->email }}</p>
 
         <!-- Botão de ação -->
         <div class="w-1/3">
-            <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true">
-                {{-- wire:click="$dispatch('openEditUserModal', { id: {{ $data['user']->id }} })"> --}}
+            <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true"
+                wire:click="$dispatch('openEditCustomerDefaultModal', { id: {{ $usersDefault[$data['userId']]->id }} })">
 
                 {{ __('Edit') }}
             </x-secondary-button>

@@ -25,6 +25,7 @@
                 :data="$message['data']"
                 :user="$user"
                 :stage="$stage"
+                :usersDefault="$usersDefault"
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }}, visible: false }"
                 x-show="show"
                 x-init="
