@@ -16,7 +16,7 @@
                     <th class="table-head text-center">{{ __('CPF') }}</th>
                     <th class="table-head text-center">{{ __('Trading name') }}</th>
                     <th class="table-head">
-                        <x-dropdown align="right" width="48">
+                        <x-dropdown align="right" width="56">
                             <x-slot name="trigger">
                                 <button class="flex flex-row justify-between {{ count($filteredUserTypeValues) === 0 ? 'text-subtitle-color' : 'text-primary' }} w-full p-2">
                                     {{ __('Type') }}
@@ -29,17 +29,44 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link class="{{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(2)">
+                                <x-dropdown-link class="flex items-center cursor-pointer {{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserType(2)">
+
+                                    <!-- Ícone de caixinha -->
+                                    @if (in_array(2, $filteredUserTypeValues))
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                        </svg>
+                                    @else
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                        </svg>
+                                    @endif
+
                                     {{ __('Customer administrator') }}
+
                                 </x-dropdown-link>
-                                <x-dropdown-link class="{{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(3)">
+                                <x-dropdown-link class="flex items-center cursor-pointer {{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserType(3)">
+
+                                    <!-- Ícone de caixinha -->
+                                    @if (in_array(3, $filteredUserTypeValues))
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                        </svg>
+                                    @else
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                        </svg>
+                                    @endif
+
                                     {{ __('Customer default') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </th>
                     <th class="table-head">
-                        <x-dropdown align="right" width="28">
+                        <x-dropdown align="right" width="40">
                             <x-slot name="trigger">
                                 <button class="flex flex-row justify-between {{ count($filteredUserActiveValues) === 0 ? 'text-subtitle-color' : 'text-primary' }} w-full p-2">
                                     {{ __('Status') }}
@@ -52,19 +79,61 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link class="{{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(1)">
-                                    {{ __('Active') }}
+                                <x-dropdown-link class="flex items-center cursor-pointer {{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(1)">
+
+                                    <!-- Ícone de caixinha -->
+                                    @if (in_array(1, $filteredUserActiveValues))
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                        </svg>
+                                    @else
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                        </svg>
+                                    @endif
+
+                                    <div class="green-circle"></div>
+                                    <span class="leading-none">{{ __('Active') }}</span>
                                 </x-dropdown-link>
-                                <x-dropdown-link class="{{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(2)">
-                                    {{ __('Pending') }}
+                                <x-dropdown-link class="flex items-center cursor-pointer {{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(2)">
+
+                                    <!-- Ícone de caixinha -->
+                                    @if (in_array(2, $filteredUserActiveValues))
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                        </svg>
+                                    @else
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                        </svg>
+                                    @endif
+
+                                    <div class="yellow-circle"></div>
+                                    <span class="leading-none">{{ __('Pending') }}</span>
                                 </x-dropdown-link>
-                                <x-dropdown-link class="{{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(3)">
-                                    {{ __('Inactive') }}
+                                <x-dropdown-link class="flex items-center cursor-pointer {{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(3)">
+
+                                    <!-- Ícone de caixinha -->
+                                    @if (in_array(3, $filteredUserActiveValues))
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                        </svg>
+                                    @else
+                                        <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                        </svg>
+                                    @endif
+
+                                    <div class="stone-circle"></div>
+                                    <span class="leading-none">{{ __('Inactive') }}</span>
                                 </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </th>
-                    <th class="px-6 py-3 border-b">&nbsp;</th>
+                    <th class="px-6 py-3 border-b border-t">&nbsp;</th>
                 </tr>
             </thead>
 
@@ -72,11 +141,11 @@
             <tbody>
                 @foreach ($data as $key => $item)
                     <tr class="{{ $key % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
-                        <td class="table-body text-center border-t border-e text-small 2xl:text-normal">{{ $item->id }}</td>
-                        <td class="table-body border-t border-e text-small 2xl:text-normal ">{{ $item->name }}</td>
-                        <td class="table-body border-t border-e text-small">{{ $item->email }}</td>
-                        <td class="table-body border-t border-e text-small">{{ formatCnpjCpf($item->cpf) }}</td>
-                        <td class="table-body border-t border-e text-small">
+                        <td class="table-body text-center border-b border-e text-small 2xl:text-normal">{{ $item->id }}</td>
+                        <td class="table-body border-b border-e text-small 2xl:text-normal ">{{ $item->name }}</td>
+                        <td class="table-body border-b border-e text-small">{{ $item->email }}</td>
+                        <td class="table-body border-b border-e text-small">{{ formatCnpjCpf($item->cpf) }}</td>
+                        <td class="table-body border-b border-e text-small">
                             @if (count($item->customers) === 0)
                                 {{ __('Does not have') }}
 
@@ -91,8 +160,8 @@
                                 @endforeach
                             @endif
                         </td>
-                        <td class="table-body border-t border-e text-small">{{ $item->getTypeName() }}</td>
-                        <td class="table-body border-t border-e text-small">
+                        <td class="table-body border-b border-e text-small">{{ $item->getTypeName() }}</td>
+                        <td class="table-body border-b border-e text-small">
                             <div class="flex justify-start items-center">
                                 @if ((bool) $item->active === true)
                                     <!-- Status Ativo -->
@@ -114,7 +183,7 @@
                         </td>
 
                         <!-- Botões de ação -->
-                        <td class="table-body border-t text-small">
+                        <td class="table-body border-b text-small">
                             <div class="flex flex-row itens-center">
                                 <button wire:click="$dispatch('openEditUserModal', { id: {{ $item->id }} })" type="button" class="flex justify-center items-center size-10 2xl:size-[48px] shadow-button border rounded-lg border-border-color focus:outline-none me-2">
                                     <svg class="size-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -218,7 +287,7 @@
 
                     <x-slot name="content">
                         @foreach ($perPageOptions as $value)
-                            <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                            <x-dropdown-link class="text-small font-medium" wire:click="changePageSize({{ $value }})">
                                 {{ $value }}
                             </x-dropdown-link>
                         @endforeach
@@ -262,7 +331,7 @@
 
             <div class="flex flex-row items-center mx-auto mt-4 md:mt-0 md:mx-0">
                 <!-- Quantidade de itens por página -->
-                <x-dropdown align="right" width="24" :full="true">
+                <x-dropdown :align="count($data) === 0 ? 'top' : 'right'" width="24" :full="true">
                     <x-slot name="trigger">
                         <button class="h-10 w-24 inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
                             {{ $perPage }}
@@ -275,7 +344,7 @@
 
                     <x-slot name="content">
                         @foreach ($perPageOptions as $value)
-                            <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                            <x-dropdown-link class="text-small font-medium" wire:click="changePageSize({{ $value }})">
                                 {{ $value }}
                             </x-dropdown-link>
                         @endforeach
@@ -283,7 +352,7 @@
                 </x-dropdown>
                 <span class="font-normal text-normal text-black text-nowrap mx-2">/ {{ __('pages') }}</span>
                 <!-- Filtros -->
-                <x-dropdown align="right" width="48" :full="true">
+                <x-dropdown :align="count($data) === 0 ? 'top-right' : 'right'" width="56" :full="true">
                     <x-slot name="trigger">
                         <button class="h-10 w-24 sm:w-28 inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black rounded-md leading-4 {{ count($filteredUserTypeValues) === 0 && count($filteredUserActiveValues) === 0 ? 'text-black' : 'text-primary' }}">
                             <!-- Ícone de filtro -->
@@ -294,21 +363,92 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link class="{{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(2)">
+                        <p class="text-small font-normal p-4">{{ __('User type')}}</p>
+
+                        <x-dropdown-link class="flex items-center {{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserType(2)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(2, $filteredUserTypeValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+
                             {{ __('Customer administrator') }}
                         </x-dropdown-link>
-                        <x-dropdown-link class="{{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(3)">
+                        <x-dropdown-link class="flex items-center {{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserType(3)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(3, $filteredUserTypeValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+
                             {{ __('Customer default') }}
                         </x-dropdown-link>
                         <hr>
-                        <x-dropdown-link class="{{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(1)">
-                            {{ __('Active') }}
+
+                        <p class="text-small font-normal p-4">{{ __('User status')}}</p>
+
+                        <x-dropdown-link class="flex items-center {{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(1)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(1, $filteredUserActiveValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+
+                            <div class="green-circle"></div>
+                            <span class="leading-none">{{ __('Active') }}</span>
                         </x-dropdown-link>
-                        <x-dropdown-link class="{{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(2)">
-                            {{ __('Pending') }}
+                        <x-dropdown-link class="flex items-center {{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(2)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(2, $filteredUserActiveValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+                            <div class="yellow-circle"></div>
+                            <span class="leading-none">{{ __('Pending') }}</span>
                         </x-dropdown-link>
-                        <x-dropdown-link class="{{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(3)">
-                            {{ __('Inactive') }}
+                        <x-dropdown-link class="flex items-center {{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(3)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(3, $filteredUserActiveValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+                            <div class="stone-circle"></div>
+                            <span class="leading-none">{{ __('Inactive') }}</span>
                         </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
@@ -435,7 +575,7 @@
 
             <div class="flex flex-row items-center mx-auto mt-4 md:mt-0 md:mx-0">
                 <!-- Quantidade de itens por página -->
-                <x-dropdown align="right" width="24" :full="true">
+                <x-dropdown align="top" width="24" :full="true">
                     <x-slot name="trigger">
                         <button class="h-10 w-24 inline-flex items-center justify-between px-3 py-2 bg-white border border-border-color text-black font-normal text-normal rounded-md leading-4 hover:text-primary focus:outline-none transition ease-in-out duration-150">
                             {{ $perPage }}
@@ -448,7 +588,7 @@
 
                     <x-slot name="content">
                         @foreach ($perPageOptions as $value)
-                            <x-dropdown-link wire:click="changePageSize({{ $value }})">
+                            <x-dropdown-link class="text-small font-medium" wire:click="changePageSize({{ $value }})">
                                 {{ $value }}
                             </x-dropdown-link>
                         @endforeach
@@ -456,7 +596,7 @@
                 </x-dropdown>
                 <span class="font-normal text-normal text-black text-nowrap mx-2">/ {{ __('pages') }}</span>
                 <!-- Filtros -->
-                <x-dropdown align="right" width="48" :full="true">
+                <x-dropdown align="top-right" width="48" :full="true">
                     <x-slot name="trigger">
                         <button class="h-10 w-24 sm:w-28 inline-flex items-center justify-center px-3 py-2 bg-white border border-border-color text-black rounded-md leading-4 {{ count($filteredUserTypeValues) === 0 && count($filteredUserActiveValues) === 0 ? 'text-black' : 'text-primary' }}">
                             <!-- Ícone de filtro -->
@@ -467,21 +607,92 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link class="{{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(2)">
+                        <p class="text-small font-normal p-4">{{ __('User type')}}</p>
+
+                        <x-dropdown-link class="flex items-center {{ in_array(2, $filteredUserTypeValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserType(2)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(2, $filteredUserTypeValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+
                             {{ __('Customer administrator') }}
                         </x-dropdown-link>
-                        <x-dropdown-link class="{{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }}" wire:click="filterUserType(3)">
+                        <x-dropdown-link class="flex items-center {{ in_array(3, $filteredUserTypeValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserType(3)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(3, $filteredUserTypeValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+
                             {{ __('Customer default') }}
                         </x-dropdown-link>
                         <hr>
-                        <x-dropdown-link class="{{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(1)">
-                            {{ __('Active') }}
+
+                        <p class="text-small font-normal p-4">{{ __('User status')}}</p>
+
+                        <x-dropdown-link class="flex items-center {{ in_array(1, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(1)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(1, $filteredUserActiveValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+
+                            <div class="green-circle"></div>
+                            <span class="leading-none">{{ __('Active') }}</span>
                         </x-dropdown-link>
-                        <x-dropdown-link class="{{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(2)">
-                            {{ __('Pending') }}
+                        <x-dropdown-link class="flex items-center {{ in_array(2, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(2)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(2, $filteredUserActiveValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+                            <div class="yellow-circle"></div>
+                            <span class="leading-none">{{ __('Pending') }}</span>
                         </x-dropdown-link>
-                        <x-dropdown-link class="{{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }}" wire:click="filterUserActive(3)">
-                            {{ __('Inactive') }}
+                        <x-dropdown-link class="flex items-center {{ in_array(3, $filteredUserActiveValues) ? 'text-primary' : '' }} text-small font-medium" wire:click="filterUserActive(3)">
+
+                            <!-- Ícone de caixinha -->
+                            @if (in_array(3, $filteredUserActiveValues))
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L8.29289 11.7071C7.90237 11.3166 7.90237 10.6834 8.29289 10.2929C8.68342 9.90237 9.31658 9.90237 9.70711 10.2929L12 12.5858L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289Z" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V19C4 19.2652 4.10536 19.5196 4.29289 19.7071C4.48043 19.8946 4.73478 20 5 20H19C19.2652 20 19.5196 19.8946 19.7071 19.7071C19.8946 19.5196 20 19.2652 20 19V12C20 11.4477 20.4477 11 21 11C21.5523 11 22 11.4477 22 12V19C22 19.7957 21.6839 20.5587 21.1213 21.1213C20.5587 21.6839 19.7957 22 19 22H5C4.20435 22 3.44129 21.6839 2.87868 21.1213C2.31607 20.5587 2 19.7957 2 19V5C2 4.20435 2.31607 3.44129 2.87868 2.87868C3.44129 2.31607 4.20435 2 5 2H16C16.5523 2 17 2.44772 17 3C17 3.55228 16.5523 4 16 4H5Z" />
+                                </svg>
+                            @else
+                                <svg class="size-6 fill-current me-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C4.44772 4 4 4.44772 4 5V19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19V5C20 4.44772 19.5523 4 19 4H5ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5Z" />
+                                </svg>
+                            @endif
+                            <div class="stone-circle"></div>
+                            <span class="leading-none">{{ __('Inactive') }}</span>
                         </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>

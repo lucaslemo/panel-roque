@@ -8,6 +8,9 @@ switch ($align) {
     case 'top':
         $alignmentClasses = 'bottom-full mb-2';
         break;
+    case 'top-right':
+        $alignmentClasses = 'bottom-full end-0 mb-2';
+        break;
     case 'right':
     default:
         $alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
@@ -15,8 +18,17 @@ switch ($align) {
 }
 
 switch ($width) {
+    case '56':
+        $width = 'w-56';
+        break;
+    case '52':
+        $width = 'w-52';
+        break;
     case '48':
         $width = 'w-48';
+        break;
+    case '40':
+        $width = 'w-40';
         break;
     case '28':
         $width = 'w-28';
