@@ -32,10 +32,10 @@
         <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($user->phone) }}</p>
 
         <!-- Botões de ação -->
-        <div class="flex flex-row space-x-3 md:space-x-6">
+        <div class="flex flex-row space-x-3 md:space-x-4">
             <div class="w-1/3">
                 <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true"
-                    wire:click="$dispatch('openEditCustomerModal', { id: {{ $user->id }} })">
+                    x-on:click="$dispatch('open-modal-edit-customer-form') || $dispatch('open-modal', 'edit-customer-form')">
 
                     {{ __('Edit') }}
                 </x-secondary-button>

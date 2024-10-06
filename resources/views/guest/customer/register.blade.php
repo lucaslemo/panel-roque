@@ -28,7 +28,9 @@
         <livewire:create-customer-modal />
 
         <!-- Modal para editar o usuário -->
-        <livewire:edit-customer-modal />
+        <x-modal-panel :title="__('Edit user')" name="edit-customer-form">
+            <livewire:edit-customer-form :userId="$user->id" />
+        </x-modal-panel>
 
         <!-- Modal para editar um usuário criado -->
         <livewire:edit-customer-default-modal />

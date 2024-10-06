@@ -290,7 +290,7 @@ class UserRegistrationChat extends Component
     /**
      * Reload user info.
      */
-    #[On('refreshUserUserRegistrationChat')]
+    #[On('refresh-user')]
     public function refreshUser(): void
     {
         try {
