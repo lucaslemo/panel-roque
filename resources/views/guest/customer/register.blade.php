@@ -25,7 +25,9 @@
         <livewire:alert-message />
 
         <!-- Modal para criar um usuário -->
-        <livewire:create-customer-modal />
+        <x-modal-panel :title="__('Register new user')" name="create-customer-form">
+            <livewire:create-customer-form :userId="$user->id" />
+        </x-modal-panel>
 
         <!-- Modal para editar o usuário -->
         <x-modal-panel :title="__('Edit user')" name="edit-customer-form">

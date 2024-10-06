@@ -233,7 +233,7 @@ class UserRegistrationChat extends Component
     /**
      * Create the message for ner users.
      */
-    #[On('newUserUserRegistrationChat')]
+    #[On('new-user')]
     public function newUser(User $newUser): void
     {
         try {

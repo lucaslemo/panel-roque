@@ -42,40 +42,25 @@ class CreateCustomerForm extends Component
         return $attributes;
     }
 
-    /**
-     * Clear fields.
-     */
-    #[On('clearCreateCustomerForm')]
-    public function clearForm()
+    #[On('open-modal-create-customer-form')]
+    public function prepareForm()
     {
-        $this->userId = 0;
-        $this->currentPhase = 0;
-        $this->customerIds = [];
-        $this->customers = [];
-        $this->reset();
+        $this->resetExcept('userId');
         $this->resetValidation();
-    }
 
-    /**
-     * Search customers data from given user.
-     */
-    #[On('fetchCustomersCreateCustomerForm')]
-    public function fetchCustomers(int $id)
-    {
         try {
-            $this->userId = $id;
-
-            // Busca os clientes associados ao E-mail do usuário
-            $this->customers = User::with('customers')->findOrFail($id)->customers;
+            // Busca os clientes associados ao usuário
+            $this->customers = User::with('customers')->findOrFail($this->userId)->customers;
             foreach($this->customers as $customer) {
 
                 // Guardar os ids dos clientes em um vetor para definir quem será selecionado
                 $this->customerIds[$customer->idCliente] = false;
             }
 
-        } catch (\Exception $e) {
-            report($e);
-            $this->dispatch('showAlert', __('Error loading company data.'), __($e->getMessage()), 'danger');
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('close-modal', 'create-customer-form');
+            $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
     }
 
@@ -85,7 +70,7 @@ class CreateCustomerForm extends Component
     public function save()
     {
         $validated = $this->validate();
-        
+
         try {
             $validated['name'] = Str::apa($validated['name']);
             $validated['password'] = Hash::make(Str::password());
@@ -106,16 +91,14 @@ class CreateCustomerForm extends Component
 
             $user->refresh();
 
-            $this->dispatch('newUserUserRegistrationChat', $user)->to(UserRegistrationChat::class);
-            $this->dispatch('closeCreateCustomerModal')->to(CreateCustomerModal::class);
-
+            $this->dispatch('new-user', $user)->to(UserRegistrationChat::class);
+            $this->dispatch('close-modal', 'create-customer-form');
             $user->notify(new UserCreated($user));
 
-            // $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
-            report($e);
-            $this->dispatch('showAlert', __('Error registering new user.'), __($e->getMessage()), 'danger');
+            report($th);
+            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
         }
     }
 
@@ -130,14 +113,6 @@ class CreateCustomerForm extends Component
     }
 
     /**
-     * Close the model.
-     */
-    public function cancel()
-    {
-        $this->dispatch('closeCreateCustomerModal')->to(CreateCustomerModal::class);
-    }
-
-    /**
      * Pass for the next page.
      */
     public function nextPage()
@@ -147,6 +122,11 @@ class CreateCustomerForm extends Component
         }
 
         $this->currentPhase++;
+    }
+
+    public function mount(int $userId)
+    {
+        $this->userId = $userId;
     }
 
     public function render()

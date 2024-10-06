@@ -68,7 +68,7 @@
             </div>
             <div class="w-28">
                 <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12" :disabled="$stage === 4 && $loopLast ? false : true"
-                    wire:click="$dispatch('openCreateCustomerModal', { id: {{ $user->id }} })">
+                x-on:click="$dispatch('open-modal-create-customer-form') || $dispatch('open-modal', 'create-customer-form')">
 
                     {{ __('Yes') }}
                 </x-primary-button-custom>
