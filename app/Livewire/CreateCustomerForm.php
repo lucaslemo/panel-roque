@@ -84,9 +84,9 @@ class CreateCustomerForm extends Component
      */
     public function save()
     {
+        $validated = $this->validate();
+        
         try {
-            $validated = $this->validate();
-
             $validated['name'] = Str::apa($validated['name']);
             $validated['password'] = Hash::make(Str::password());
             $validated['type'] = 3;

@@ -26,6 +26,7 @@
                 :user="$user"
                 :stage="$stage"
                 :usersDefault="$usersDefault"
+                :loopLast="$loop->last"
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }}, visible: false }"
                 x-show="show"
                 x-init="
@@ -34,7 +35,7 @@
                         show = true;
                         $nextTick(() => {
                             setTimeout(() => $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'}), 100)
-                            {{ $loop->last && $stage <= 1 ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
+                            {{ $loop->last && $stage <= 2 ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
                         });
                     }, {{ $message['time'] }});"
                 x-transition:enter="transition ease-out duration-500"

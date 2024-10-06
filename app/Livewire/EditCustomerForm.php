@@ -69,9 +69,9 @@ class EditCustomerForm extends Component
      */
     public function save()
     {
+        $validated = $this->validate();
+        
         try {
-            $validated = $this->validate();
-
             DB::beginTransaction();
             $user = User::findOrFail($this->userId);
 
@@ -86,7 +86,7 @@ class EditCustomerForm extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
-            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
+            $this->dispatch('showAlert', __('Error updating user.'), __($th->getMessage()), 'danger');
         }
     }
 

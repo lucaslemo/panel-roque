@@ -125,7 +125,7 @@ class EditUserForm extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
-            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
+            $this->dispatch('showAlert', __('Error updating user.'), __($th->getMessage()), 'danger');
             $this->cancel();
         }
     }
