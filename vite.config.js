@@ -21,6 +21,10 @@ export default defineConfig({
                     src: 'resources/assets/imgs',
                     dest: 'assets'
                 },
+                {
+                    src: 'resources/assets/audios',
+                    dest: 'assets'
+                },
             ]
         }),
     ],

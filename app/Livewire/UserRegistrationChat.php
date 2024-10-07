@@ -48,7 +48,7 @@ class UserRegistrationChat extends Component
     /**
      * Add a new message on the messages history.
      */
-    private function addNewMessage(string $message, array $data = [], bool $animation = true, int $time = 0, string $type = 'received'): void
+    private function addNewMessage(string $message, array $data = [], bool $animation = true, int $time = 0, string $type = 'received', string|null $audio = null): void
     {
         if (is_string($message)) {
 
@@ -59,6 +59,7 @@ class UserRegistrationChat extends Component
                 'animation' => $animation,
                 'time' => $time,
                 'type' => $type,
+                'audio' => $audio
             ];
         }
     }
@@ -72,12 +73,12 @@ class UserRegistrationChat extends Component
             case 0:
                 // Exibe as mensagens iniciais.
                 $initialMessages = [
-                    Lang::get("For your security, let's first create a login password for future access to the site, ok?"),
-                    Lang::get('Your password must contain at least 8 characters, including letters and numbers.'),
-                    Lang::get('Here we go. Enter the password you want.'),
+                    ['text' => Lang::get("For your security, let's first create a login password for future access to the site, ok?"), 'audio' => asset('build/assets/audios/TEXTO_1_F.MP3')],
+                    ['text' => Lang::get('Your password must contain at least 8 characters, including letters and numbers.'), 'audio' => asset('build/assets/audios/TEXTO_2_F.MP3')],
+                    ['text' => Lang::get('Here we go. Enter the password you want.'), 'audio' => asset('build/assets/audios/TEXTO_3_F.MP3')],
                 ];
                 foreach ($initialMessages as $key => $message) {
-                    $this->addNewMessage($message, [], true, ($key + 1) * 1000, 'received');
+                    $this->addNewMessage($message['text'], [], true, ($key + 1) * 1000, 'received', $message['audio']);
                 }
 
                 break;
@@ -91,7 +92,7 @@ class UserRegistrationChat extends Component
                     }
 
                 } else if ($type === 'sent') {
-                    $this->addNewMessage(Lang::get('Please enter your password again.'), [], true, 1000, 'received');
+                    $this->addNewMessage(Lang::get('Please enter your password again.'), [], true, 1000, 'received', asset('build/assets/audios/TEXTO_4_F.MP3'));
                 }
                 break;
 
@@ -105,15 +106,21 @@ class UserRegistrationChat extends Component
 
                 } else if ($type === 'sent') {
                     $ConfirmationMessages = [
-                        Lang::get('Password registered.'),
-                        Lang::get('We have some information about you in the system, such as your phone number and email address. Do you want to validate that your data is correct?'),
-                        Lang::get("Make sure your data is correct. To correct it, simply click on \"Edit\". If the data is correct, simply click on \"Confirm Data\" to proceed to the next step."),
+                        ['text' => Lang::get('Password registered.'), 'audio' => asset('build/assets/audios/TEXTO_5_F.MP3')],
+                        [
+                            'text' => Lang::get('We have some information about you in the system, such as your phone number and email address.'),
+                            'audio' => asset('build/assets/audios/TEXTO_6_F.MP3')
+                        ],
+                        [
+                            'text' => Lang::get("Make sure your data is correct. To correct it, simply click on \"Edit\". If the data is correct, simply click on \"Confirm Data\" to proceed to the next step."),
+                            'audio' => asset('build/assets/audios/TEXTO_7_F.MP3')
+                        ],
                     ];
 
                     $time = 0;
                     foreach ($ConfirmationMessages as $key => $message) {
                         $time = ($key + 1) * 1000;
-                        $this->addNewMessage($message, [], true, $time, 'received');
+                        $this->addNewMessage($message['text'], [], true, $time, 'received', $message['audio']);
                     }
                     $this->addNewMessage(Lang::get('Personal Data'), [], true, $time + 1000, 'info');
                 }
@@ -121,7 +128,7 @@ class UserRegistrationChat extends Component
 
             case 3:
                 $this->addNewMessage(Lang::get('Confirm Data'), [], true, 0, 'button');
-                $this->addNewMessage(Lang::get('Okay! Now check out which companies you can view here:'), [], true, 1000, 'received');
+                $this->addNewMessage(Lang::get('Okay! Now check out which companies you can view here:'), [], true, 1000, 'received', asset('build/assets/audios/TEXTO_8_F.MP3'));
 
                 $time = 0;
                 foreach ($messages as $key => $message) {
@@ -129,7 +136,7 @@ class UserRegistrationChat extends Component
                     $data = array_key_exists($key, $messagesData) ? $messagesData[$key] : [];
                     $this->addNewMessage($message, $data, true, $time, $type);
                 }
-                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received');
+                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received', asset('build/assets/audios/TEXTO_9_F.MP3'));
                 $this->addNewMessage('', [], true, $time + 2000, 'buttonNewUser');
                 break;
 
@@ -140,14 +147,14 @@ class UserRegistrationChat extends Component
                     $data = array_key_exists($key, $messagesData) ? $messagesData[$key] : [];
                     $this->addNewMessage($message, $data, true, $time, 'newUser');
                 }
-                $this->addNewMessage(Lang::get('Would you like to share their data with anyone?'), [], true, $time + 1000, 'received');
+                $this->addNewMessage(Lang::get('Would you like to share the data with anyone else?'), [], true, $time + 1000, 'received', asset('build/assets/audios/TEXTO_10_F.MP3'));
                 $this->addNewMessage('', [], true, $time + 2000, 'buttonNewUser');
                 break;
 
             case 5:
                 $this->addNewMessage(Lang::get('No'), [], true, 0, 'button');
-                $this->addNewMessage(Lang::get('Okay. Your registration was successful!'), [], true, 1000, 'received');
-                $this->addNewMessage(Lang::get('Welcome to our Customer Portal! See you soon.'), [], true, 2000, 'received');
+                $this->addNewMessage(Lang::get('Okay. Your registration was successful!'), [], true, 1000, 'received', asset('build/assets/audios/TEXTO_11_F.MP3'));
+                $this->addNewMessage(Lang::get('Welcome to our Customer Portal! See you soon.'), [], true, 2000, 'received', asset('build/assets/audios/TEXTO_12_F.MP3'));
                 $this->addNewMessage('', [], true, 3000, 'buttonAccess');
 
                 break;

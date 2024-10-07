@@ -20,13 +20,14 @@
     <div x-ref="messagesContainer" class="flex flex-col overflow-y-auto scroll-smooth h-full min-h-0 space-y-3 laptop:space-y-4 py-6 px-[30px] laptop:px-20">
         @foreach ($messages as $message)
             <x-chat-message
-                class="{{ $message['animation'] ? 'hidden' : ''}}"
-                type="{{ $message['type'] }}"
+                :class="$message['animation'] ? 'hidden' : ''"
+                :type="$message['type']"
                 :data="$message['data']"
                 :user="$user"
                 :stage="$stage"
                 :usersDefault="$usersDefault"
                 :loopLast="$loop->last"
+                :audio="$message['audio']"
                 x-data="{ show: {{ $message['animation'] ? 'false' : 'true' }}, visible: false }"
                 x-show="show"
                 x-init="
@@ -34,7 +35,7 @@
                         $el.classList.remove('hidden');
                         show = true;
                         $nextTick(() => {
-                            setTimeout(() => $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'}), 100)
+                            setTimeout(() => $refs.messagesContainer.scrollTo({top: $refs.messagesContainer.scrollHeight, behavior: 'smooth'}), 100);
                             {{ $loop->last && $stage <= 2 ? 'true' : 'false' }} === true && ($dispatch('remove-disabled') || $dispatch('focus-password'));
                         });
                     }, {{ $message['time'] }});"
