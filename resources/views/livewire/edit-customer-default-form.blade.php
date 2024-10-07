@@ -67,7 +67,7 @@
     <!-- Botões de ação -->
     <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
         <div class="w-32 md:w-40">
-            <x-secondary-button wire:click="cancel" type="button" class="text-base font-semibold">
+            <x-secondary-button x-on:click="$dispatch('close-modal', 'edit-customer-default-form')" type="button" class="text-base font-semibold">
                 {{ __('Cancel') }}
             </x-secondary-button>
         </div>

@@ -68,7 +68,7 @@
             </div>
             <div class="w-28">
                 <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12" :disabled="$stage === 4 && $loopLast ? false : true"
-                x-on:click="$dispatch('open-modal-create-customer-form') || $dispatch('open-modal', 'create-customer-form')">
+                    x-on:click="$dispatch('open-modal-create-customer-form') || $dispatch('open-modal', 'create-customer-form')">
 
                     {{ __('Yes') }}
                 </x-primary-button-custom>
@@ -95,7 +95,7 @@
         <!-- Botão de ação -->
         <div class="w-1/3">
             <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 4 ? false : true"
-                wire:click="$dispatch('openEditCustomerDefaultModal', { id: {{ $usersDefault[$data['userId']]->id }} })">
+                x-on:click="$dispatch('open-modal-edit-customer-default-form', { id: {{ $usersDefault[$data['userId']]->id }} }) || $dispatch('open-modal', 'edit-customer-default-form')">
 
                 {{ __('Edit') }}
             </x-secondary-button>

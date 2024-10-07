@@ -35,7 +35,9 @@
         </x-modal-panel>
 
         <!-- Modal para editar um usuário criado -->
-        <livewire:edit-customer-default-modal />
+        <x-modal-panel :title="__('Edit user')" name="edit-customer-default-form">
+            <livewire:edit-customer-default-form :userId="$user->id" />
+        </x-modal-panel>
 
         <!-- Main content -->
         <main class="w-full max-w-7xl h-full px-0 laptop:px-[30px] xl:px-[70px] py-0 laptop:py-20 desktop:py-28">

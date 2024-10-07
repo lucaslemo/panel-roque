@@ -304,7 +304,7 @@ class UserRegistrationChat extends Component
     /**
      * Reload user default info.
      */
-    #[On('refreshUserDefaultUserRegistrationChat')]
+    #[On('refresh-user-default')]
     public function refreshUserDefault(int $id): void
     {
         try {

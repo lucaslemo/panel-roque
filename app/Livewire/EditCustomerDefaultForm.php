@@ -12,6 +12,7 @@ use Livewire\Component;
 class EditCustomerDefaultForm extends Component
 {
     public int $userId = 0;
+    public int $userDefaultId = 0;
     public int $currentPhase = 0;
     public array $customerIds = [];
     public array|Collection $customers = [];
@@ -32,36 +33,22 @@ class EditCustomerDefaultForm extends Component
         return $attributes;
     }
 
-    /**
-     * Clear fields.
-     */
-    #[On('clearEditCustomerDefaultForm')]
-    public function clearForm()
+    #[On('open-modal-edit-customer-default-form')]
+    public function prepareForm(int $id)
     {
-        $this->userId = 0;
-        $this->currentPhase = 0;
-        $this->customerIds = [];
-        $this->customers = [];
-        $this->reset();
+        $this->resetExcept('userId');
         $this->resetValidation();
-    }
 
-    /**
-     * Fill form data.
-     */
-    #[On('fillFormEditCustomerDefaultForm')]
-    public function fillFormData(int $id)
-    {
         try {
-            $user = User::with('customers')->findOrFail($id);
+            $user = User::with('customers')->where('register_user_id', $this->userId)->findOrFail($id);
 
-            $this->userId = $id;
+            $this->userDefaultId = $user->id;
             $this->name = $user->name;
             $this->cpf = formatCnpjCpf($user->cpf);
             $this->email = $user->email;
             $this->phone = formatPhone($user->phone);
 
-            $this->customers = User::with('customers')->findOrFail($user->register_user_id)->customers;
+            $this->customers = User::with('customers')->findOrFail($this->userId)->customers;
 
             foreach($this->customers as $customer) {
 
@@ -75,10 +62,9 @@ class EditCustomerDefaultForm extends Component
                 $this->customerIds[$customer->idCliente] = true;
             }
 
-
         } catch (\Throwable $th) {
             report($th);
-            $this->dispatch('closeEditCustomerDefaultModal')->to(EditCustomerDefaultModal::class);
+            $this->dispatch('close-modal', 'edit-customer-default-form');
             $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
     }
@@ -91,23 +77,24 @@ class EditCustomerDefaultForm extends Component
         try {
             $validated = $this->validate([
                 'name' => 'required|string',
-                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
-                'email' => 'required|string|email|unique:users,email,' . $this->userId . ',id',
+                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userDefaultId . ',id',
+                'email' => 'required|string|email|unique:users,email,' . $this->userDefaultId . ',id',
                 'phone' => 'required|string|digits_between:10,11',
             ]);
 
             DB::beginTransaction();
-            $user = User::findOrFail($this->userId);
+            $user = User::where('register_user_id', $this->userId)->findOrFail($this->userDefaultId);
 
             $user->fill($validated);
+
             $user->save();
 
             // A função array keys retorna as chaves de um array com valor true. Ex: [15 => true, 18 => false, 20 => true] -> [15, 20]
             $user->customers()->sync(array_keys($this->customerIds, true), true);
             DB::commit();
 
-            $this->dispatch('refreshUserDefaultUserRegistrationChat', $user->id)->to(UserRegistrationChat::class);
-            $this->dispatch('closeEditCustomerDefaultModal')->to(EditCustomerDefaultModal::class);
+            $this->dispatch('refresh-user-default', $user->id)->to(UserRegistrationChat::class);
+            $this->dispatch('close-modal', 'edit-customer-default-form');
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -128,14 +115,6 @@ class EditCustomerDefaultForm extends Component
     }
 
     /**
-     * Close the modal.
-     */
-    public function cancel()
-    {
-        $this->dispatch('closeEditCustomerDefaultModal')->to(EditCustomerDefaultModal::class);
-    }
-
-    /**
      * Pass for the next page.
      */
     public function nextPage()
@@ -143,13 +122,18 @@ class EditCustomerDefaultForm extends Component
         if ($this->currentPhase == 0) {
             $this->validate([
                 'name' => 'required|string',
-                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
-                'email' => 'required|string|email|unique:users,email,' . $this->userId . ',id',
+                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userDefaultId . ',id',
+                'email' => 'required|string|email|unique:users,email,' . $this->userDefaultId . ',id',
                 'phone' => 'required|string|digits_between:10,11',
             ]);
         }
 
         $this->currentPhase++;
+    }
+
+    public function mount(int $userId)
+    {
+        $this->userId = $userId;
     }
 
     public function render()
