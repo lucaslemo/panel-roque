@@ -9,6 +9,11 @@ class CreditLimitCards extends Component
 {
     public $creditLimits = [];
 
+    private function fetchData(array $ids = [])
+    {
+        
+    }
+
     public function mount()
     {
         try {
@@ -18,7 +23,6 @@ class CreditLimitCards extends Component
             ->get();
         } catch (\Throwable $th) {
             report($th);
-            $this->creditLimits = [0 => null];
             $this->dispatch('showAlert', __('Error when fetching card data.'), $th->getMessage(), 'danger');
         }
     }

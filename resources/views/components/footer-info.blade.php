@@ -1,13 +1,13 @@
-<div class="flex justify-center mb-12">
+<div class="flex flex-col md:flex-row justify-center mb-12">
 
     <!-- Coluna esquerda -->
-    <div>
+    <div class="mx-auto md:mx-0 mb-8 md:mb-0">
         <!-- Logo Roque -->
-        <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-[69px] mb-6" alt="Logo da Roque">
+        <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-14 laptop:h-[69px] mb-6 mx-auto md:mx-0" alt="Logo da Roque">
 
-        <div class="w-max">
+        <div class="min-w-72 md:min-w-0 w-max">
             <!-- texto -->
-            <p class="font-light text-small text-black mb-6">{{ __('Inside Construction Since 2004') }}</p>
+            <p class="font-light text-subtitle laptop:text-small text-black mb-6 text-center md:text-start">{{ __('Inside Construction Since 2004') }}</p>
 
             <!-- Linha amarela -->
             <div class="h-0.5 w-full bg-secondary mb-6"></div>
@@ -49,32 +49,34 @@
 
 
     <!-- Linha azul -->
-    <div class="w-px h-[187px] bg-primary mx-28"></div>
+    <div class="hidden md:block w-px h-40 laptop:h-[187px] bg-primary mx-10 laptop:mx-28"></div>
 
     <!-- Coluna do meio -->
-    <div class="me-20">
-        <h5 class="text-h5 font-medium text-black mb-4">{{ __('Menu') }}</h5>
-        <a class="block font-normal text-normal text-primary mb-2" href="#">{{ __('Dashboard') }}</a>
-        <a class="block font-normal text-normal text-primary mb-2" href="#">{{ __('Financial') }}</a>
-        <a class="block font-normal text-normal text-primary mb-2" href="#">{{ __('Orders') }}</a>
-        <a class="block font-normal text-normal text-primary" href="#">{{ __('Profile') }}</a>
-    </div>
-
-    <!-- Coluna do direita -->
-    <div>
-        <h5 class="text-h5 font-medium text-black mb-4">{{ __('Information') }}</h5>
-        <div class="w-64">
-            <p class="font-normal text-normal mb-6 text-black">Estr. de Ribamar, 20 - Forquilha, São Luís - MA, 65054-005</p>
-            <p class="font-normal text-normal mb-2 text-black">CNPJ: 06.944.437/0001-60</p>
-            <p class="font-medium text-normal mb-2">São Luís</p>
-            <p class="font-medium text-normal mb-2">Santa Inês</p>
-            <div class="flex items-center mb-2">
-                <svg class="size-3.5 fill-primary me-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.78172 2.24181C4.59774 2.08359 4.3625 1.99766 4.11984 2.00005L4.11 2.00015V2.0001H1.11062C0.9719 2.00027 0.834733 2.02931 0.707839 2.08536C0.580846 2.14145 0.466924 2.22337 0.373327 2.32591C0.279729 2.42844 0.208506 2.54934 0.164194 2.68091C0.120582 2.81039 0.103976 2.94742 0.115372 3.08353C0.428117 6.01509 1.4263 8.83197 3.02928 11.3064L3.03405 11.3138L3.03402 11.3138C4.49062 13.606 6.43406 15.5495 8.72632 17.0061L8.73413 17.011L8.7341 17.0111C11.1969 18.6082 13.9997 19.6061 16.9176 19.9248C17.0538 19.9361 17.1909 19.9193 17.3204 19.8755C17.4523 19.8309 17.5734 19.7592 17.676 19.6651C17.7787 19.5709 17.8605 19.4564 17.9163 19.3288C17.9721 19.2012 18.0006 19.0634 18 18.9242L18 18.9201V15.9201C18 15.9118 18.0001 15.9036 18.0003 15.8953C18.0064 15.6501 17.9221 15.4112 17.7636 15.224C17.6058 15.0378 17.3854 14.9158 17.1439 14.8808C16.1109 14.7442 15.0966 14.4913 14.1204 14.127L14.1181 14.1261C13.9392 14.0589 13.7447 14.0443 13.5577 14.0842C13.3715 14.1239 13.2005 14.216 13.0648 14.3495L11.7971 15.6172C11.4788 15.9355 10.987 16.0019 10.5957 15.7794C7.93569 14.2669 5.73324 12.0644 4.22071 9.40439C3.99819 9.01307 4.06458 8.5213 4.3829 8.20299L5.65053 6.93535C5.78411 6.79966 5.87618 6.62864 5.9159 6.4424C5.95578 6.25541 5.94122 6.06092 5.87395 5.88196L5.87311 5.8797C5.50883 4.90349 5.25596 3.88928 5.11931 2.85633C5.08464 2.61751 4.96476 2.39923 4.78172 2.24181ZM4.10557 9.70305e-05C4.83162 -0.00573987 5.53522 0.25194 6.0858 0.725444C6.63776 1.20013 6.99828 1.85932 7.10016 2.58015L7.10146 2.58933L7.10142 2.58934C7.21813 3.47427 7.43454 4.34316 7.74651 5.17945C7.94794 5.716 7.99146 6.29903 7.87191 6.85956C7.75228 7.42051 7.47435 7.9354 7.07105 8.34324L7.06712 8.34722L7.06711 8.3472L6.35002 9.0643C7.52587 10.9089 9.09116 12.4742 10.9358 13.6501L11.6529 12.933L11.6569 12.929C12.0647 12.5258 12.5796 12.2478 13.1405 12.1282C13.7011 12.0086 14.2841 12.0522 14.8206 12.2536C15.6569 12.5656 16.5258 12.782 17.4108 12.8987L17.4197 12.8999L17.4197 12.8999C18.1483 13.0027 18.8138 13.3697 19.2895 13.9311C19.7623 14.4891 20.0148 15.2004 20 15.9313V18.9181" />
-                </svg>
-                <span class="font-normal text-normal underline text-primary">4020-3528</span>
-            </div>
-            <p class="font-normal text-normal underline text-primary">contato@roqueac.com</p>
+    <span class="flex ps-5 md:ps-0 mx-auto md:mx-0">
+        <div class="me-10 laptop:me-20">
+            <h5 class="text-normal laptop:text-h5 font-medium text-black mb-4">{{ __('Menu') }}</h5>
+            <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.dashboard') }}" wire:navigate>{{ __('Dashboard') }}</a>
+            <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.invoices') }}" wire:navigate>{{ __('Financial') }}</a>
+            <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.orders') }}" wire:navigate>{{ __('Orders') }}</a>
+            <a class="block font-normal text-small laptop:text-normal text-primary" href="{{ route('common.profile') }}" wire:navigate>{{ __('Profile') }}</a>
         </div>
-    </div>
+
+        <!-- Coluna do direita -->
+        <div>
+            <h5 class="text-normal laptop:text-h5 font-medium text-black mb-4">{{ __('Information') }}</h5>
+            <div class="w-48 md:w-64">
+                <p class="font-normal text-small laptop:text-normal mb-6 text-black">Estr. de Ribamar, 20 - Forquilha, São Luís - MA, 65054-005</p>
+                <p class="font-normal text-small laptop:text-normal mb-2 text-black">CNPJ: 06.944.437/0001-60</p>
+                <p class="font-medium text-small laptop:text-normal mb-2">São Luís</p>
+                <p class="font-medium text-small laptop:text-normal mb-2">Santa Inês</p>
+                <div class="flex items-center mb-2">
+                    <svg class="size-3.5 fill-primary me-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.78172 2.24181C4.59774 2.08359 4.3625 1.99766 4.11984 2.00005L4.11 2.00015V2.0001H1.11062C0.9719 2.00027 0.834733 2.02931 0.707839 2.08536C0.580846 2.14145 0.466924 2.22337 0.373327 2.32591C0.279729 2.42844 0.208506 2.54934 0.164194 2.68091C0.120582 2.81039 0.103976 2.94742 0.115372 3.08353C0.428117 6.01509 1.4263 8.83197 3.02928 11.3064L3.03405 11.3138L3.03402 11.3138C4.49062 13.606 6.43406 15.5495 8.72632 17.0061L8.73413 17.011L8.7341 17.0111C11.1969 18.6082 13.9997 19.6061 16.9176 19.9248C17.0538 19.9361 17.1909 19.9193 17.3204 19.8755C17.4523 19.8309 17.5734 19.7592 17.676 19.6651C17.7787 19.5709 17.8605 19.4564 17.9163 19.3288C17.9721 19.2012 18.0006 19.0634 18 18.9242L18 18.9201V15.9201C18 15.9118 18.0001 15.9036 18.0003 15.8953C18.0064 15.6501 17.9221 15.4112 17.7636 15.224C17.6058 15.0378 17.3854 14.9158 17.1439 14.8808C16.1109 14.7442 15.0966 14.4913 14.1204 14.127L14.1181 14.1261C13.9392 14.0589 13.7447 14.0443 13.5577 14.0842C13.3715 14.1239 13.2005 14.216 13.0648 14.3495L11.7971 15.6172C11.4788 15.9355 10.987 16.0019 10.5957 15.7794C7.93569 14.2669 5.73324 12.0644 4.22071 9.40439C3.99819 9.01307 4.06458 8.5213 4.3829 8.20299L5.65053 6.93535C5.78411 6.79966 5.87618 6.62864 5.9159 6.4424C5.95578 6.25541 5.94122 6.06092 5.87395 5.88196L5.87311 5.8797C5.50883 4.90349 5.25596 3.88928 5.11931 2.85633C5.08464 2.61751 4.96476 2.39923 4.78172 2.24181ZM4.10557 9.70305e-05C4.83162 -0.00573987 5.53522 0.25194 6.0858 0.725444C6.63776 1.20013 6.99828 1.85932 7.10016 2.58015L7.10146 2.58933L7.10142 2.58934C7.21813 3.47427 7.43454 4.34316 7.74651 5.17945C7.94794 5.716 7.99146 6.29903 7.87191 6.85956C7.75228 7.42051 7.47435 7.9354 7.07105 8.34324L7.06712 8.34722L7.06711 8.3472L6.35002 9.0643C7.52587 10.9089 9.09116 12.4742 10.9358 13.6501L11.6529 12.933L11.6569 12.929C12.0647 12.5258 12.5796 12.2478 13.1405 12.1282C13.7011 12.0086 14.2841 12.0522 14.8206 12.2536C15.6569 12.5656 16.5258 12.782 17.4108 12.8987L17.4197 12.8999L17.4197 12.8999C18.1483 13.0027 18.8138 13.3697 19.2895 13.9311C19.7623 14.4891 20.0148 15.2004 20 15.9313V18.9181" />
+                    </svg>
+                    <span class="font-normal text-small laptop:text-normal underline text-primary">4020-3528</span>
+                </div>
+                <p class="font-normal text-small laptop:text-normal underline text-primary">contato@roqueac.com</p>
+            </div>
+        </div>
+    </span>
 </div>

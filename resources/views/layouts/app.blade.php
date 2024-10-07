@@ -20,29 +20,25 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            <livewire:layout.navigation />
+    <body class="flex flex-col font-sans antialiased bg-background min-h-screen">
+        <!-- Alert Messages -->
+        <livewire:alert-message />
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+        <!-- Page Header -->
+        <livewire:layout.app-header />
 
-            <!-- Alert Messages -->
-            <livewire:alert-message />
+        <!-- Page Content -->
+        <main class="flex-1 px-[30px] xl:px-[70px] pb-12 pt-6">
+            {{ $slot }}
+        </main>
 
-            <!-- Update details  -->
-            <livewire:update-details />
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+        <!-- Page Footer -->
+        <footer class="w-full">
+            <x-footer-info />
+            <div class="flex flex-col md:flex-row justify-center items-center h-24 md:h-28 w-full bg-white font-normal text-small-subtitle sm:text-small">
+                <div>Copyright ©&nbsp;<span class="font-bold">Roque Matcon Estrutural</span>&nbsp;|&nbsp;</div>
+                <div>Designed by Taís Ximenes & Developed by Lucas Lemos</div>
+            </div>
+        </footer>
     </body>
 </html>
