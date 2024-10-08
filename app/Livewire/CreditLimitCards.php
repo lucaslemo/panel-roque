@@ -7,24 +7,36 @@ use Livewire\Component;
 
 class CreditLimitCards extends Component
 {
-    public $creditLimits = [];
+    public float $limit = 0;
+    public float $used = 0;
+    public float $reserved = 0;
+    public float $available = 0;
 
     private function fetchData(array $ids = [])
     {
-        
-    }
-
-    public function mount()
-    {
         try {
-            $this->creditLimits = CreditLimit::with('customer')->whereHas('customer.users', function($query) {
-                $query->where('idUsuario', auth()->user()->id);
-            })
-            ->get();
+            $creditLimits = CreditLimit::with('customer')
+                ->whereHas('customer.users', function($query) {
+                    $query->where('idUsuario', auth()->user()->id);
+                })
+                ->when(count($ids) > 0, function($query) use($ids) {
+                    $query->whereIn('credit_limits.idLimiteDeCredito', $ids);
+                })
+                ->get();
+
+            $this->limit = $creditLimits->sum('vrLimite');
+            $this->used = $creditLimits->sum('vrUtilizado');
+            $this->reserved = $creditLimits->sum('vrReservado');
+            $this->available = $creditLimits->sum('vrDisponivel');
         } catch (\Throwable $th) {
             report($th);
             $this->dispatch('showAlert', __('Error when fetching card data.'), $th->getMessage(), 'danger');
         }
+    }
+
+    public function mount()
+    {
+        $this->fetchData();
     }
 
     public function render()
