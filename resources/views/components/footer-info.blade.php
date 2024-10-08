@@ -1,4 +1,4 @@
-<div class="flex flex-col md:flex-row justify-center mb-12">
+<div class="flex flex-col md:flex-row justify-center mb-12 mt-10">
 
     <!-- Coluna esquerda -->
     <div class="mx-auto md:mx-0 mb-8 md:mb-0">
