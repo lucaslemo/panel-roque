@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -90,6 +91,14 @@ class Order extends Model
     public function orderHistory(): HasMany
     {
         return $this->hasMany(OrderHistory::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
+    }
+
+    /**
+     * Parse the date.
+     */
+    public function getDtPedidoAttribute($date)
+    {
+        return Carbon::parse($date);
     }
 
     /**
