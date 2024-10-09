@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -22,7 +23,7 @@ class OrderFactory extends Factory
         $isDelivery = fake()->randomElement([true, false]);
         return [
             'extCliente' => fake()->randomNumber(4, false),
-            'extPedido' => fake()->randomNumber(4, false),
+            'extPedido' => fake()->unique()->randomNumber(8, false),
             'nmVendedor' => fake()->lastName(),
             'tpEntrega' => fake()->randomElement(['CIF', 'FOB']),
             'statusPedido' => fake()->randomElement(['Orçamento', 'Prevenda', 'Cancelado', 'Faturado', 'Devolvido']),
@@ -32,8 +33,8 @@ class OrderFactory extends Factory
             'dtEntrega' => $isDelivery ? $now->addMinutes(floor($minutes/ 2 )) : null,
             'vrTotal' => fake()->randomFloat(2, 1000, 20000),
             'numOrdemCompra' => fake()->randomNumber(7),
-            'nmArquivoDetalhes' => null,
-            'nmArquivoNotaFiscal' => null,
+            'nmArquivoDetalhes' => url(Storage::url('doc.pdf')),
+            'nmArquivoNotaFiscal' => url(Storage::url('nfe.xml')),
         ];
     }
 }
