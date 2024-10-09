@@ -18,6 +18,18 @@ switch ($align) {
 }
 
 switch ($width) {
+    case '80':
+        $width = 'w-80';
+        break;
+    case '72':
+        $width = 'w-72';
+        break;
+    case '64':
+        $width = 'w-64';
+        break;
+    case '60':
+        $width = 'w-60';
+        break;
     case '56':
         $width = 'w-56';
         break;

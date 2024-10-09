@@ -3,7 +3,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 laptop:grid-cols-4 gap-y-8 gap-x-4 laptop:gap-x-8 mt-8 w-full">
         <!-- Contas -->
-        <div class="w-full h-full col-span-1 row-span-1 md:col-span-2 laptop:row-span-3 laptop:col-span-3" style="background-color: tomato">Teste</div>
+        <div class="w-full h-full col-span-1 row-span-1 md:col-span-2 laptop:row-span-3 laptop:col-span-3">
+            <livewire:last-orders-dashboard />
+        </div>
 
         <!-- Redes sociais -->
         <div class="flex flex-col justify-around h-44 xl:h-52 col-span-1 row-span-1 bg-white rounded-lg shadow-card p-4 md:p-6">
@@ -15,7 +17,7 @@
             <div class="h-0.5 w-full bg-secondary"></div>
 
             <!-- Links -->
-            <div class="flex justify-between 2xl:justify-center 2xl:space-x-6">
+            <div class="flex justify-between 2xl:mx-8">
                 <!-- Instagram -->
                 <x-footer-link class="size-[51px] laptop:size-[40px] xl:size-[51px]" href="https://www.instagram.com/roquematcon?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
                     <svg class="size-6 laptop:size-4 xl:size-6 fill-border-color group-hover:fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +53,9 @@
 
         <!-- Add -->
         <div class="col-span-1 row-span-1 laptop:row-span-2 rounded-lg shadow-card">
-            <img src="{{ Storage::url('foto.PNG') }}" class="w-auto h-full rounded-lg" alt="Post do instagram">
+            <a target="_blank" href="https://www.instagram.com/p/C_alYcMR7Vq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==">
+                <img src="{{ Storage::url('foto.PNG') }}" class="w-auto h-full rounded-lg" alt="Post do instagram">
+            </a>
         </div>
     </div>
 

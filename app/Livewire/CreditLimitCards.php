@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\CreditLimit;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CreditLimitCards extends Component
@@ -32,6 +33,12 @@ class CreditLimitCards extends Component
             report($th);
             $this->dispatch('showAlert', __('Error when fetching card data.'), $th->getMessage(), 'danger');
         }
+    }
+
+    #[On('update-cards')]
+    public function update(array $ids)
+    {
+        $this->fetchData($ids);
     }
 
     public function mount()
