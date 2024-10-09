@@ -2,18 +2,17 @@
 
 namespace App\Livewire;
 
-use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Illuminate\Support\Str;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 
-class EditUserForm extends Component
+class EditCustomerDefaultForm extends Component
 {
     public int $userId = 0;
+    public int $userDefaultId = 0;
     public int $currentPhase = 0;
     public array $customerIds = [];
     public array|Collection $customers = [];
@@ -34,41 +33,22 @@ class EditUserForm extends Component
         return $attributes;
     }
 
-    /**
-     * Clear fields.
-     */
-    #[On('clearEditUserForm')]
-    public function clearForm()
+    #[On('open-modal-edit-customer-default-form')]
+    public function prepareForm(int $id)
     {
-        $this->userId = 0;
-        $this->currentPhase = 0;
-        $this->customerIds = [];
-        $this->customers = [];
-        $this->reset();
+        $this->resetExcept('userId');
         $this->resetValidation();
-    }
 
-    /**
-     * Fill form data.
-     */
-    #[On('fillFormEditUserForm')]
-    public function fillFormData(int $id)
-    {
         try {
-            $user = User::with('customers')->findOrFail($id);
+            $user = User::with('customers')->where('register_user_id', $this->userId)->findOrFail($id);
 
-            $this->userId = $id;
+            $this->userDefaultId = $user->id;
             $this->name = $user->name;
             $this->cpf = formatCnpjCpf($user->cpf);
             $this->email = $user->email;
             $this->phone = formatPhone($user->phone);
 
-            if ((int)$user->type === 2) {
-                // Busca os clientes associados ao E-mail do usuário
-                $this->customers = Customer::where('emailCliente', $this->email)->get();
-            } else {
-                $this->customers = User::with('customers')->findOrFail($user->register_user_id)->customers;
-            }
+            $this->customers = User::with('customers')->findOrFail($this->userId)->customers;
 
             foreach($this->customers as $customer) {
 
@@ -82,10 +62,9 @@ class EditUserForm extends Component
                 $this->customerIds[$customer->idCliente] = true;
             }
 
-
         } catch (\Throwable $th) {
             report($th);
-            $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
+            $this->dispatch('close-modal', 'edit-customer-default-form');
             $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
     }
@@ -96,36 +75,31 @@ class EditUserForm extends Component
     public function save()
     {
         try {
-            if (! optional(auth()->user())->isAdmin()) {
-                throw new UnauthorizedException('403', __("Oops! You don't have the required authorization."));
-            }
-
             $validated = $this->validate([
                 'name' => 'required|string',
-                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
-                'email' => 'required|string|email|unique:users,email,' . $this->userId . ',id',
+                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userDefaultId . ',id',
+                'email' => 'required|string|email|unique:users,email,' . $this->userDefaultId . ',id',
                 'phone' => 'required|string|digits_between:10,11',
             ]);
 
             DB::beginTransaction();
-            $user = User::findOrFail($this->userId);
+            $user = User::where('register_user_id', $this->userId)->findOrFail($this->userDefaultId);
 
             $user->fill($validated);
+
             $user->save();
 
             // A função array keys retorna as chaves de um array com valor true. Ex: [15 => true, 18 => false, 20 => true] -> [15, 20]
             $user->customers()->sync(array_keys($this->customerIds, true), true);
             DB::commit();
 
-            $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
-            $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
-            $this->dispatch('updateDataUsersDatatable')->to(UsersDatatable::class);
+            $this->dispatch('refresh-user-default', $user->id)->to(UserRegistrationChat::class);
+            $this->dispatch('close-modal', 'edit-customer-default-form');
 
-            $this->dispatch('showAlert', __('Completed'), __('The user has been updated successfully.'), 'success');
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
-            $this->dispatch('showAlert', __('Error updating user.'), __($th->getMessage()), 'danger');
+            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
             $this->cancel();
         }
     }
@@ -141,14 +115,6 @@ class EditUserForm extends Component
     }
 
     /**
-     * Close the modal.
-     */
-    public function cancel()
-    {
-        $this->dispatch('closeEditUserModal')->to(EditUserModal::class);
-    }
-
-    /**
      * Pass for the next page.
      */
     public function nextPage()
@@ -156,8 +122,8 @@ class EditUserForm extends Component
         if ($this->currentPhase == 0) {
             $this->validate([
                 'name' => 'required|string',
-                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userId . ',id',
-                'email' => 'required|string|email|unique:users,email,' . $this->userId . ',id',
+                'cpf' => 'required|string|cpf|unique:users,cpf,' . $this->userDefaultId . ',id',
+                'email' => 'required|string|email|unique:users,email,' . $this->userDefaultId . ',id',
                 'phone' => 'required|string|digits_between:10,11',
             ]);
         }
@@ -165,8 +131,13 @@ class EditUserForm extends Component
         $this->currentPhase++;
     }
 
+    public function mount(int $userId)
+    {
+        $this->userId = $userId;
+    }
+
     public function render()
     {
-        return view('livewire.edit-user-form');
+        return view('livewire.edit-customer-default-form');
     }
 }

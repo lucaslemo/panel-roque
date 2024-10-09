@@ -24,8 +24,20 @@
         <!-- Alert Messages -->
         <livewire:alert-message />
 
-        <!-- Modal para editar um usuário -->
-        <livewire:edit-customer-modal />
+        <!-- Modal para criar um usuário -->
+        <x-modal-panel :title="__('Register new user')" name="create-customer-form">
+            <livewire:create-customer-form :userId="$user->id" />
+        </x-modal-panel>
+
+        <!-- Modal para editar o usuário -->
+        <x-modal-panel :title="__('Edit user')" name="edit-customer-form">
+            <livewire:edit-customer-form :userId="$user->id" />
+        </x-modal-panel>
+
+        <!-- Modal para editar um usuário criado -->
+        <x-modal-panel :title="__('Edit user')" name="edit-customer-default-form">
+            <livewire:edit-customer-default-form :userId="$user->id" />
+        </x-modal-panel>
 
         <!-- Main content -->
         <main class="w-full max-w-7xl h-full px-0 laptop:px-[30px] xl:px-[70px] py-0 laptop:py-20 desktop:py-28">

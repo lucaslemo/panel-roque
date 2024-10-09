@@ -31,27 +31,15 @@ class EditCustomerForm extends Component
         return $attributes;
     }
 
-    /**
-     * Clear fields.
-     */
-    #[On('clearEditCustomerForm')]
-    public function clearForm()
+    #[On('open-modal-edit-customer-form')]
+    public function prepareForm()
     {
-        $this->userId = 0;
-        $this->reset();
+        $this->resetExcept('userId');
         $this->resetValidation();
-    }
 
-    /**
-     * Fill form data.
-     */
-    #[On('fillFormEditCustomerForm')]
-    public function fillFormData(int $id)
-    {
         try {
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($this->userId);
 
-            $this->userId = $id;
             $this->name = $user->name;
             $this->cpf = formatCnpjCpf($user->cpf);
             $this->email = $user->email;
@@ -59,49 +47,44 @@ class EditCustomerForm extends Component
 
         } catch (\Throwable $th) {
             report($th);
-            $this->dispatch('closeEditCustomerModal')->to(EditCustomerModal::class);
+            $this->dispatch('close-modal', 'edit-customer-form');
             $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
     }
 
     /**
-     * Save a new user on database.
+     * Update the user on database.
      */
     public function save()
     {
-        try {
-            $validated = $this->validate();
+        $validated = $this->validate();
 
+        try {
             DB::beginTransaction();
             $user = User::findOrFail($this->userId);
 
             $user->fill($validated);
 
-            $shouldUpdate = $user->isDirty();
+            $updated = $user->isDirty();
 
             $user->save();
             DB::commit();
 
-            $this->dispatch('refreshUserUserRegistrationChat')->to(UserRegistrationChat::class);
-            $this->dispatch('closeEditCustomerModal')->to(EditCustomerModal::class);
-
-            if ($shouldUpdate) {
-                $this->dispatch('showAlert', __('Completed'), __('The user has been updated successfully.'), 'success');
+            if ($updated) {
+                $this->dispatch('refresh-user')->to(UserRegistrationChat::class);
             }
 
+            $this->dispatch('close-modal', 'edit-customer-form');
         } catch (\Throwable $th) {
             DB::rollBack();
             report($th);
-            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
+            $this->dispatch('showAlert', __('Error updating user.'), __($th->getMessage()), 'danger');
         }
     }
 
-    /**
-     * Close the modal.
-     */
-    public function cancel()
+    public function mount(int $userId)
     {
-        $this->dispatch('closeEditCustomerModal')->to(EditCustomerModal::class);
+        $this->userId = $userId;
     }
 
     public function render()

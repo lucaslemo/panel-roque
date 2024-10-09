@@ -1,16 +1,65 @@
-@props(['type' => 'received', 'user' => null, 'stage' => 0, 'data' => []])
+@props(['type' => 'received', 'user' => null, 'stage' => 0, 'data' => [], 'usersDefault' => [], 'loopLast' => false, 'audio' => null])
 
 @if ($type === 'received')
-    <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg py-3 px-3 md:px-5']) }}>
-        <button x-data="{ text: `{{ $slot }}`}" type="button" class="focus:outline-none transition ease-in-out duration-150 me-3 md:me-4"
-            x-on:click="readTextAloud(text)">
+    <div {{ $attributes->merge(['class' => 'flex items-center self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg py-3 pe-3 md:pe-5']) }}>
 
-            <!-- Ícone do áudio -->
-            <svg class="size-6 min-w-6 fill-primary" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4332 4.09871C11.7797 4.26523 12 4.6156 12 5.00001V19C12 19.3844 11.7797 19.7348 11.4332 19.9013C11.0867 20.0678 10.6755 20.021 10.3753 19.7809L5.64922 16H2C1.44772 16 1 15.5523 1 15V9.00001C1 8.44772 1.44772 8.00001 2 8.00001H5.64922L10.3753 4.21914C10.6755 3.979 11.0867 3.93219 11.4332 4.09871ZM10 7.08063L6.62469 9.78088C6.44738 9.92273 6.22707 10 6 10H3V14H6C6.22707 14 6.44738 14.0773 6.62469 14.2191L10 16.9194V7.08063Z" />
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M18.363 4.22247C18.7536 3.83201 19.3868 3.8321 19.7773 4.22269C21.8394 6.28549 22.9979 9.08288 22.9979 11.9997C22.9979 14.9165 21.8394 17.7139 19.7773 19.7767C19.3868 20.1673 18.7536 20.1674 18.363 19.7769C17.9725 19.3864 17.9724 18.7533 18.3628 18.3627C20.0501 16.6749 20.9979 14.3862 20.9979 11.9997C20.9979 9.61321 20.0501 7.32444 18.3628 5.63669C17.9724 5.2461 17.9725 4.61294 18.363 4.22247ZM14.833 7.75247C15.2236 7.36201 15.8568 7.3621 16.2473 7.75269C17.3721 8.87785 18.004 10.4037 18.004 11.9947C18.004 13.5857 17.3721 15.1115 16.2473 16.2367C15.8568 16.6273 15.2236 16.6274 14.833 16.2369C14.4425 15.8464 14.4424 15.2133 14.8328 14.8227C15.5827 14.0726 16.004 13.0553 16.004 11.9947C16.004 10.934 15.5827 9.9168 14.8328 9.16669C14.4424 8.7761 14.4425 8.14294 14.833 7.75247Z" />
-            </svg>
-        </button>
+        @if (!is_null($audio))
+            <button type="button" class="text-primary h-full px-3 md:px-4 transition ease-in-out duration-150 hover:text-primary-700 active:text-primary-500 focus:outline-none"
+                x-data="{
+                    audio: new Audio('{{ $audio }}'),
+                    isPlaying: false,
+                    isReady: false,
+                    init() {
+                        this.audio.preload = 'auto';
+                        this.audio.addEventListener('canplaythrough', () => {
+                            this.isReady = true;
+                        });
+                        this.audio.addEventListener('ended', () => {
+                            this.isPlaying = false;
+                            this.audio.currentTime = 0;
+                        });
+                    },
+                    playAudio() {
+                        if (this.audio.paused) {
+                            this.audio.currentTime = 0;
+                        }
+                        if (this.isReady) {
+                            this.audio.play();
+                            this.isPlaying = true;
+                        }
+                    },
+                    pauseAudio() {
+                        this.audio.pause();
+                        this.isPlaying = false;
+                    },
+                    toggleAudio() {
+                        this.isPlaying ? this.pauseAudio() : this.playAudio();
+                    }
+                }"
+                x-init="init()"
+                x-on:click="toggleAudio">
+
+                <!-- Ícone do áudio -->
+                <svg x-show="!isPlaying" class="size-6 min-w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4332 4.09871C11.7797 4.26523 12 4.6156 12 5.00001V19C12 19.3844 11.7797 19.7348 11.4332 19.9013C11.0867 20.0678 10.6755 20.021 10.3753 19.7809L5.64922 16H2C1.44772 16 1 15.5523 1 15V9.00001C1 8.44772 1.44772 8.00001 2 8.00001H5.64922L10.3753 4.21914C10.6755 3.979 11.0867 3.93219 11.4332 4.09871ZM10 7.08063L6.62469 9.78088C6.44738 9.92273 6.22707 10 6 10H3V14H6C6.22707 14 6.44738 14.0773 6.62469 14.2191L10 16.9194V7.08063Z" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.363 4.22247C18.7536 3.83201 19.3868 3.8321 19.7773 4.22269C21.8394 6.28549 22.9979 9.08288 22.9979 11.9997C22.9979 14.9165 21.8394 17.7139 19.7773 19.7767C19.3868 20.1673 18.7536 20.1674 18.363 19.7769C17.9725 19.3864 17.9724 18.7533 18.3628 18.3627C20.0501 16.6749 20.9979 14.3862 20.9979 11.9997C20.9979 9.61321 20.0501 7.32444 18.3628 5.63669C17.9724 5.2461 17.9725 4.61294 18.363 4.22247ZM14.833 7.75247C15.2236 7.36201 15.8568 7.3621 16.2473 7.75269C17.3721 8.87785 18.004 10.4037 18.004 11.9947C18.004 13.5857 17.3721 15.1115 16.2473 16.2367C15.8568 16.6273 15.2236 16.6274 14.833 16.2369C14.4425 15.8464 14.4424 15.2133 14.8328 14.8227C15.5827 14.0726 16.004 13.0553 16.004 11.9947C16.004 10.934 15.5827 9.9168 14.8328 9.16669C14.4424 8.7761 14.4425 8.14294 14.833 7.75247Z" />
+                </svg>
+
+                <!-- Ícone de pause -->
+                <svg x-show="isPlaying" class="size-6 min-w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C5 3.44772 5.44772 3 6 3H10C10.5523 3 11 3.44772 11 4V20C11 20.5523 10.5523 21 10 21H6C5.44772 21 5 20.5523 5 20V4ZM7 5V19H9V5H7Z" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13 4C13 3.44772 13.4477 3 14 3H18C18.5523 3 19 3.44772 19 4V20C19 20.5523 18.5523 21 18 21H14C13.4477 21 13 20.5523 13 20V4ZM15 5V19H17V5H15Z" />
+                </svg>
+            </button>
+        @else
+            <button type="button" class="text-primary h-full px-3 md:px-4 transition ease-in-out duration-150 hover:text-primary-700 active:text-primary-500 focus:outline-none">
+                <!-- Ícone do áudio -->
+                <svg class="size-6 min-w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4332 4.09871C11.7797 4.26523 12 4.6156 12 5.00001V19C12 19.3844 11.7797 19.7348 11.4332 19.9013C11.0867 20.0678 10.6755 20.021 10.3753 19.7809L5.64922 16H2C1.44772 16 1 15.5523 1 15V9.00001C1 8.44772 1.44772 8.00001 2 8.00001H5.64922L10.3753 4.21914C10.6755 3.979 11.0867 3.93219 11.4332 4.09871ZM10 7.08063L6.62469 9.78088C6.44738 9.92273 6.22707 10 6 10H3V14H6C6.22707 14 6.44738 14.0773 6.62469 14.2191L10 16.9194V7.08063Z" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.363 4.22247C18.7536 3.83201 19.3868 3.8321 19.7773 4.22269C21.8394 6.28549 22.9979 9.08288 22.9979 11.9997C22.9979 14.9165 21.8394 17.7139 19.7773 19.7767C19.3868 20.1673 18.7536 20.1674 18.363 19.7769C17.9725 19.3864 17.9724 18.7533 18.3628 18.3627C20.0501 16.6749 20.9979 14.3862 20.9979 11.9997C20.9979 9.61321 20.0501 7.32444 18.3628 5.63669C17.9724 5.2461 17.9725 4.61294 18.363 4.22247ZM14.833 7.75247C15.2236 7.36201 15.8568 7.3621 16.2473 7.75269C17.3721 8.87785 18.004 10.4037 18.004 11.9947C18.004 13.5857 17.3721 15.1115 16.2473 16.2367C15.8568 16.6273 15.2236 16.6274 14.833 16.2369C14.4425 15.8464 14.4424 15.2133 14.8328 14.8227C15.5827 14.0726 16.004 13.0553 16.004 11.9947C16.004 10.934 15.5827 9.9168 14.8328 9.16669C14.4424 8.7761 14.4425 8.14294 14.833 7.75247Z" />
+                </svg>
+            </button>
+        @endif
 
         <!-- Texto da mensagem -->
         <p class="text-normal md:text-lg font-normal">
@@ -32,16 +81,16 @@
         <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($user->phone) }}</p>
 
         <!-- Botões de ação -->
-        <div class="flex flex-row space-x-3 md:space-x-6">
+        <div class="flex flex-row space-x-3 md:space-x-4">
             <div class="w-1/3">
-                <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 2 ? false : true"
-                    wire:click="$dispatch('openEditCustomerModal', { id: {{ $user->id }} })">
+                <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true"
+                    x-on:click="$dispatch('open-modal-edit-customer-form') || $dispatch('open-modal', 'edit-customer-form')">
 
                     {{ __('Edit') }}
                 </x-secondary-button>
             </div>
             <div class="w-2/3">
-                <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12" :disabled="$stage === 2 ? false : true"
+                <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12" :disabled="$stage === 3 ? false : true"
                     wire:click="confirmEdition">
 
                     {{ __('Confirm Data') }}
@@ -60,24 +109,51 @@
     <div {{ $attributes->merge(['class' => 'self-start max-w-lg laptop:max-w-2xl h-max']) }}>
         <div class="flex flex-row space-x-4">
             <div class="w-28">
-                <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 3 ? false : true"
+                <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 4 && $loopLast ? false : true"
                     wire:click="finishChat">
 
                     {{ __('No') }}
                 </x-secondary-button>
             </div>
             <div class="w-28">
-                <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12" :disabled="$stage === 3 ? false : true">
+                <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12" :disabled="$stage === 4 && $loopLast ? false : true"
+                    x-on:click="$dispatch('open-modal-create-customer-form') || $dispatch('open-modal', 'create-customer-form')">
 
                     {{ __('Yes') }}
                 </x-primary-button-custom>
             </div>
         </div>
     </div>
+@elseif ($type === 'newUser')
+    <div {{ $attributes->merge(['class' => 'self-start max-w-lg laptop:max-w-2xl h-max bg-white laptop:bg-background rounded-lg p-3 md:p-5']) }}>
+        <!-- Título da informação -->
+        <p class="text-normal font-medium mb-3">{{ $slot }}</p>
+
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Full name')</span>: {{ $usersDefault[$data['userId']]->name }}</p>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Companies he will have access to')</span>:</p>
+        <ul class="list-disc list-inside text-xs font-normal ms-2 mb-1">
+            @forelse ($usersDefault[$data['userId']]->customers as $customer)
+                <li>{{ $customer->nmCliente }}</li>
+            @empty
+                <p class="text-small font-normal">@lang('No companies were selected')</p>
+            @endforelse
+        </ul>
+        <p class="text-small font-normal mb-1"><span class="font-medium">@lang('Phone')</span>: {{ formatPhone($usersDefault[$data['userId']]->phone) }}</p>
+        <p class="text-small font-normal mb-3"><span class="font-medium">@lang('Email')</span>: {{ $usersDefault[$data['userId']]->email }}</p>
+
+        <!-- Botão de ação -->
+        <div class="w-1/3">
+            <x-secondary-button type="button" class="text-normal font-medium h-12" :disabled="$stage === 4 ? false : true"
+                x-on:click="$dispatch('open-modal-edit-customer-default-form', { id: {{ $usersDefault[$data['userId']]->id }} }) || $dispatch('open-modal', 'edit-customer-default-form')">
+
+                {{ __('Edit') }}
+            </x-secondary-button>
+        </div>
+    </div>
 @elseif ($type === 'buttonAccess')
     <!-- Botões de ação -->
     <div {{ $attributes->merge(['class' => 'self-start w-full sm:w-min max-w-lg laptop:max-w-2xl h-max']) }}>
-        <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12 px-0 sm:px-4" :disabled="$stage === 4 ? false : true"
+        <x-primary-button-custom type="button" class="text-normal font-medium text-nowrap h-12 px-0 sm:px-4" :disabled="$stage === 5 ? false : true"
             wire:click="openPortal">
 
             {{ __('Access the Customer Portal') }}

@@ -2,20 +2,19 @@
 
 namespace App\Livewire;
 
-use App\Models\Customer;
 use App\Models\User;
 use App\Notifications\UserCreated;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Illuminate\Support\Str;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 
-class CreateUserForm extends Component
+class CreateCustomerForm extends Component
 {
+    public int $userId = 0;
     public int $currentPhase = 0;
     public array $customerIds = [];
     public array|Collection $customers = [];
@@ -43,81 +42,63 @@ class CreateUserForm extends Component
         return $attributes;
     }
 
-    /**
-     * Clear fields.
-     */
-    #[On('clearCreateUserForm')]
-    public function clearForm()
+    #[On('open-modal-create-customer-form')]
+    public function prepareForm()
     {
-        $this->currentPhase = 0;
-        $this->customerIds = [];
-        $this->customers = [];
-        $this->reset();
+        $this->resetExcept('userId');
         $this->resetValidation();
-    }
 
-    /**
-     * Search customers data from given email.
-     */
-    private function fetchCustomers()
-    {
         try {
-            // Busca os clientes associados ao E-mail do usuário
-            $this->customers = Customer::where('emailCliente', $this->email)->get();
+            // Busca os clientes associados ao usuário
+            $this->customers = User::with('customers')->findOrFail($this->userId)->customers;
             foreach($this->customers as $customer) {
 
                 // Guardar os ids dos clientes em um vetor para definir quem será selecionado
-                $this->customerIds[$customer->idCliente] = true;
+                $this->customerIds[$customer->idCliente] = false;
             }
 
-        } catch (\Exception $e) {
-            report($e);
-            $this->dispatch('showAlert', __('Error loading company data.'), __($e->getMessage()), 'danger');
+        } catch (\Throwable $th) {
+            report($th);
+            $this->dispatch('close-modal', 'create-customer-form');
+            $this->dispatch('showAlert', __('Error fetching user data.'), __($th->getMessage()), 'danger');
         }
     }
 
     /**
-     * Save a new user on database.
+     * Save a new user on database. openCreateCustomerModal
      */
     public function save()
     {
+        $validated = $this->validate();
+
         try {
-            if (! optional(auth()->user())->isAdmin()) {
-                throw new UnauthorizedException('403', __("Oops! You don't have the required authorization."));
-            }
-
-            $validated = $this->validate();
-
             $validated['name'] = Str::apa($validated['name']);
             $validated['password'] = Hash::make(Str::password());
+            $validated['type'] = 3;
             $validated['register_token'] = Str::uuid();
-            $validated['register_user_id'] = auth()->id();
+            $validated['register_user_id'] = $this->userId;
 
             DB::beginTransaction();
             $user = new User;
             $user->fill($validated);
             $user->save();
 
-            $user->assignRole('Customer Admin');
+            $user->assignRole('Customer Default');
 
             // A função array keys retorna as chaves de um array com valor true. Ex: [15 => true, 18 => false, 20 => true] -> [15, 20]
             $user->customers()->attach(array_keys($this->customerIds, true));
             DB::commit();
 
-            $this->dispatch('closeCreateUserModal')->to(CreateUserModal::class);
-            $this->dispatch('updateDataUsersCards')->to(UsersCards::class);
-            $this->dispatch('updateDataUsersDatatable')->to(UsersDatatable::class);
-
             $user->refresh();
 
+            $this->dispatch('new-user', $user)->to(UserRegistrationChat::class);
+            $this->dispatch('close-modal', 'create-customer-form');
             $user->notify(new UserCreated($user));
 
-            $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
-            report($e);
-            $this->dispatch('showAlert', __('Error registering new user.'), __($e->getMessage()), 'danger');
-            $this->cancel();
+            report($th);
+            $this->dispatch('showAlert', __('Error registering new user.'), __($th->getMessage()), 'danger');
         }
     }
 
@@ -132,14 +113,6 @@ class CreateUserForm extends Component
     }
 
     /**
-     * Close the model.
-     */
-    public function cancel()
-    {
-        $this->dispatch('closeCreateUserModal')->to(CreateUserModal::class);
-    }
-
-    /**
      * Pass for the next page.
      */
     public function nextPage()
@@ -149,11 +122,15 @@ class CreateUserForm extends Component
         }
 
         $this->currentPhase++;
-        $this->fetchCustomers();
+    }
+
+    public function mount(int $userId)
+    {
+        $this->userId = $userId;
     }
 
     public function render()
     {
-        return view('livewire.create-user-form');
+        return view('livewire.create-customer-form');
     }
 }

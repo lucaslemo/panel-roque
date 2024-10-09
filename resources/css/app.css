@@ -19,7 +19,7 @@ input::-ms-reveal, input::-ms-clear {
 
 .table-head
 {
-    @apply h-10 px-2 2xl:px-6 border-b border-e text-normal font-normal text-subtitle-color;
+    @apply h-10 px-2 2xl:px-6 border-b border-e border-t text-normal font-normal text-subtitle-color;
 }
 
 .table-body

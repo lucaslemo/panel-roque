@@ -23,28 +23,28 @@
 
     <!-- Formulário -->
     @if ($currentPhase === 0)
-        <div class="grid grid-cols-1 laptop:grid-cols-2 gap-x-0 md:gap-x-6 laptop:gap-x-6 2xl:gap-x-12 gap-y-4 mb-6 md:mb-8 laptop:mb-12">
-            <div class="group-label-input">
-                <x-input-label for="name" :value="__('Username')" />
-                <x-text-input wire:model="name" id="name" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
-            </div>
-            <div class="group-label-input">
-                <x-input-label for="cpf" :value="__('CPF')" />
-                <x-text-input wire:model="cpf" id="cpf" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autocomplete="cpf" />
-                <x-input-error :messages="$errors->get('cpf')" class="mt-2" />
-            </div>
-            <div class="group-label-input">
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input wire:model="email" id="email" class="block w-full" type="email" name="email" required autocomplete="email" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-            <div class="group-label-input">
-                <x-input-label for="phone" :value="__('Phone')" />
-                <x-text-input wire:model="phone" id="phone" class="block w-full" type="text" name="phone" x-mask:dynamic="$input.replace(/\D/g, '').length > 10 ? '(99) 99999-9999' : '(99) 9999-9999'" required autocomplete="phone" />
-                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-            </div>
+    <div class="grid grid-cols-1 laptop:grid-cols-2 gap-x-0 md:gap-x-6 laptop:gap-x-6 2xl:gap-x-12 gap-y-4 mb-6 md:mb-8 laptop:mb-12">
+        <div class="group-label-input">
+            <x-input-label for="name_default_edit" :value="__('Username')" />
+            <x-text-input wire:model="name" id="name_default_edit" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
+        <div class="group-label-input">
+            <x-input-label for="cpf_default_edit" :value="__('CPF')" />
+            <x-text-input wire:model="cpf" id="cpf_default_edit" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autocomplete="cpf" />
+            <x-input-error :messages="$errors->get('cpf')" class="mt-2" />
+        </div>
+        <div class="group-label-input">
+            <x-input-label for="email_default_edit" :value="__('Email')" />
+            <x-text-input wire:model="email" id="email_default_edit" class="block w-full" type="email" name="email" required autocomplete="email" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+        <div class="group-label-input">
+            <x-input-label for="phone_default_edit" :value="__('Phone')" />
+            <x-text-input wire:model="phone" id="phone_default_edit" class="block w-full" type="text" name="phone" x-mask:dynamic="$input.replace(/\D/g, '').length > 10 ? '(99) 99999-9999' : '(99) 9999-9999'" required autocomplete="phone" />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+    </div>
     @elseif ($currentPhase === 1)
         @if (count($customers) > 0)
         <div class="grid grid-cols-1 laptop:grid-cols-2 gap-y-4 md:gap-y-8 mb-6 md:mb-8 laptop:mb-12">
@@ -67,7 +67,7 @@
     <!-- Botões de ação -->
     <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
         <div class="w-32 md:w-40">
-            <x-secondary-button wire:click="cancel" type="button" class="text-base font-semibold">
+            <x-secondary-button x-on:click="$dispatch('close-modal', 'edit-customer-default-form')" type="button" class="text-base font-semibold">
                 {{ __('Cancel') }}
             </x-secondary-button>
         </div>

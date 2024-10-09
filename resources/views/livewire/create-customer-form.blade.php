@@ -13,7 +13,7 @@
 
     @if ($currentPhase === 0)
         <p class="font-medium text-small md:text-normal text-label-color mb-4 md:mb-8 laptop:mb-12">
-            {{ __('Make sure you enter the correct information. To edit, simply click on the text box. After filling in the information, simply click on the “next step” button to select which companies this user will be able to view.') }}
+            {{ __('Make sure you enter the correct information. After filling it out, simply click on the “next step” button to select which companies this user will be able to view.') }}
         </p>
     @elseif ($currentPhase === 1)
         <p class="font-medium text-small md:text-normal text-label-color mb-6 md:mb-8 laptop:mb-12">
@@ -67,7 +67,7 @@
     <!-- Botões de ação -->
     <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
         <div class="w-32 md:w-40">
-            <x-secondary-button wire:click="cancel" type="button" class="text-base font-semibold">
+            <x-secondary-button x-on:click="$dispatch('close-modal', 'create-customer-form')" type="button" class="text-base font-semibold">
                 {{ __('Cancel') }}
             </x-secondary-button>
         </div>
