@@ -6,7 +6,9 @@ use App\Models\CreditLimit;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\OrderHistory;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -53,7 +55,8 @@ class DevSeeder extends Seeder
                 }
             });
 
-            Order::chunk(500, function(Collection $orders) {
+            $orderHistories = ['Entregue', 'Em trânsito', 'Devolvido', 'Reprogramado', 'Montado', 'Separado'];
+            Order::chunk(500, function(Collection $orders) use($orderHistories) {
                 foreach ($orders as $order) {
                     Invoice::factory()
                     ->count(rand(2, 3))
@@ -66,6 +69,20 @@ class DevSeeder extends Seeder
                     ))
                     ->for($order)
                     ->create();
+
+                    $orderKey = array_search($order->statusPedido, $orderHistories);
+                    $date = Carbon::parse($order->dtPedido);
+                    $date2 = Carbon::parse($order->dtPedido)->addMinutes(rand(1000, 10000));
+                    foreach($orderHistories as $key => $orderHistory) {
+                        if ($key > $orderKey) {
+                            $date2 = fake()->dateTimeBetween($date, $date2);
+                            OrderHistory::create([
+                                'idPedidoCabecalho' => $order->idPedidoCabecalho,
+                                'nmStatusPedido' => $orderHistory,
+                                'dtStatusPedido' => $date2,
+                            ]);
+                        }
+                    }
                 }
             });
 
