@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class LastOrdersDashboard extends Component
@@ -12,19 +14,20 @@ class LastOrdersDashboard extends Component
     public array|Collection $lastOrders = [];
     public array|Collection $customers = [];
     public array $selectedCustomers = [];
+    public Order|null $order = null;
 
     private function fetchOrders()
     {
         try {
-            $this->lastOrders = Order::join('customers', 'customers.idCliente', '=', 'orders.idCliente')
+            $this->lastOrders = DB::table('orders')
                 ->select(['orders.*', 'customers.nmCliente'])
+                ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
                 ->orderByRaw("CASE WHEN statusEntrega = 'Entregue' THEN 2 ELSE 1 END")
                 ->orderBy('dtPedido', 'DESC')
                 ->take(5)
                 ->get();
 
-            debugbar()->info($this->lastOrders);
         } catch (\Throwable $th) {
             report($th);
             $this->dispatch('showAlert', __('Error fetching customer data.'), $th->getMessage(), 'danger');
@@ -47,6 +50,20 @@ class LastOrdersDashboard extends Component
         $this->dispatch('update-cards', array_keys($this->selectedCustomers, true))->to(CreditLimitCards::class);
     }
 
+    /**
+     * Reload user default info.
+     */
+    #[On('set-order-detail')]
+    public function setOrderDetail(int $id): void
+    {
+        debugbar()->info($this->lastOrders);
+        $this->dispatch('open-modal', 'product-detail');
+        $this->order = Order::select(['orders.*', 'customers.nmCliente'])
+            ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
+            ->whereIn('orders.idCliente', array_keys($this->selectedCustomers, true))
+            ->findOrFail($id);
+    }
+
     public function mount()
     {
         try {
@@ -63,7 +80,7 @@ class LastOrdersDashboard extends Component
 
         } catch (\Throwable $th) {
             report($th);
-            $this->dispatch('showAlert', __('Error fetching customer data.'), $th->getMessage(), 'danger');
+            $this->dispatch('showAlert', __('Error fetching data.'), $th->getMessage(), 'danger');
         }
     }
 

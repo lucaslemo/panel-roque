@@ -102,6 +102,50 @@ class Order extends Model
     }
 
     /**
+     * Parse the date.
+     */
+    public function getDtFaturamentoAttribute($date)
+    {
+        return Carbon::parse($date);
+    }
+
+    /**
+     * Parse the delivery type.
+     */
+    public function getTpEntregaAttribute($value)
+    {
+        if ($value === 'FOB') {
+            return 'Withdrawal';
+        } else if ($value === 'CIF') {
+            return 'Delivery';
+        }
+        return $value;
+    }
+
+    /**
+     * Parse the delivery type.
+     */
+    public function getStatusColor()
+    {
+        switch ($this->statusEntrega) {
+            case 'Em trânsito':
+                return 'yellow';
+            case 'Montado':
+                return 'primary';
+            case 'Reservado':
+                return 'red';
+            case 'Devolvido':
+                return 'red';
+            case 'Cancelado':
+                return 'stone';
+            case 'Entregue':
+                return 'green';
+            default:
+                return 'stone';
+        }
+    }
+
+    /**
      * Log the model events.
      *
      * @return LogOptions
