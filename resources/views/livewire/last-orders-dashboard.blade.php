@@ -12,8 +12,20 @@
                 <div class="text-lg font-medium text-black">{{ 'R$ ' . number_format($order->vrTotal, 2, ',', '.') }}</div>
             </div>
             <div class="flex flex-row">
-                <div class="w-1/2">
-                    {{ $order->statusEntrega }}
+                <div class="flex flex-row w-1/2 ms-14">
+                    <div class="w-0.5 h-full bg-background me-4"></div>
+                    <div class="flex flex-col">
+                        @foreach ($order->orderHistories as $orderHistory)
+                            <div>
+                                <div class="text-lg font-normal">
+                                    {{ $orderHistory->nmStatusPedido }}
+                                </div>
+                                <div class="text-normal font-light">
+                                    {{ $orderHistory->dtStatusPedido->format('d/m/Y | H:i:s') }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="w-1/2 space-y-4">
                     <!-- Vendedor -->

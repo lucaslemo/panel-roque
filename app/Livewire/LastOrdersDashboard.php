@@ -59,6 +59,7 @@ class LastOrdersDashboard extends Component
         debugbar()->info($this->lastOrders);
         $this->dispatch('open-modal', 'product-detail');
         $this->order = Order::select(['orders.*', 'customers.nmCliente'])
+            ->with('orderHistories')
             ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
             ->whereIn('orders.idCliente', array_keys($this->selectedCustomers, true))
             ->findOrFail($id);
