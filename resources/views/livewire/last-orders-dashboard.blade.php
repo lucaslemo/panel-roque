@@ -3,25 +3,36 @@
         <!-- Modal para visualizar um pedido -->
         <x-modal-panel title="" name="product-detail" width='large'>
             @if (!is_null($order))
-                <div class="flex justify-end -mt-8 mb-2">
+                <div class="flex justify-end -mt-2 laptop:-mt-8 mb-2">
                     <button class="bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
                         x-on:click="$dispatch('close-modal', 'product-detail')">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="size-4 laptop:size-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.43884 0.418419C1.88095 -0.139473 0.976437 -0.139473 0.418549 0.418418C-0.139339 0.97631 -0.139339 1.88083 0.418549 2.43872L7.9797 9.99993L0.418416 17.5613C-0.139472 18.1192 -0.139472 19.0237 0.418416 19.5816C0.976304 20.1395 1.88082 20.1395 2.43871 19.5816L9.99999 12.0202L17.5613 19.5816C18.1192 20.1395 19.0237 20.1395 19.5816 19.5816C20.1395 19.0237 20.1395 18.1192 19.5816 17.5613L12.0203 9.99993L19.5814 2.43872C20.1393 1.88083 20.1393 0.976312 19.5814 0.41842C19.0236 -0.139471 18.119 -0.139471 17.5612 0.41842L10 7.97962L2.43884 0.418419Z" fill="#022266"/>
                         </svg>
                     </button>
                 </div>
-                <div class="flex flex-row justify-between items-center rounded-lg bg-background px-8 py-4">
+                <div class="hidden laptop:flex flex-row justify-between items-center rounded-lg bg-background px-8 py-4">
                     <div class="text-lg font-medium text-black">{{ $order->dtPedido->format('d/m/Y | H:i:s') }}</div>
-                    <div class="text-lg font-normal text-black w-[453px] truncate">{{ $order->nmCliente }}</div>
-                    <div class="flex flex-row justify-center items-center text-lg font-normal text-black">
+                    <div class="text-lg font-normal text-black xl:w-[377px] 2xl:w-[453px] truncate">{{ $order->nmCliente }}</div>
+                    <div class="flex flex-row justify-center items-center text-lg font-normal text-black leading-none">
                         <div class="{{ $order->getStatusColor() }}-circle"></div>
                         {{ $order->statusEntrega }}
                     </div>
                     <div class="text-lg font-medium text-black">{{ 'R$ ' . number_format($order->vrTotal, 2, ',', '.') }}</div>
                 </div>
-                <div class="flex flex-row mb-6">
-                    <div class="w-1/2 ms-12 overflow-y-auto hide-scrollbar max-h-[420px]">
+                <div class="block laptop:hidden rounded-lg bg-background p-4">
+                    <div class="text-small md:text-lg font-medium text-black mb-4">{{ $order->dtPedido->format('d/m/Y | H:i:s') }}</div>
+                    <div class="text-small  md:text-lg font-normal text-black mb-4">{{ $order->nmCliente }}</div>
+                    <div class="flex justify-start space-x-8">
+                        <div class="text-small  md:text-lg font-medium text-black">{{ 'R$ ' . number_format($order->vrTotal, 2, ',', '.') }}</div>
+                        <div class="flex flex-row justify-center items-center text-subtitle md:text-small font-normal text-black leading-none">
+                            <div class="{{ $order->getStatusColor() }}-circle"></div>
+                            {{ $order->statusEntrega }}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col laptop:flex-row mb-6">
+                    <div class="w-full ms-4 laptop:ms-12 overflow-y-auto hide-scrollbar max-h-[210px] laptop:max-h-[420px]">
                         <div class="flex flex-col">
                             @foreach ($order->orderHistories as $orderHistory)
                                 <div class="grid grid-rows-2 grid-flow-col justify-items-center gap-x-2 w-max">
@@ -33,20 +44,20 @@
                                     <div class="flex flex-col w-min items-center">
                                         @if ($order->statusEntrega === $orderHistory->nmStatusPedido)
                                             @if ($order->statusEntrega === 'Em trânsito')
-                                                <div class="size-4 min-h-4 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80"></div>
+                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80"></div>
                                             @elseif ($order->statusEntrega === 'Montado')
-                                                <div class="size-4 min-h-4 rounded-full bg-primary/80 ring-1 ring-inset ring-primary/20 shadow-sm hover:bg-primary"></div>
+                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-primary/80 ring-1 ring-inset ring-primary/20 shadow-sm hover:bg-primary"></div>
                                             @elseif ($order->statusEntrega === 'Reservado' || $order->statusEntrega === 'Devolvido')
-                                                <div class="size-4 min-h-4 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500"></div>
+                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500"></div>
                                             @elseif ($order->statusEntrega === 'Cancelado')
-                                                <div class="size-4 min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
+                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
                                             @elseif ($order->statusEntrega === 'Entregue')
-                                                <div class="size-4 min-h-4 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80"></div>
+                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80"></div>
                                             @else
-                                                <div class="size-4 min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
+                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
                                             @endif
                                         @else
-                                            <div class="size-4 min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
+                                            <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
                                         @endif
                                         @if (!$loop->last)
                                             <div class="w-0.5 h-full bg-background"></div>
@@ -55,10 +66,10 @@
 
                                     <!-- Status e data -->
                                     <div class="row-start-2">
-                                        <div class="text-lg font-normal leading-none mb-2">
+                                        <div class="text-small md:text-lg md:leading-none font-normal mb-2">
                                             {{ $orderHistory->nmStatusPedido }}.
                                         </div>
-                                        <div class="text-normal font-light leading-none">
+                                        <div class="text-subtitle md:text-normal font-light leading-none">
                                             {{ $orderHistory->dtStatusPedido->format('d/m/Y | H:i:s') }}
                                         </div>
                                     </div>
@@ -66,32 +77,32 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="w-1/2 space-y-4 mt-4">
+                    <div class="w-full space-y-4 mt-4">
                         <!-- Vendedor -->
-                        <div class="text-lg font-normal text-black bg-background rounded-lg p-8">
+                        <div class="text-small md:text-lg font-normal text-black bg-background rounded-lg p-4 laptop:p-8">
                             <span class="font-medium">{{ __('Seller') }}:</span> {{ $order->nmVendedor }}
                         </div>
 
                         <!-- Empresa -->
-                        <div class="text-lg font-normal text-black bg-background rounded-lg p-8">
+                        <div class="text-small md:text-lg font-normal text-black bg-background rounded-lg p-4 laptop:p-8">
                             <span class="font-medium">{{ __('Enterprise') }}:</span> {{ $order->nmCliente }}
                         </div>
 
                         <!-- Tipo de entrega -->
-                        <div class="text-lg font-normal text-black bg-background rounded-lg p-8">
+                        <div class="text-small md:text-lg font-normal text-black bg-background rounded-lg p-4 laptop:p-8">
                             <span class="font-medium">{{ __('Delivery Type') }}:</span> {{ __($order->tpEntrega) }}
                         </div>
 
                         <!-- Data do faturamento -->
-                        <div class="text-lg font-normal text-black bg-background rounded-lg p-8">
+                        <div class="text-small md:text-lg font-normal text-black bg-background rounded-lg p-4 laptop:p-8">
                             <span class="font-medium">{{ __('Billing Date') }}:</span> {{ $order->dtFaturamento->format('d/m/Y') }}
                         </div>
                     </div>
                 </div>
-                <div class="flex space-x-4 justify-end">
-                    <a href="{{ $order->nmArquivoDetalhes }}" download class="flex justify-between items-center w-72 border border-primary bg-transparent rounded-lg text-normal font-medium text-primary leading-none py-2 px-4 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                <div class="flex space-x-2 md:space-x-4 justify-end">
+                    <a href="{{ $order->nmArquivoDetalhes }}" download class="flex justify-between items-center w-72 border border-primary bg-transparent rounded-lg text-normal font-medium text-primary leading-none py-2 px-2 md:px-4 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
 
-                        <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg class="w-[24px] h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="27" fill="url(#pattern0_2623_4482_b)"/>
                             <defs>
                             <pattern id="pattern0_2623_4482_b" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -101,10 +112,11 @@
                             </defs>
                         </svg>
 
-                        {{ __('Download order details') }}
+                        <span class="hidden md:block">{{ __('Download order details') }}</span>
+                        <span class="block md:hidden">{{ __('Order Details') }}</span>
                     </a>
                     <a href="{{ $order->nmArquivoNotaFiscal }}" download class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
-                        <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg class="w-[24px] h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="27" fill="url(#pattern0_2625_4499)"/>
                             <defs>
                             <pattern id="pattern0_2625_4499" patternContentUnits="objectBoundingBox" width="1" height="1">
