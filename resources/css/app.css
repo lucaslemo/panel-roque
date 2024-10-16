@@ -34,27 +34,27 @@ input::-ms-reveal, input::-ms-clear {
 
 .green-circle
 {
-    @apply size-3 me-1 2xl:me-2 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80;
+    @apply size-3 min-w-3 min-h-3 me-1 2xl:me-2 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80;
 }
 
 .yellow-circle
 {
-    @apply size-3 me-1 2xl:me-2 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80;
+    @apply size-3 min-w-3 min-h-3 me-1 2xl:me-2 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80;
 }
 
 .stone-circle
 {
-    @apply size-3 me-1 2xl:me-2 rounded-full bg-stone-500/50 ring-1 ring-inset ring-stone-600/20 shadow-sm hover:bg-stone-500/80;
+    @apply size-3 min-w-3 min-h-3 me-1 2xl:me-2 rounded-full bg-stone-500/50 ring-1 ring-inset ring-stone-600/20 shadow-sm hover:bg-stone-500/80;
 }
 
 .primary-circle
 {
-    @apply size-3 me-1 2xl:me-2 rounded-full bg-primary/80 ring-1 ring-inset ring-primary/20 shadow-sm hover:bg-primary;
+    @apply size-3 min-w-3 min-h-3 me-1 2xl:me-2 rounded-full bg-primary/80 ring-1 ring-inset ring-primary/20 shadow-sm hover:bg-primary;
 }
 
 .red-circle
 {
-    @apply size-3 me-1 2xl:me-2 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500;
+    @apply size-3 min-w-3 min-h-3 me-1 2xl:me-2 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500;
 }
 
 .spinner {
