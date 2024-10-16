@@ -57,6 +57,14 @@ input::-ms-reveal, input::-ms-clear {
     @apply size-3 min-w-3 min-h-3 me-1 2xl:me-2 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500;
 }
 
+.hide-scrollbar {
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 .spinner {
     width: 50px;
     height: 50px;
