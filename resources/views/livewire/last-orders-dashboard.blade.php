@@ -32,52 +32,58 @@
                     </div>
                 </div>
                 <div class="flex flex-col laptop:flex-row mb-6">
-                    <div class="w-full ms-4 laptop:ms-12 overflow-y-auto hide-scrollbar max-h-[210px] laptop:max-h-[420px]">
-                        <div class="flex flex-col">
-                            @foreach ($order->orderHistories as $orderHistory)
-                                <div class="grid grid-rows-2 grid-flow-col justify-items-center gap-x-2 w-max">
+                    @if (count($order->orderHistories) === 0)
+                        <div class="flex w-full justify-center items-center text-small md:text-lg font-normal p-4">
+                            {{ __('There is no tracking history for this order.') }}
+                        </div>
+                    @else
+                        <div class="w-full ps-4 laptop:ps-12 overflow-y-auto hide-scrollbar max-h-[210px] laptop:max-h-[420px] shadow-inner-b">
+                            <div class="flex flex-col">
+                                @foreach ($order->orderHistories as $orderHistory)
+                                    <div class="grid grid-rows-2 grid-flow-col justify-items-center gap-x-2 w-max">
 
-                                    <!-- Linha em cima do círculo -->
-                                    <div class="w-0.5 h-full bg-background"></div>
+                                        <!-- Linha em cima do círculo -->
+                                        <div class="w-0.5 h-full bg-background"></div>
 
-                                    <!-- Círculo e linha inferior -->
-                                    <div class="flex flex-col w-min items-center">
-                                        @if ($order->statusEntrega === $orderHistory->nmStatusPedido)
-                                            @if ($order->statusEntrega === 'Em trânsito')
-                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80"></div>
-                                            @elseif ($order->statusEntrega === 'Montado')
-                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-primary/80 ring-1 ring-inset ring-primary/20 shadow-sm hover:bg-primary"></div>
-                                            @elseif ($order->statusEntrega === 'Reservado' || $order->statusEntrega === 'Devolvido')
-                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500"></div>
-                                            @elseif ($order->statusEntrega === 'Cancelado')
-                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
-                                            @elseif ($order->statusEntrega === 'Entregue')
-                                                <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80"></div>
+                                        <!-- Círculo e linha inferior -->
+                                        <div class="flex flex-col w-min items-center">
+                                            @if ($loop->first)
+                                                @if ($order->statusEntrega === 'Entregue')
+                                                    <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-green-500/50 ring-1 ring-inset ring-green-600/20 shadow-sm hover:bg-green-500/80"></div>
+                                                @elseif ($order->statusEntrega === 'Separado' || $order->statusEntrega === 'Montado')
+                                                    <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-primary/80 ring-1 ring-inset ring-primary/20 shadow-sm hover:bg-primary"></div>
+                                                @elseif ($order->statusEntrega === 'Em trânsito')
+                                                    <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-yellow-500/50 ring-1 ring-inset ring-yellow-600/20 shadow-sm hover:bg-yellow-500/80"></div>
+                                                @elseif ($order->statusEntrega === 'Devolvido' || $order->statusEntrega === 'Reprogramado')
+                                                    <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
+                                                @elseif ($order->statusEntrega === 'Reservado')
+                                                    <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-red-500/80 ring-1 ring-inset ring-red-500/20 shadow-sm hover:bg-red-500"></div>
+                                                @else
+                                                    <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
+                                                @endif
                                             @else
                                                 <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
                                             @endif
-                                        @else
-                                            <div class="size-3.5 min-h-3.5 md:size-4 md:min-h-4 rounded-full bg-stone-500/80 ring-1 ring-inset ring-stone-500/20 shadow-sm hover:bg-stone-500"></div>
-                                        @endif
-                                        @if (!$loop->last)
-                                            <div class="w-0.5 h-full bg-background"></div>
-                                        @endif
-                                    </div>
+                                            @if (!$loop->last)
+                                                <div class="w-0.5 h-full bg-background"></div>
+                                            @endif
+                                        </div>
 
-                                    <!-- Status e data -->
-                                    <div class="row-start-2">
-                                        <div class="text-small md:text-lg md:leading-none font-normal mb-2">
-                                            {{ $orderHistory->nmStatusPedido }}.
-                                        </div>
-                                        <div class="text-subtitle md:text-normal font-light leading-none">
-                                            {{ $orderHistory->dtStatusPedido->format('d/m/Y | H:i:s') }}
+                                        <!-- Status e data -->
+                                        <div class="row-start-2">
+                                            <div class="text-small md:text-lg md:leading-none font-normal mb-2">
+                                                {{ $orderHistory->nmStatusPedido }}.
+                                            </div>
+                                            <div class="text-subtitle md:text-normal font-light leading-none">
+                                                {{ $orderHistory->dtStatusPedido->format('d/m/Y | H:i:s') }}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                    <div class="w-full space-y-4 mt-4">
+                    @endif
+                    <div class="w-full space-y-4 mt-0 laptop:mt-4">
                         <!-- Vendedor -->
                         <div class="text-small md:text-lg font-normal text-black bg-background rounded-lg p-4 laptop:p-8">
                             <span class="font-medium">{{ __('Seller') }}:</span> {{ $order->nmVendedor }}
@@ -136,7 +142,7 @@
             <p class="text-normal md:text-lg font-medium text-black mb-4 md:mb-0">{{ __('Your latest orders') }}</p>
 
             <!-- Botão -->
-            <x-dropdown align="right" width="72">
+            <x-dropdown align="left" width="72">
                 <x-slot name="trigger">
                     <button class="flex flex-between items-center h-12 grow bg-white border border-black rounded-lg text-black text-normal font-normal py-4 px-4 md:px-8 hover:bg-primary-100 active:bg-primary-200 focus:outline-none">
 
@@ -196,16 +202,16 @@
 
                     <!-- Status do pedido -->
                     <div class="flex flex-row items-center justify-center sub-middle:justify-start laptop:justify-center middle:justify-start col-span-1 text-base xl:text-lg font-normal text-black w-full truncate">
-                        @if ($lastOrder->statusEntrega === 'Em trânsito')
-                            <div class="yellow-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Montado')
-                            <div class="primary-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Reservado' || $lastOrder->statusEntrega === 'Devolvido')
-                            <div class="red-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Cancelado')
-                            <div class="stone-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Entregue')
+                        @if ($lastOrder->statusEntrega === 'Entregue')
                             <div class="green-circle"></div>
+                        @elseif ($lastOrder->statusEntrega === 'Separado' || $lastOrder->statusEntrega === 'Montado')
+                            <div class="primary-circle"></div>
+                        @elseif ($lastOrder->statusEntrega === 'Em trânsito')
+                            <div class="yellow-circle"></div>
+                        @elseif ($lastOrder->statusEntrega === 'Devolvido' || $lastOrder->statusEntrega === 'Reprogramado')
+                            <div class="stone-circle"></div>
+                        @elseif ($lastOrder->statusEntrega === 'Reservado')
+                            <div class="red-circle"></div>
                         @else
                             <div class="stone-circle"></div>
                         @endif
@@ -269,16 +275,16 @@
 
                         <!-- Status -->
                         <div class="flex flex-row items-center justify-center text-subtitle font-normal">
-                            @if ($lastOrder->statusEntrega === 'Em trânsito')
-                                <div class="yellow-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Montado')
-                                <div class="primary-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Reservado' || $lastOrder->statusEntrega === 'Devolvido')
-                                <div class="red-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Cancelado')
-                                <div class="stone-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Entregue')
+                            @if ($lastOrder->statusEntrega === 'Entregue')
                                 <div class="green-circle"></div>
+                            @elseif ($lastOrder->statusEntrega === 'Separado' || $lastOrder->statusEntrega === 'Montado')
+                                <div class="primary-circle"></div>
+                            @elseif ($lastOrder->statusEntrega === 'Em trânsito')
+                                <div class="yellow-circle"></div>
+                            @elseif ($lastOrder->statusEntrega === 'Devolvido' || $lastOrder->statusEntrega === 'Reprogramado')
+                                <div class="stone-circle"></div>
+                            @elseif ($lastOrder->statusEntrega === 'Reservado')
+                                <div class="red-circle"></div>
                             @else
                                 <div class="stone-circle"></div>
                             @endif

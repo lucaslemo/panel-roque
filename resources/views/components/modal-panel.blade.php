@@ -3,7 +3,7 @@
 @php
     switch ($width) {
         case 'large':
-            $width = 'max-w-xs md:max-w-xl laptop:max-w-5xl 2xl:max-w-6xl';
+            $width = 'max-w-xs md:max-w-xl laptop:max-w-[900px] 2xl:max-w-6xl';
             break;
 
         default:

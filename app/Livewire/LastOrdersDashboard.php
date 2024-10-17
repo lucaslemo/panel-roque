@@ -23,6 +23,8 @@ class LastOrdersDashboard extends Component
                 ->select(['orders.*', 'customers.nmCliente'])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
+                ->whereNull('orders.deleted_at')
+                ->whereNull('customers.deleted_at')
                 ->orderByRaw("CASE WHEN statusEntrega = 'Entregue' THEN 2 ELSE 1 END")
                 ->orderBy('dtPedido', 'DESC')
                 ->take(5)
