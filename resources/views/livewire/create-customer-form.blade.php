@@ -21,68 +21,71 @@
         </p>
     @endif
 
-    <!-- Formulário -->
-    @if ($currentPhase === 0)
-        <div class="grid grid-cols-1 laptop:grid-cols-2 gap-x-0 md:gap-x-6 laptop:gap-x-6 2xl:gap-x-12 gap-y-4 mb-6 md:mb-8 laptop:mb-12">
-            <div class="group-label-input">
-                <x-input-label for="name" :value="__('Username')" />
-                <x-text-input wire:model="name" id="name" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
-            </div>
-            <div class="group-label-input">
-                <x-input-label for="cpf" :value="__('CPF')" />
-                <x-text-input wire:model="cpf" id="cpf" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autocomplete="cpf" />
-                <x-input-error :messages="$errors->get('cpf')" class="mt-2" />
-            </div>
-            <div class="group-label-input">
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input wire:model="email" id="email" class="block w-full" type="email" name="email" required autocomplete="email" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-            <div class="group-label-input">
-                <x-input-label for="phone" :value="__('Phone')" />
-                <x-text-input wire:model="phone" id="phone" class="block w-full" type="text" name="phone" x-mask:dynamic="$input.replace(/\D/g, '').length > 10 ? '(99) 99999-9999' : '(99) 9999-9999'" required autocomplete="phone" />
-                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-            </div>
-        </div>
-    @elseif ($currentPhase === 1)
-        @if (count($customers) > 0)
-        <div class="grid grid-cols-1 laptop:grid-cols-2 gap-y-4 md:gap-y-8 mb-6 md:mb-8 laptop:mb-12">
-            @foreach ($customers as $customer)
-                <x-card-button
-                    wire:click="toggleCustomer({{ $customer->idCliente }})"
-                    :active="$customerIds[$customer->idCliente]"
-                    :customer="$customer->nmCliente"
-                    :code="formatCnpjCpf($customer->codCliente)" />
-            @endforeach
-        </div>
-
-        @else
-            <p class="font-medium text-small md:text-normal text-black mb-12">
-                {{ __('There are no companies registered for this user yet. Check if the email is correct or if it has already been entered in the Query.') }}
-            </p>
-        @endif
-    @endif
-
-    <!-- Botões de ação -->
-    <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
-        <div class="w-32 md:w-40">
-            <x-secondary-button x-on:click="$dispatch('close-modal', 'create-customer-form')" type="button" class="text-base font-semibold">
-                {{ __('Cancel') }}
-            </x-secondary-button>
-        </div>
+    <form wire:submit="save">
+        <!-- Formulário -->
         @if ($currentPhase === 0)
-            <div class="w-40">
-                <x-secondary-button wire:click="nextPage" type="button" class="text-base font-semibold">
-                    {{ __('Next Step') }}
-                </x-secondary-button>
+            <div class="grid grid-cols-1 laptop:grid-cols-2 gap-x-0 md:gap-x-6 laptop:gap-x-6 2xl:gap-x-12 gap-y-4 mb-6 md:mb-8 laptop:mb-12">
+                <div class="group-label-input">
+                    <x-input-label for="name" :value="__('Username')" />
+                    <x-text-input wire:model="name" id="name" class="block w-full" type="text" name="name" required autofocus autocomplete="name" />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
+                <div class="group-label-input">
+                    <x-input-label for="cpf" :value="__('CPF')" />
+                    <x-text-input wire:model="cpf" id="cpf" class="block w-full" type="text" name="cpf" x-mask="999.999.999-99" required autocomplete="cpf" />
+                    <x-input-error :messages="$errors->get('cpf')" class="mt-2" />
+                </div>
+                <div class="group-label-input">
+                    <x-input-label for="email" :value="__('Email')" />
+                    <x-text-input wire:model="email" id="email" class="block w-full" type="email" name="email" required autocomplete="email" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+                <div class="group-label-input">
+                    <x-input-label for="phone" :value="__('Phone')" />
+                    <x-text-input wire:model="phone" id="phone" class="block w-full" type="text" name="phone" x-mask:dynamic="$input.replace(/\D/g, '').length > 10 ? '(99) 99999-9999' : '(99) 9999-9999'" required autocomplete="phone" />
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                </div>
             </div>
         @elseif ($currentPhase === 1)
-            <div class="w-40">
-                <x-secondary-button wire:click="save" type="button" class="text-base font-semibold">
-                    {{ __('Save Data') }}
+            @if (count($customers) > 0)
+            <div class="grid grid-cols-1 laptop:grid-cols-2 gap-y-4 md:gap-y-8 mb-6 md:mb-8 laptop:mb-12">
+                @foreach ($customers as $customer)
+                    <x-card-button
+                        wire:click="toggleCustomer({{ $customer->idCliente }})"
+                        :active="$customerIds[$customer->idCliente]"
+                        :customer="$customer->nmCliente"
+                        :code="formatCnpjCpf($customer->codCliente)" />
+                @endforeach
+            </div>
+
+            @else
+                <p class="font-medium text-small md:text-normal text-black mb-12">
+                    {{ __('There are no companies registered for this user yet. Check if the email is correct or if it has already been entered in the Query.') }}
+                </p>
+            @endif
+        @endif
+
+        <!-- Botões de ação -->
+        <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
+            <div class="w-32 md:w-40">
+                <x-secondary-button x-on:click="$dispatch('close-modal', 'create-customer-form')" type="button" class="text-base font-semibold">
+                    {{ __('Cancel') }}
                 </x-secondary-button>
             </div>
-        @endif
-    </div>
+            @if ($currentPhase === 0)
+                <div class="w-40">
+                    <x-secondary-button wire:click="nextPage" type="button" class="text-base font-semibold">
+                        {{ __('Next Step') }}
+                    </x-secondary-button>
+                </div>
+            @elseif ($currentPhase === 1)
+                <div class="w-40">
+                    <x-secondary-button type="submit" class="text-base font-semibold">
+                        <span wire:loading wire:target="save" class="loading me-1 md:me-2"></span>
+                        {{ __('Save Data') }}
+                    </x-secondary-button>
+                </div>
+            @endif
+        </div>
+    </form>
 </div>
