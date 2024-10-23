@@ -94,6 +94,7 @@ class CreateCustomerForm extends Component
             $this->dispatch('new-user', $user)->to(UserRegistrationChat::class);
             $this->dispatch('close-modal', 'create-customer-form');
             $user->notify(new UserCreated($user));
+            $this->cancel();
 
         } catch (\Throwable $th) {
             DB::rollBack();
