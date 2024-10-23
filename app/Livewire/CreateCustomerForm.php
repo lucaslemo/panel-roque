@@ -124,6 +124,17 @@ class CreateCustomerForm extends Component
         $this->currentPhase++;
     }
 
+    /**
+     * Close the model.
+     */
+    #[On('cancel-create-customer-form')]
+    public function cancel()
+    {
+        $this->currentPhase = 0;
+        $this->resetExcept('userId');
+        $this->resetValidation();
+    }
+
     public function mount(int $userId)
     {
         $this->userId = $userId;

@@ -68,7 +68,7 @@
         <!-- Botões de ação -->
         <div class="flex justify-between md:justify-end space-x-3 md:space-x-4 laptop:space-x-6">
             <div class="w-32 md:w-40">
-                <x-secondary-button x-on:click="$dispatch('close-modal', 'create-customer-form')" type="button" class="text-base font-semibold">
+                <x-secondary-button x-on:click="$dispatch('close-modal', 'create-customer-form') || $dispatch('cancel-create-customer-form')" type="button" class="text-base font-semibold">
                     {{ __('Cancel') }}
                 </x-secondary-button>
             </div>

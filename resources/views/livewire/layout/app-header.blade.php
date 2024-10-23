@@ -18,9 +18,17 @@ new class extends Component
 
 <header x-data="{ open: false }" class="bg-white">
 
+    <!-- Modal para editar o perfil -->
     <x-modal-panel title="{{ __('Edit user') }}" name="edit-profile">
         <livewire:edit-profile />
     </x-modal-panel>
+
+    @can('Can register a new user customer default')
+        <!-- Modal para criar um usuário -->
+        <x-modal-panel :title="__('Register new user')" name="create-customer-form">
+            <livewire:create-customer-form :userId="auth()->user()->id" />
+        </x-modal-panel>
+    @endcan
 
     <div class="px-[30px] xl:px-[70px] pt-8 pb-6">
         <div class="flex justify-between items-center">
@@ -64,6 +72,12 @@ new class extends Component
                         <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-edit-profile')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        @can('Can register a new user customer default')
+                            <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-create-customer-form') || $dispatch('open-modal', 'create-customer-form')">
+                                {{ __('New user') }}
+                            </x-dropdown-link>
+                        @endcan
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
