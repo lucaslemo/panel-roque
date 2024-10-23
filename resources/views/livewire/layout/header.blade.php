@@ -18,6 +18,10 @@ new class extends Component
 
 <header x-data="{ open: false }" class="flex justify-between items-center px-[30px] xl:px-[70px] pt-8 pb-6 bg-white laptop:bg-transparent">
 
+    <x-modal-panel title="{{ __('Edit user') }}" name="edit-profile">
+        <livewire:edit-profile />
+    </x-modal-panel>
+
     <!-- Ícone da Aplicação -->
     <img src="{{ asset('build/assets/imgs/logo_principal.png') }}" class="w-auto h-8 laptop:h-12" alt="Logo da Roque">
 
@@ -42,7 +46,7 @@ new class extends Component
         </x-slot>
 
         <x-slot name="content">
-            <x-dropdown-link :href="route('common.profile')" wire:navigate>
+            <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-edit-profile')">
                 {{ __('Profile') }}
             </x-dropdown-link>
 

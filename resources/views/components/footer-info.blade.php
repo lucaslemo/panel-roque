@@ -57,8 +57,8 @@
             <h5 class="text-normal laptop:text-h5 font-medium text-black mb-4">{{ __('Menu') }}</h5>
             <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.dashboard') }}" wire:navigate>{{ __('Dashboard') }}</a>
             <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.invoices') }}" wire:navigate>{{ __('Financial') }}</a>
-            <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.orders') }}" wire:navigate>{{ __('Orders') }}</a>
-            <a class="block font-normal text-small laptop:text-normal text-primary" href="{{ route('common.profile') }}" wire:navigate>{{ __('Profile') }}</a>
+            <a class="block font-normal text-small laptop:text-normal text-primary" href="{{ route('app.orders') }}" wire:navigate>{{ __('Orders') }}</a>
+            {{-- <a class="block font-normal text-small laptop:text-normal text-primary" href="{{ route('common.profile') }}" wire:navigate>{{ __('Profile') }}</a> --}}
         </div>
 
         <!-- Coluna do direita -->

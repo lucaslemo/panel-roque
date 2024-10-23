@@ -21,7 +21,7 @@ class CreditLimitCards extends Component
                     $query->where('idUsuario', auth()->user()->id);
                 })
                 ->when(count($ids) > 0, function($query) use($ids) {
-                    $query->whereIn('credit_limits.idLimiteDeCredito', $ids);
+                    $query->whereIn('credit_limits.idCliente', $ids);
                 })
                 ->get();
 
@@ -39,6 +39,7 @@ class CreditLimitCards extends Component
     public function update(array $ids)
     {
         $this->fetchData($ids);
+        $this->dispatch('upload-orders-reserved', $ids)->to(ModalOrdersReserved::class);
     }
 
     public function mount()

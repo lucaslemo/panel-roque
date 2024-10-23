@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Invoice>
@@ -25,7 +26,7 @@ class InvoiceFactory extends Factory
         $value = fake()->randomFloat(2, 200, 8000);
         return [
             'extCliente' => fake()->randomNumber(4, false),
-            'extConta' => fake()->randomNumber(4, false),
+            'extConta' => fake()->unique()->randomNumber(8, false),
             'extPedido' => fake()->randomNumber(4, false),
             'nmVendedor' => fake()->lastName(),
             'statusConta' => $payment ? 'Entregue' : 'Aberto',
@@ -40,8 +41,9 @@ class InvoiceFactory extends Factory
             'vrLiquido' => $value,
             'vrAtualizado' => $value,
             'vrPago' => $payment ? $value : null,
-            'isBoleto' => fake()->randomElement([true, false]),
-            'nmArquivoConta' => null,
+            'isBoleto' => true,
+            'codBoleto' => fake()->regexify('\d{5}\.\d{5} \d{5}\.\d{6} \d{5}\.\d{6} \d{1} \d{14}'),
+            'nmArquivoConta' => url(Storage::url('doc.pdf')),
         ];
     }
 }

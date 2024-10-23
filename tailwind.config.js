@@ -25,7 +25,9 @@ export default {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
             screens: {
+                'sub-middle': '896px',
                 'laptop': '1024px',
+                'middle': '1152px',
                 'desktop': '1920px',
             },
             spacing: {

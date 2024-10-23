@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,6 +45,14 @@ class OrderHistory extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
+    }
+
+    /**
+     * Parse the date.
+     */
+    public function getDtStatusPedidoAttribute($date)
+    {
+        return Carbon::parse($date);
     }
 
     /**

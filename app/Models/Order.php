@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -87,9 +88,61 @@ class Order extends Model
     /**
      * Get the order history for the order.
      */
-    public function orderHistory(): HasMany
+    public function orderHistories(): HasMany
     {
         return $this->hasMany(OrderHistory::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
+    }
+
+    /**
+     * Parse the date.
+     */
+    public function getDtPedidoAttribute($date)
+    {
+        return Carbon::parse($date);
+    }
+
+    /**
+     * Parse the date.
+     */
+    public function getDtFaturamentoAttribute($date)
+    {
+        return Carbon::parse($date);
+    }
+
+    /**
+     * Parse the delivery type.
+     */
+    public function getTpEntregaAttribute($value)
+    {
+        if ($value === 'FOB') {
+            return 'Withdrawal';
+        } else if ($value === 'CIF') {
+            return 'Delivery';
+        }
+        return $value;
+    }
+
+    /**
+     * Parse the delivery type.
+     */
+    public function getStatusColor()
+    {
+        switch ($this->statusEntrega) {
+            case 'Em trânsito':
+                return 'yellow';
+            case 'Montado':
+                return 'primary';
+            case 'Reservado':
+                return 'red';
+            case 'Devolvido':
+                return 'red';
+            case 'Cancelado':
+                return 'stone';
+            case 'Entregue':
+                return 'green';
+            default:
+                return 'stone';
+        }
     }
 
     /**

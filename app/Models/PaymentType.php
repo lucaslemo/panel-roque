@@ -33,6 +33,7 @@ class PaymentType extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'idPedidoCabecalho',
         'tpPagamento',
         'vrValor',
     ];

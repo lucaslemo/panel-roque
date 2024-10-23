@@ -94,6 +94,7 @@ class CreateCustomerForm extends Component
             $this->dispatch('new-user', $user)->to(UserRegistrationChat::class);
             $this->dispatch('close-modal', 'create-customer-form');
             $user->notify(new UserCreated($user));
+            $this->cancel();
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -122,6 +123,17 @@ class CreateCustomerForm extends Component
         }
 
         $this->currentPhase++;
+    }
+
+    /**
+     * Close the model.
+     */
+    #[On('cancel-create-customer-form')]
+    public function cancel()
+    {
+        $this->currentPhase = 0;
+        $this->resetExcept('userId');
+        $this->resetValidation();
     }
 
     public function mount(int $userId)

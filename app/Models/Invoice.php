@@ -54,6 +54,7 @@ class Invoice extends Model
         'vrAtualizado',
         'vrPago',
         'isBoleto',
+        'codBoleto',
         'nmArquivoConta',
     ];
 
