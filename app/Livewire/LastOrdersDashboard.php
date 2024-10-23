@@ -6,7 +6,6 @@ use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class LastOrdersDashboard extends Component
@@ -52,21 +51,6 @@ class LastOrdersDashboard extends Component
         $this->dispatch('update-cards', array_keys($this->selectedCustomers, true))->to(CreditLimitCards::class);
     }
 
-    /**
-     * Reload user default info.
-     */
-    #[On('set-order-detail')]
-    public function setOrderDetail(int $id): void
-    {
-        $this->order = Order::select(['orders.*', 'customers.nmCliente'])
-            ->with('orderHistories')
-            ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
-            ->whereIn('orders.idCliente', array_keys($this->selectedCustomers, true))
-            ->findOrFail($id);
-
-        $this->dispatch('open-modal', 'product-detail');
-    }
-
     public function mount()
     {
         try {
@@ -85,6 +69,14 @@ class LastOrdersDashboard extends Component
             report($th);
             $this->dispatch('showAlert', __('Error fetching data.'), $th->getMessage(), 'danger');
         }
+    }
+
+    /**
+     * Placeholder when table is not loaded.
+     */
+    public function placeholder()
+    {
+        return view('components.spinner');
     }
 
     public function render()
