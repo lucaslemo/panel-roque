@@ -36,10 +36,10 @@ Route::middleware(['auth', 'role:Customer Default|Customer Admin'])->group(funct
         ->name('app.creditLimits');
 });
 
-Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
-    Route::view('profile', 'common.profile')
-        ->name('common.profile');
-});
+// Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
+//     Route::view('profile', 'common.profile')
+//         ->name('common.profile');
+// });
 
 Route::get('api/pessoas', [TestController::class, 'customers']);
 Route::get('api/pedidos', [TestController::class, 'orders']);

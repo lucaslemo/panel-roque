@@ -81,8 +81,8 @@
             @elseif ($currentPhase === 1)
                 <div class="w-40">
                     <x-secondary-button type="submit" class="text-base font-semibold">
-                        <span wire:loading wire:target="save" class="loading me-1 md:me-2"></span>
-                        {{ __('Save Data') }}
+                        <span wire:loading wire:target="save" class="loading"></span>
+                        <span wire:loading.remove wire:target="save">{{ __('Save Data') }}</span>
                     </x-secondary-button>
                 </div>
             @endif

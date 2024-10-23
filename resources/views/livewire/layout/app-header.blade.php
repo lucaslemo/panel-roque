@@ -17,6 +17,11 @@ new class extends Component
 }; ?>
 
 <header x-data="{ open: false }" class="bg-white">
+
+    <x-modal-panel title="{{ __('Edit user') }}" name="edit-profile">
+        <livewire:edit-profile />
+    </x-modal-panel>
+
     <div class="px-[30px] xl:px-[70px] pt-8 pb-6">
         <div class="flex justify-between items-center">
             <!-- Ícone da Aplicação -->
@@ -56,7 +61,7 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('common.profile')" wire:navigate>
+                        <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-edit-profile')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -93,7 +98,7 @@ new class extends Component
                             {{ __('Requests') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :active="request()->routeIs('common.profile')" class="text-small font-medium" :href="route('common.profile')" wire:navigate>
+                        <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-edit-profile')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 

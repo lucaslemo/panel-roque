@@ -83,8 +83,8 @@
             </div>
             <div class="w-40">
                 <x-secondary-button type="submit" class="text-base font-semibold text-nowrap">
-                    <span wire:loading wire:target="save" class="loading min-w-[14px] me-0.5"></span>
-                    {{ __('Confirm Data') }}
+                    <span wire:loading wire:target="save" class="loading"></span>
+                    <span wire:loading.remove wire:target="save">{{ __('Confirm Data') }}</span>
                 </x-secondary-button>
             </div>
         </div>
