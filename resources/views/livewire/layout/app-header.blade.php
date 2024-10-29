@@ -48,6 +48,10 @@ new class extends Component
                 <x-nav-app-link :href="route('app.orders')" :active="request()->routeIs('app.orders')" wire:navigate>
                     {{ __('Requests') }}
                 </x-nav-app-link>
+
+                <x-nav-app-link :href="route('app.invoicesHistory')" :active="request()->routeIs('app.invoicesHistory')" wire:navigate>
+                    {{ __('History') }}
+                </x-nav-app-link>
             </nav>
 
             <!-- Menu do usuário -->
@@ -110,6 +114,9 @@ new class extends Component
                         </x-dropdown-link>
                         <x-dropdown-link :active="request()->routeIs('app.orders')" class="text-small font-medium" :href="route('app.orders')" wire:navigate>
                             {{ __('Requests') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :active="request()->routeIs('app.invoicesHistory')" class="text-small font-medium" :href="route('app.invoicesHistory')" wire:navigate>
+                            {{ __('History') }}
                         </x-dropdown-link>
 
                         <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-edit-profile')">

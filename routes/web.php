@@ -32,6 +32,9 @@ Route::middleware(['auth', 'role:Customer Default|Customer Admin'])->group(funct
     Route::view('invoices', 'app.invoices')
         ->name('app.invoices');
 
+    Route::view('history', 'app.invoicesHistory')
+        ->name('app.invoicesHistory');
+
     Route::view('creditLimits', 'app.creditLimits')
         ->name('app.creditLimits');
 });

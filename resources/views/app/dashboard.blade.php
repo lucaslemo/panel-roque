@@ -28,6 +28,7 @@
         <livewire:modal-order-detail />
     </x-modal-panel>
 
+    <!-- Cartões -->
     <livewire:credit-limit-cards />
 
     <div class="grid grid-cols-1 auto-rows-min md:grid-cols-2 laptop:grid-cols-4 gap-y-8 gap-x-4 laptop:gap-x-8 mt-8 w-full">
