@@ -38,7 +38,7 @@
         </div>
 
         <!-- Redes sociais -->
-        <div class="col-span-1 row-span-1 h-max">
+        <div class="col-span-1 row-span-1 laptop:row-span-3 h-max">
             <div class="flex flex-col justify-around h-44 xl:h-52 bg-white rounded-lg shadow-card p-4 md:p-6">
 
                 <!-- Nossas Redes Socias -->
@@ -48,7 +48,7 @@
                 <div class="h-0.5 w-full bg-secondary"></div>
 
                 <!-- Links -->
-                <div class="flex justify-between 2xl:mx-8">
+                <div class="flex justify-around">
                     <!-- Instagram -->
                     <x-footer-link class="size-[51px] laptop:size-[40px] xl:size-[51px]" href="https://www.instagram.com/roquematcon?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
                         <svg class="size-6 laptop:size-4 xl:size-6 fill-border-color group-hover:fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -81,10 +81,17 @@
                     </x-footer-link>
                 </div>
             </div>
+
+            <!-- Add desktop -->
+            <div class="hidden laptop:block rounded-lg mt-8">
+                <a target="_blank" href="https://www.instagram.com/p/C_alYcMR7Vq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==">
+                    <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram">
+                </a>
+            </div>
         </div>
 
-        <!-- Add -->
-        <div class="col-span-1 row-span-1 laptop:row-span-2 rounded-lg">
+        <!-- Add mobile -->
+        <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2 rounded-lg">
             <a target="_blank" href="https://www.instagram.com/p/C_alYcMR7Vq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==">
                 <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram">
             </a>
