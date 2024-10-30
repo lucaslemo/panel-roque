@@ -59,7 +59,13 @@
 
             @foreach ($lastOrders as $lastOrder)
                 <!-- Desktop version -->
-                <div class="hidden md:flex space-x-4 bg-background rounded-lg items-center px-4 xl:px-8 py-4">
+                <div class="hidden md:flex space-x-4 bg-background rounded-lg items-center px-4 xl:px-8 py-4 cursor-pointer"
+                    x-data="{ isHovered: false, isButtonHovered: false }"
+                    x-bind:class="{ 'bg-primary-100 active:bg-primary-200 transition ease-in-out duration-150': isHovered && !isButtonHovered }"
+                    x-on:click="$dispatch('set-order-detail', { id: {{ $lastOrder->idPedidoCabecalho }} })"
+                    @mouseenter="isHovered = true"
+                    @mouseleave="isHovered = false">
+
                     <!-- Data do pedido -->
                     <div class="text-base xl:text-lg font-medium text-black min-w-24 xl:min-w-28 2xl:min-w-36 truncate">
                         {{ \Carbon\Carbon::parse($lastOrder->dtPedido)->format('d/m/Y') }}
@@ -72,21 +78,21 @@
 
                     <!-- Status do pedido -->
                     <div class="flex flex-row items-center text-base xl:text-lg font-normal text-black min-w-28 xl:min-w-32 2xl:min-w-40 truncate">
-                        @if ($lastOrder->statusEntrega === 'Entregue')
+                        @if ($lastOrder->statusPedido === 'Faturado')
                             <div class="green-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Separado' || $lastOrder->statusEntrega === 'Montado')
+                        @elseif ($lastOrder->statusPedido === 'Orçamento')
                             <div class="primary-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Em trânsito')
+                        @elseif ($lastOrder->statusPedido === 'Prevenda')
                             <div class="yellow-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Devolvido' || $lastOrder->statusEntrega === 'Reprogramado')
+                        @elseif ($lastOrder->statusPedido === 'Devolvido')
                             <div class="stone-circle"></div>
-                        @elseif ($lastOrder->statusEntrega === 'Reservado')
+                        @elseif ($lastOrder->statusPedido === 'Cancelado')
                             <div class="red-circle"></div>
                         @else
                             <div class="stone-circle"></div>
                         @endif
 
-                        {{ $lastOrder->statusEntrega }}
+                        {{ $lastOrder->statusPedido }}
                     </div>
 
                     <!-- Valor -->
@@ -96,8 +102,10 @@
 
                     <!-- Botões de ação -->
                     <div class="flex flex-row justify-end space-x-2 w-max">
-                        <button class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
-                            x-on:click="$dispatch('set-order-detail', { id: {{ $lastOrder->idPedidoCabecalho }} })">
+                        <a href="{{ $lastOrder->nmArquivoDetalhes ?? '#' }}" {{ $lastOrder->nmArquivoDetalhes ? 'download' : '' }} class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                            x-on:click.stop=""
+                            @mouseenter="isButtonHovered = true"
+                            @mouseleave="isButtonHovered = false">
 
                             <svg class="w-auto h-[22px] xl:w-[24px] xl:h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <rect width="24" height="27" fill="url(#pattern0_2623_4481_a)"/>
@@ -108,8 +116,11 @@
                                 <image id="image0_2623_4481_a" width="128" height="128" xlink:href="data:image/png;base64,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"/>
                                 </defs>
                             </svg>
-                        </button>
-                        <a href="{{ $lastOrder->nmArquivoDetalhes }}" download class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                        </a>
+                        <a href="{{ $lastOrder->nmArquivoNotaFiscal ?? '#' }}" {{ $lastOrder->nmArquivoNotaFiscal ? 'download' : '' }} class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                            x-on:click.stop=""
+                            @mouseenter="isButtonHovered = true"
+                            @mouseleave="isButtonHovered = false">
 
                             <svg class="w-auto h-[22px] xl:w-[24px] xl:h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <rect width="24" height="27" fill="url(#pattern0_2623_4482_a)"/>
@@ -121,7 +132,11 @@
                                 </defs>
                             </svg>
                         </a>
-                        <a href="{{ $lastOrder->nmArquivoNotaFiscal }}" download class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                        <a href="{{ $lastOrder->nmArquivoXml ?? '#' }}" {{ $lastOrder->nmArquivoXml ? 'download' : '' }} class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                            x-on:click.stop=""
+                            @mouseenter="isButtonHovered = true"
+                            @mouseleave="isButtonHovered = false">
+
                             <svg class="w-auto h-[22px] xl:w-[24px] xl:h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <rect width="24" height="27" fill="url(#pattern0_2625_4499_a)"/>
                                 <defs>
@@ -136,7 +151,13 @@
                 </div>
 
                  <!-- Mobile version -->
-                 <div class="block md:hidden bg-background rounded-lg p-4">
+                 <div class="block md:hidden bg-background rounded-lg p-4 cursor-pointer"
+                    x-data="{ isHovered: false, isButtonHovered: false }"
+                    x-bind:class="{ 'bg-primary-100 active:bg-primary-200 transition ease-in-out duration-150': isHovered && !isButtonHovered }"
+                    x-on:click="$dispatch('set-order-detail', { id: {{ $lastOrder->idPedidoCabecalho }} })"
+                    @mouseenter="isHovered = true"
+                    @mouseleave="isHovered = false">
+
                     <div class="flex justify-between mb-2">
                         <!-- Data -->
                         <div class="text-small font-medium">
@@ -145,15 +166,15 @@
 
                         <!-- Status -->
                         <div class="flex flex-row items-center justify-center text-subtitle font-normal">
-                            @if ($lastOrder->statusEntrega === 'Entregue')
+                            @if ($lastOrder->statusEntrega === 'Faturado')
                                 <div class="green-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Separado' || $lastOrder->statusEntrega === 'Montado')
+                            @elseif ($lastOrder->statusEntrega === 'Orçamento')
                                 <div class="primary-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Em trânsito')
+                            @elseif ($lastOrder->statusEntrega === 'Prevenda')
                                 <div class="yellow-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Devolvido' || $lastOrder->statusEntrega === 'Reprogramado')
+                            @elseif ($lastOrder->statusEntrega === 'Devolvido')
                                 <div class="stone-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Reservado')
+                            @elseif ($lastOrder->statusEntrega === 'Cancelado')
                                 <div class="red-circle"></div>
                             @else
                                 <div class="stone-circle"></div>
@@ -174,8 +195,10 @@
                     </div>
 
                     <div class="flex flex-row justify-center space-x-3">
-                        <button class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
-                            x-on:click="$dispatch('set-order-detail', { id: {{ $lastOrder->idPedidoCabecalho }} })">
+                        <a href="{{ $lastOrder->nmArquivoDetalhes ?? '#' }}" {{ $lastOrder->nmArquivoDetalhes ? 'download' : '' }} class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                            x-on:click.stop=""
+                            @mouseenter="isButtonHovered = true"
+                            @mouseleave="isButtonHovered = false">
 
                             <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <rect width="24" height="27" fill="url(#pattern0_2623_4481)"/>
@@ -186,8 +209,11 @@
                                 <image id="image0_2623_4481" width="128" height="128" xlink:href="data:image/png;base64,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"/>
                                 </defs>
                             </svg>
-                        </button>
-                        <a href="{{ $lastOrder->nmArquivoDetalhes }}" download class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                        </a>
+                        <a href="{{ $lastOrder->nmArquivoNotaFiscal ?? '#' }}" {{ $lastOrder->nmArquivoNotaFiscal ? 'download' : '' }} class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                            x-on:click.stop=""
+                            @mouseenter="isButtonHovered = true"
+                            @mouseleave="isButtonHovered = false">
 
                             <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <rect width="24" height="27" fill="url(#pattern0_2623_4482)"/>
@@ -199,7 +225,11 @@
                                 </defs>
                             </svg>
                         </a>
-                        <a href="{{ $lastOrder->nmArquivoNotaFiscal }}" download class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                        <a href="{{ $lastOrder->nmArquivoXml ?? '#' }}" {{ $lastOrder->nmArquivoXml ? 'download' : '' }} class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                            x-on:click.stop=""
+                            @mouseenter="isButtonHovered = true"
+                            @mouseleave="isButtonHovered = false">
+
                             <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <rect width="24" height="27" fill="url(#pattern0_2625_4499_b)"/>
                                 <defs>

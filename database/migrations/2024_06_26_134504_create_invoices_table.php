@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('nmSituacao')->comment('Situação da conta');
             $table->string('tpCobranca')->nullable()->comment('Tipo de cobrança');
             $table->date('dtParcela')->comment('Data da parcela');
-            $table->integer('numDuplicata')->nullable()->comment('Duplicado');
+            $table->integer('numDuplicata')->nullable()->comment('Número da duplicata');
             $table->date('dtEmissao')->comment('Data da emissão');
             $table->date('dtVencimento')->comment('Data de vencimento');
             $table->date('dtPagamento')->nullable()->comment('Data do pagamento');

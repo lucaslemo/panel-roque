@@ -35,6 +35,7 @@ class OrderFactory extends Factory
             'numOrdemCompra' => fake()->randomNumber(7),
             'nmArquivoDetalhes' => url(Storage::url('doc.pdf')),
             'nmArquivoNotaFiscal' => url(Storage::url('nfe.xml')),
+            'nmArquivoXml' => url(Storage::url('nfe.xml')),
         ];
     }
 }
