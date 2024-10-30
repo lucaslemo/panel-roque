@@ -204,7 +204,7 @@
                     </div>
 
                     <!-- Botões -->
-                    <div class="flex justify-center sm:justify-start w-full relative"
+                    <div class="flex justify-center w-full relative"
                         x-data="{ content: '{{ $invoice->codBoleto }}',
                             showPopup: false,
                             iframe: null,

@@ -59,19 +59,19 @@
 
             @foreach ($lastOrders as $lastOrder)
                 <!-- Desktop version -->
-                <div class="hidden md:grid grid-cols-5 sub-middle:grid-cols-6 laptop:grid-cols-5 middle:grid-cols-6 gap-x-1 bg-background rounded-lg items-center px-4 xl:px-8 py-4">
+                <div class="hidden md:flex space-x-4 bg-background rounded-lg items-center px-4 xl:px-8 py-4">
                     <!-- Data do pedido -->
-                    <div class="col-span-1 text-base xl:text-lg font-medium text-black w-full truncate">
+                    <div class="text-base xl:text-lg font-medium text-black min-w-24 xl:min-w-28 2xl:min-w-36 truncate">
                         {{ \Carbon\Carbon::parse($lastOrder->dtPedido)->format('d/m/Y') }}
                     </div>
 
                     <!-- Nome do cliente -->
-                    <div class="col-span-1 sub-middle:col-span-2 laptop:col-span-1 middle:col-span-2 text-base xl:text-lg font-normal text-black w-full truncate">
+                    <div class="text-base xl:text-lg font-normal text-black w-full truncate">
                         {{ $lastOrder->nmCliente }}
                     </div>
 
                     <!-- Status do pedido -->
-                    <div class="flex flex-row items-center justify-center sub-middle:justify-start laptop:justify-center middle:justify-start col-span-1 text-base xl:text-lg font-normal text-black w-full truncate">
+                    <div class="flex flex-row items-center text-base xl:text-lg font-normal text-black min-w-28 xl:min-w-32 2xl:min-w-40 truncate">
                         @if ($lastOrder->statusEntrega === 'Entregue')
                             <div class="green-circle"></div>
                         @elseif ($lastOrder->statusEntrega === 'Separado' || $lastOrder->statusEntrega === 'Montado')
@@ -90,12 +90,12 @@
                     </div>
 
                     <!-- Valor -->
-                    <div class="col-span-1 text-base xl:text-lg font-medium text-black text-center sub-middle:text-start laptop:text-center middle:text-start w-full truncate">
+                    <div class="text-base xl:text-lg font-medium text-black min-w-28 xl:min-w-32 2xl:min-w-40 truncate">
                         {{ 'R$ ' . number_format($lastOrder->vrTotal, 2, ',', '.') }}
                     </div>
 
                     <!-- Botões de ação -->
-                    <div class="flex flex-row col-span-1 space-x-2">
+                    <div class="flex flex-row justify-end space-x-2 w-max">
                         <button class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
                             x-on:click="$dispatch('set-order-detail', { id: {{ $lastOrder->idPedidoCabecalho }} })">
 
