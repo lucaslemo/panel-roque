@@ -16,5 +16,7 @@
 
     <!-- Cartões -->
     <livewire:credit-limit-cards />
-    
+
+    <!-- Tabela -->
+    <livewire:history-datatable lazy="on-load" />
 </x-app-layout>

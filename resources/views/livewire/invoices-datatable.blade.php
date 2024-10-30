@@ -70,18 +70,18 @@
                     </div>
 
                     <!-- Numero da duplicata -->
-                    <div class="text-base xl:text-lg truncate w-full middle:w-1/3">
+                    <div class="text-base xl:text-lg text-black truncate w-full middle:w-1/3">
                         <span class="font-medium">{{ $invoice->numDuplicata }}</span>
                         <span class="font-light"> | {{ __('Payments') }} {{ 1 }}/{{ 5 }}</span>
                     </div>
 
                     <!-- Data da parcela -->
-                    <div class="text-base xl:text-lg text-nowrap font-medium w-max middle:w-1/2 2xl:w-1/3">
+                    <div class="text-base xl:text-lg text-black text-nowrap font-medium w-max middle:w-1/2 2xl:w-1/3">
                         {{ __('Payment date') }}: {{ \Carbon\Carbon::parse($invoice->dtParcela)->format('d/m/Y') }}
                     </div>
 
                     <!-- Valor -->
-                    <div class="text-base xl:text-lg font-medium w-max middle:w-1/6 2xl:w-1/5 text-nowrap">
+                    <div class="text-base xl:text-lg font-medium text-black w-max middle:w-1/6 2xl:w-1/5 text-nowrap">
                         {{ 'R$ ' . number_format($invoice->vrAtualizado, 2, ',', '.') }}
                     </div>
 
@@ -186,25 +186,25 @@
                     </div>
 
                     <!-- Numero da duplicata -->
-                    <div class="flex justify-between text-small mb-4">
+                    <div class="flex justify-between text-small md:text-base text-black mb-4">
                         <div>
                             <div class="font-medium">{{ $invoice->numDuplicata }}</div>
                             <div class="font-light"> | {{ __('Payments') }} {{ 1 }}/{{ 5 }}</div>
                         </div>
 
                         <!-- Data -->
-                        <div class="text-small font-medium mb-4">
+                        <div class="text-small md:text-base font-medium text-black mb-4">
                             {{ \Carbon\Carbon::parse($invoice->dtParcela)->format('d/m/Y') }}
                         </div>
                     </div>
 
                     <!-- Valor -->
-                    <div class="text-small font-medium mb-4">
+                    <div class="text-small md:text-base font-medium text-black mb-4">
                         {{ 'R$ ' . number_format($invoice->vrAtualizado, 2, ',', '.') }}
                     </div>
 
                     <!-- Botões -->
-                    <div class="flex w-full relative"
+                    <div class="flex justify-center sm:justify-start w-full relative"
                         x-data="{ content: '{{ $invoice->codBoleto }}',
                             showPopup: false,
                             iframe: null,
@@ -238,7 +238,7 @@
                         </div>
 
                         <!-- Copiar código de barras -->
-                        <button class="flex justify-center items-center border border-black bg-transparent rounded-lg me-2 h-12 w-1/2 p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                        <button class="flex justify-center items-center border border-black bg-transparent rounded-lg me-2 h-12 w-1/2 sm:w-24 p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
                             x-on:click="copy()">
 
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -253,7 +253,7 @@
                         </button>
 
                         <!-- Imprimir -->
-                        <button class="flex justify-center items-center border border-black bg-transparent rounded-lg h-12 w-1/2 p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                        <button class="flex justify-center items-center border border-black bg-transparent rounded-lg h-12 w-1/2 sm:w-24 p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
                             x-on:click="printPDF('{{ $invoice->nmArquivoConta }}')">
 
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
