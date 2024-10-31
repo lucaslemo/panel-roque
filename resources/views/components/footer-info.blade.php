@@ -1,4 +1,4 @@
-<div class="flex flex-col md:flex-row justify-center mb-12 mt-10">
+<div class="flex flex-col md:flex-row justify-center bg-white pb-12 pt-16 mt-20">
 
     <!-- Coluna esquerda -->
     <div class="mx-auto md:mx-0 mb-8 md:mb-0">
@@ -58,7 +58,6 @@
             <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.dashboard') }}" wire:navigate>{{ __('Dashboard') }}</a>
             <a class="block font-normal text-small laptop:text-normal text-primary mb-2" href="{{ route('app.invoices') }}" wire:navigate>{{ __('Financial') }}</a>
             <a class="block font-normal text-small laptop:text-normal text-primary" href="{{ route('app.orders') }}" wire:navigate>{{ __('Orders') }}</a>
-            {{-- <a class="block font-normal text-small laptop:text-normal text-primary" href="{{ route('common.profile') }}" wire:navigate>{{ __('Profile') }}</a> --}}
         </div>
 
         <!-- Coluna do direita -->

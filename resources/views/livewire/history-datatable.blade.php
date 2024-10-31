@@ -154,4 +154,8 @@
             </div>
         </div>
     </div>
+
+    <div class="text-subtitle md:text-small font-medium mt-8">
+        *{{ __('Account and order history is for the last 90 days.') }}
+    </div>
 </div>
