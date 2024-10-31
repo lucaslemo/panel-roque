@@ -84,18 +84,42 @@
 
             <!-- Add desktop -->
             <div class="hidden laptop:block rounded-lg mt-8">
-                <a target="_blank" href="https://www.instagram.com/p/C_alYcMR7Vq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==">
-                    <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram">
+                <a id="instagramImages" target="_blank" href="https://www.instagram.com/roquematcon">
+                    {{-- <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram"> --}}
                 </a>
             </div>
         </div>
 
         <!-- Add mobile -->
         <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2 rounded-lg">
-            <a target="_blank" href="https://www.instagram.com/p/C_alYcMR7Vq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==">
+            <a target="_blank" href="https://www.instagram.com/roquematcon">
                 <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram">
             </a>
         </div>
     </div>
 
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+            const url = "{{ route('app.instagramLatestImages') }}";
+
+            const xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    const response = JSON.parse(xmlHttp.response);
+                    response.forEach(element => {
+                        const imgElement = document.createElement("img");
+                        imgElement.setAttribute("src", element.media_url);
+                        imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
+                        imgElement.setAttribute("alt", "Post do instagram");
+
+                        const container = document.getElementById("instagramImages");
+                        container.appendChild(imgElement);
+                    });
+                }
+            }
+
+            xmlHttp.open("GET", url, true); // true for asynchronous
+            xmlHttp.send(null);
+        });
+    </script>
 </x-app-layout>

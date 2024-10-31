@@ -105,6 +105,12 @@ return [
 
     'query_invoices' => env('QUERY_INVOICES', null),
 
+    'instagram_id' => env('INSTAGRAM_ID', null),
+
+    'instagram_secret_key' => env('INSTAGRAM_SECRET_KEY', null),
+    
+    'instagram_access_token' => env('INSTAGRAM_ACCESS_TOKEN', null),
+
     'previous_keys' => [
         ...array_filter(
             explode(',', env('APP_PREVIOUS_KEYS', ''))
