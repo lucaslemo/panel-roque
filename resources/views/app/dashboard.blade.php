@@ -83,43 +83,87 @@
             </div>
 
             <!-- Add desktop -->
-            <div class="hidden laptop:block rounded-lg mt-8">
-                <a id="instagramImages" target="_blank" href="https://www.instagram.com/roquematcon">
-                    {{-- <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram"> --}}
-                </a>
+            <div class="hidden laptop:block mt-8">
+                <div class="container-instagram">
+                    <!-- Loading (Desabilita quando as imagens são carregadas) -->
+                    <x-spinner />
+                </div>
             </div>
         </div>
 
         <!-- Add mobile -->
-        <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2 rounded-lg">
-            <a target="_blank" href="https://www.instagram.com/roquematcon">
-                <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram">
-            </a>
+        <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2">
+            <div class="container-instagram">
+                <!-- Loading (Desabilita quando as imagens são carregadas) -->
+                <x-spinner />
+            </div>
         </div>
     </div>
 
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function(event) {
+
+        // Carrega as imagens do instagram 
+        if (document.readyState !== 'loading') {
+            loadImages();
+        } else {
+            document.addEventListener("DOMContentLoaded", function(event) {
+                loadImages();
+            });
+        }
+
+        function loadImages() {
             const url = "{{ route('app.instagramLatestImages') }}";
 
             const xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    const containers = document.getElementsByClassName("container-instagram");
                     const response = JSON.parse(xmlHttp.response);
-                    response.forEach(element => {
-                        const imgElement = document.createElement("img");
-                        imgElement.setAttribute("src", element.media_url);
-                        imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
-                        imgElement.setAttribute("alt", "Post do instagram");
 
-                        const container = document.getElementById("instagramImages");
-                        container.appendChild(imgElement);
-                    });
+                    for (let i = 0; i < containers.length; i++) {
+                        containers[i].replaceChildren();
+
+                        response.forEach(media => {
+                            const aElement = document.createElement("a");
+                            const imgElement = document.createElement("img");
+    
+                            aElement.setAttribute("target", "_blank");
+                            aElement.setAttribute("href", `https://instagram.com/p/${media.shortcode}`);
+    
+                            imgElement.setAttribute("src", media.media_url);
+                            imgElement.setAttribute("class", "w-80 h-auto rounded-lg shadow-card");
+                            imgElement.setAttribute("alt", "Post do instagram");
+    
+                            aElement.appendChild(imgElement);
+                            containers[i].appendChild(aElement);
+                        });
+                    }
+                } else if(xmlHttp.readyState == 4) {
+                    const containers = document.getElementsByClassName("container-instagram");
+                    
+                    
+                    for (let i = 0; i < containers.length; i++) {
+                        containers[i].replaceChildren();
+
+                        const aElement = document.createElement("a");
+                        const imgElement = document.createElement("img");
+                        
+                        aElement.setAttribute("target", "_blank");
+                        aElement.setAttribute("href", "https://www.instagram.com/roquematcon");
+    
+                        imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
+                        imgElement.setAttribute("alt", "Posts do instagram");
+    
+                        aElement.appendChild(imgElement);
+                        containers[i].appendChild(aElement);
+                    }
                 }
             }
 
-            xmlHttp.open("GET", url, true); // true for asynchronous
-            xmlHttp.send(null);
-        });
+            setTimeout(() => {
+                xmlHttp.open("GET", url, true);
+                xmlHttp.send(null);
+            }, 1000);
+        }
     </script>
 </x-app-layout>

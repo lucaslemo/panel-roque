@@ -12,7 +12,7 @@ class InstagramController extends Controller
         try {
             $url = "https://graph.instagram.com/me/media";
             $token = config('app.instagram_access_token');
-            $fields = "id,media_type,media_url,caption";
+            $fields = "id,media_type,media_url,shortcode";
             $limit = 15;
 
             $response = Http::get($url, ['fields' => $fields,'access_token' => $token, 'limit' => $limit]);
