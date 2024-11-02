@@ -24,7 +24,7 @@ class InstagramController extends Controller
                 $images = $data->filter(function ($media) {
                     return $media['media_type'] === 'IMAGE';
 
-                })->take(1);
+                })->take(3);
 
                 return response()->json($images->values());
             }

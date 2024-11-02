@@ -83,24 +83,35 @@
             </div>
 
             <!-- Add desktop -->
-            <div class="hidden laptop:block mt-8">
-                <div class="container-instagram">
+            <div class="hidden laptop:block w-full overflow-hidden mt-8">
+                <div class="flex flex-row transition-transform duration-500 container-instagram">
+
                     <!-- Loading (Desabilita quando as imagens são carregadas) -->
-                    <x-spinner />
+                    <span class="mx-auto"><x-spinner /></span>
                 </div>
             </div>
         </div>
 
         <!-- Add mobile -->
-        <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2">
-            <div class="container-instagram">
+        <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2 w-full overflow-hidden">
+            <div class="flex flex-row transition-transform duration-500 container-instagram">
+
                 <!-- Loading (Desabilita quando as imagens são carregadas) -->
-                <x-spinner />
+                <span class="mx-auto"><x-spinner /></span>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
+
+        // Limpa o setTimeout antigo (Se existir)
+        if (window.intervalId) {
+            clearInterval(window.intervalId);
+            window.intervalId = undefined;
+        }
+
+        // Guarda os index das imagnes atuais
+        var currentIndex = [0, 0];
 
         // Carrega as imagens do instagram 
         if (document.readyState !== 'loading') {
@@ -109,6 +120,20 @@
             document.addEventListener("DOMContentLoaded", function(event) {
                 loadImages();
             });
+        }
+
+        function updateCarousel() {
+            const containers = document.getElementsByClassName("container-instagram");
+
+            for (let i = 0; i < containers.length; i++) {
+                const images = containers[i].querySelectorAll("img");
+                const totalImages = images.length;
+                const imageWidth = images[currentIndex[i]]?.offsetWidth;
+
+                currentIndex[i] = (currentIndex[i] + 1) % totalImages;
+                const offset = -currentIndex[i] * imageWidth;
+                containers[i].style.transform = `translateX(${offset}px)`;
+            }
         }
 
         function loadImages() {
@@ -128,15 +153,20 @@
                             const imgElement = document.createElement("img");
     
                             aElement.setAttribute("target", "_blank");
+                            aElement.setAttribute("class", "flex justify-center items-center min-w-full");
                             aElement.setAttribute("href", `https://instagram.com/p/${media.shortcode}`);
     
                             imgElement.setAttribute("src", media.media_url);
-                            imgElement.setAttribute("class", "w-80 h-auto rounded-lg shadow-card");
+                            imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
                             imgElement.setAttribute("alt", "Post do instagram");
     
                             aElement.appendChild(imgElement);
                             containers[i].appendChild(aElement);
                         });
+                    }
+
+                    if (!window.intervalId) {
+                        window.intervalId = setInterval(updateCarousel, 5000);
                     }
                 } else if(xmlHttp.readyState == 4) {
                     const containers = document.getElementsByClassName("container-instagram");
@@ -160,10 +190,8 @@
                 }
             }
 
-            setTimeout(() => {
-                xmlHttp.open("GET", url, true);
-                xmlHttp.send(null);
-            }, 1000);
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send(null);
         }
     </script>
 </x-app-layout>
