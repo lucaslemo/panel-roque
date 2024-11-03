@@ -33,7 +33,7 @@ class InvoiceFactory extends Factory
             'nmSituacao' => $payment ? 'Entregue' : 'A vencer',
             'tpCobranca' => fake()->randomElement(['CHE', 'CCR', 'DIN']),
             'dtParcela' => $now->subMonth(3)->subMinutes(fake()->randomNumber(4, true)),
-            'numDuplicata' => 1,
+            'numDuplicata' => fake()->randomNumber(8, true),
             'dtEmissao' => $now->addMinutes($downLimit),
             'dtVencimento' => $now->addMinutes($upLimit),
             'dtPagamento' => $payment ? $now->addMinutes(fake()->numberBetween($downLimit, $upLimit)) : null,

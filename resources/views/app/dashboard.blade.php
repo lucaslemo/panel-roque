@@ -28,6 +28,7 @@
         <livewire:modal-order-detail />
     </x-modal-panel>
 
+    <!-- Cartões -->
     <livewire:credit-limit-cards />
 
     <div class="grid grid-cols-1 auto-rows-min md:grid-cols-2 laptop:grid-cols-4 gap-y-8 gap-x-4 laptop:gap-x-8 mt-8 w-full">
@@ -37,7 +38,7 @@
         </div>
 
         <!-- Redes sociais -->
-        <div class="col-span-1 row-span-1 h-max">
+        <div class="col-span-1 row-span-1 laptop:row-span-3 h-max">
             <div class="flex flex-col justify-around h-44 xl:h-52 bg-white rounded-lg shadow-card p-4 md:p-6">
 
                 <!-- Nossas Redes Socias -->
@@ -47,7 +48,7 @@
                 <div class="h-0.5 w-full bg-secondary"></div>
 
                 <!-- Links -->
-                <div class="flex justify-between 2xl:mx-8">
+                <div class="flex justify-around">
                     <!-- Instagram -->
                     <x-footer-link class="size-[51px] laptop:size-[40px] xl:size-[51px]" href="https://www.instagram.com/roquematcon?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
                         <svg class="size-6 laptop:size-4 xl:size-6 fill-border-color group-hover:fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -80,14 +81,111 @@
                     </x-footer-link>
                 </div>
             </div>
+
+            <!-- Add desktop -->
+            <div class="hidden laptop:block w-full overflow-hidden mt-8">
+                <div class="flex flex-row transition-transform duration-500 container-instagram">
+
+                    <!-- Loading (Desabilita quando as imagens são carregadas) -->
+                    <span class="mx-auto"><x-spinner /></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Add -->
-        <div class="col-span-1 row-span-1 laptop:row-span-2 rounded-lg">
-            <a target="_blank" href="https://www.instagram.com/p/C_alYcMR7Vq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==">
-                <img src="{{ Storage::url('foto.PNG') }}" class="w-full h-auto rounded-lg shadow-card" alt="Post do instagram">
-            </a>
+        <!-- Add mobile -->
+        <div class="block laptop:hidden col-span-1 row-span-1 laptop:row-span-2 w-full overflow-hidden">
+            <div class="flex flex-row transition-transform duration-500 container-instagram">
+
+                <!-- Loading (Desabilita quando as imagens são carregadas) -->
+                <span class="mx-auto"><x-spinner /></span>
+            </div>
         </div>
     </div>
 
+    <script type="text/javascript">
+
+        // Guarda os index das imagnes atuais
+        var currentIndex = [0, 0];
+
+        // Carrega as imagens do instagram 
+        if (document.readyState !== 'loading') {
+            loadImages();
+        } else {
+            document.addEventListener("DOMContentLoaded", function(event) {
+                loadImages();
+            });
+        }
+
+        function updateCarousel() {
+            const containers = document.getElementsByClassName("container-instagram");
+
+            for (let i = 0; i < containers.length; i++) {
+                const images = containers[i].querySelectorAll("img");
+                const totalImages = images.length;
+                const imageWidth = images[currentIndex[i]]?.offsetWidth;
+
+                currentIndex[i] = (currentIndex[i] + 1) % totalImages;
+                const offset = -currentIndex[i] * imageWidth;
+                containers[i].style.transform = `translateX(${offset}px)`;
+            }
+        }
+
+        function loadImages() {
+            const url = "{{ route('app.instagramLatestImages') }}";
+
+            const xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    const containers = document.getElementsByClassName("container-instagram");
+                    const response = JSON.parse(xmlHttp.response);
+
+                    for (let i = 0; i < containers.length; i++) {
+                        containers[i].replaceChildren();
+
+                        response.forEach(media => {
+                            const aElement = document.createElement("a");
+                            const imgElement = document.createElement("img");
+    
+                            aElement.setAttribute("target", "_blank");
+                            aElement.setAttribute("class", "flex justify-center items-center min-w-full");
+                            aElement.setAttribute("href", `https://instagram.com/p/${media.shortcode}`);
+    
+                            imgElement.setAttribute("src", media.media_url);
+                            imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
+                            imgElement.setAttribute("alt", "Post do instagram");
+    
+                            aElement.appendChild(imgElement);
+                            containers[i].appendChild(aElement);
+                        });
+                    }
+
+                    if (!window.intervalId) {
+                        window.intervalId = setInterval(updateCarousel, 5000);
+                    }
+                } else if(xmlHttp.readyState == 4) {
+                    const containers = document.getElementsByClassName("container-instagram");
+                    
+                    
+                    for (let i = 0; i < containers.length; i++) {
+                        containers[i].replaceChildren();
+
+                        const aElement = document.createElement("a");
+                        const imgElement = document.createElement("img");
+                        
+                        aElement.setAttribute("target", "_blank");
+                        aElement.setAttribute("href", "https://www.instagram.com/roquematcon");
+    
+                        imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
+                        imgElement.setAttribute("alt", "Posts do instagram");
+    
+                        aElement.appendChild(imgElement);
+                        containers[i].appendChild(aElement);
+                    }
+                }
+            }
+
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send(null);
+        }
+    </script>
 </x-app-layout>

@@ -51,6 +51,7 @@ class Order extends Model
         'numOrdemCompra',
         'nmArquivoDetalhes',
         'nmArquivoNotaFiscal',
+        'nmArquivoXml',
     ];
 
     /**
@@ -125,7 +126,7 @@ class Order extends Model
     /**
      * Parse the delivery type.
      */
-    public function getStatusColor()
+    public function getDeliveryStatusColor()
     {
         switch ($this->statusEntrega) {
             case 'Em trânsito':
@@ -140,6 +141,27 @@ class Order extends Model
                 return 'stone';
             case 'Entregue':
                 return 'green';
+            default:
+                return 'stone';
+        }
+    }
+
+    /**
+     * Parse the order type.
+     */
+    public function getStatusColor()
+    {
+        switch ($this->statusPedido) {
+            case 'Faturado':
+                return 'green';
+            case 'Orçamento':
+                return 'primary';
+            case 'Prevenda':
+                return 'yellow';
+            case 'Devolvido':
+                return 'stone';
+            case 'Cancelado':
+                return 'red';
             default:
                 return 'stone';
         }

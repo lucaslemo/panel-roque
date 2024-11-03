@@ -221,7 +221,7 @@
     </div>
     <div class="flex flex-row justify-center laptop:justify-start mt-8">
 
-        <!-- Quantidade de itens por página -->
+        <!-- Botões de paginação -->
         <div class="hidden laptop:flex flex-row space-x-2">
             <button wire:click="previousPage" type="button" class="flex justify-center items-center size-10 shadow-button border text-subtitle-color rounded-lg {{ (int) $page === 0 ? 'bg-disabled border-disabled' : 'border-subtitle-color' }}" {{ (int) $page === 0 ? 'disabled' : '' }}>
                 <svg class="size-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
