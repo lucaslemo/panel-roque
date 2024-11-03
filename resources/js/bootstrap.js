@@ -16,3 +16,10 @@ window.readTextAloud = function(text, lang = 'pt-BR', pitch = 1, rate = 1) {
         console.error('SpeechSynthesis is not supported in this browser.');
     }
 };
+
+document.addEventListener('livewire:navigating', () => {
+    if (window.intervalId) {
+        clearInterval(window.intervalId);
+        window.intervalId = undefined;
+    }
+}); 

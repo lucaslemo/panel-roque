@@ -104,12 +104,6 @@
 
     <script type="text/javascript">
 
-        // Limpa o setTimeout antigo (Se existir)
-        if (window.intervalId) {
-            clearInterval(window.intervalId);
-            window.intervalId = undefined;
-        }
-
         // Guarda os index das imagnes atuais
         var currentIndex = [0, 0];
 
