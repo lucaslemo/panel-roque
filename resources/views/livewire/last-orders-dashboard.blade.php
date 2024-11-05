@@ -166,21 +166,21 @@
 
                         <!-- Status -->
                         <div class="flex flex-row items-center justify-center text-subtitle font-normal">
-                            @if ($lastOrder->statusEntrega === 'Faturado')
+                            @if ($lastOrder->statusPedido === 'Faturado')
                                 <div class="green-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Orçamento')
+                            @elseif ($lastOrder->statusPedido === 'Orçamento')
                                 <div class="primary-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Prevenda')
+                            @elseif ($lastOrder->statusPedido === 'Prevenda')
                                 <div class="yellow-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Devolvido')
+                            @elseif ($lastOrder->statusPedido === 'Devolvido')
                                 <div class="stone-circle"></div>
-                            @elseif ($lastOrder->statusEntrega === 'Cancelado')
+                            @elseif ($lastOrder->statusPedido === 'Cancelado')
                                 <div class="red-circle"></div>
                             @else
                                 <div class="stone-circle"></div>
                             @endif
 
-                            {{ $lastOrder->statusEntrega }}
+                            {{ $lastOrder->statusPedido }}
                         </div>
                     </div>
 
