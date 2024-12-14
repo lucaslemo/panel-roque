@@ -111,6 +111,12 @@ return [
     
     'instagram_access_token' => env('INSTAGRAM_ACCESS_TOKEN', null),
 
+    'whatsapp_instance_id' => env('WHATSAPP_INSTANCE_ID', null),
+
+    'whatsapp_token' => env('WHATSAPP_TOKEN', null),
+
+    'whatsapp_client_token' => env('WHATSAPP_CLIENT_TOKEN', null),
+
     'previous_keys' => [
         ...array_filter(
             explode(',', env('APP_PREVIOUS_KEYS', ''))

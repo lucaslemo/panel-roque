@@ -104,10 +104,10 @@
 
     <script type="text/javascript">
 
-        // Guarda os index das imagnes atuais
+        // Guarda os index das imagens atuais
         var currentIndex = [0, 0];
 
-        // Carrega as imagens do instagram 
+        // Carrega as imagens do Instagram 
         if (document.readyState !== 'loading') {
             loadImages();
         } else {
@@ -152,7 +152,7 @@
     
                             imgElement.setAttribute("src", media.media_url);
                             imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
-                            imgElement.setAttribute("alt", "Post do instagram");
+                            imgElement.setAttribute("alt", "Post do Instagram");
     
                             aElement.appendChild(imgElement);
                             containers[i].appendChild(aElement);
@@ -176,7 +176,7 @@
                         aElement.setAttribute("href", "https://www.instagram.com/roquematcon");
     
                         imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
-                        imgElement.setAttribute("alt", "Posts do instagram");
+                        imgElement.setAttribute("alt", "Posts do Instagram");
     
                         aElement.appendChild(imgElement);
                         containers[i].appendChild(aElement);
