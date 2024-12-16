@@ -115,7 +115,8 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
         <div class="flex items-center justify-center">
             <x-primary-button>
-                {{ __('Log in') }}
+                <span wire:loading wire:target="login" class="loading-white"></span>
+                <span wire:loading.remove wire:target="login">{{ __('Log in') }}</span>
             </x-primary-button>
         </div>
     </form>
