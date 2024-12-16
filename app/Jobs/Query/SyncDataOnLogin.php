@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SyncDataOnLogin implements ShouldQueue
 {
@@ -20,7 +21,7 @@ class SyncDataOnLogin implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 5;
+    public $tries = 3;
 
     /**
      * The number of seconds to wait before retrying the job.
@@ -55,7 +56,7 @@ class SyncDataOnLogin implements ShouldQueue
 
         $response->throw();
 
-        $data = $response->json()[0]; // Remover e adicionar lógica de pegar apenas um usuário
+        $data = $response->json()['data']['list'][0]; // Remover [0] e adicionar lógica de pegar apenas um usuário
 
         $customer = Customer::firstOrNew(['extCliente' => $data['cliente']['idCliente']]);
         $customer->fill([
@@ -67,7 +68,7 @@ class SyncDataOnLogin implements ShouldQueue
         ]);
         $customer->save();
 
-        foreach ($data['financeiro'] as $invoices) {
+        foreach ($data['financeiro'] as $invoice) {
 
         }
     }

@@ -22,6 +22,8 @@ class UserDataLogin
      */
     public function handle(Login $event): void
     {
-        SyncDataOnLogin::dispatch($event->user);
+        if ((int) optional($event->user)->type !== 1) {
+            SyncDataOnLogin::dispatch($event->user);
+        }
     }
 }
