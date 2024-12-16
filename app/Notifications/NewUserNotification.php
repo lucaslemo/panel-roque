@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Lang;
 
-class UserCreated extends Notification implements ShouldQueue
+class NewUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -77,7 +77,7 @@ class UserCreated extends Notification implements ShouldQueue
         $message .= Lang::get('If you have any difficulties, ask us for help. We are here to help you!');
 
         return [
-            'phone' => '88981560484',
+            'phone' => '88981560484' ?? $this->user->phone,
             'message' => $message,
         ];
     }

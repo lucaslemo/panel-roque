@@ -2,11 +2,12 @@
 
 namespace App\Listeners;
 
-use Carbon\Carbon;
+use App\Jobs\Query\SyncDataOnLogin;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
-class UserLoginAt implements ShouldQueue
+class UserDataLogin
 {
     /**
      * Create the event listener.
@@ -21,13 +22,6 @@ class UserLoginAt implements ShouldQueue
      */
     public function handle(Login $event): void
     {
-        try {
-            optional($event->user)->update([
-                'last_login_at' => Carbon::now(),
-            ]);
-        } catch (\Throwable $th) {
-            report($th);
-        }
-
+        SyncDataOnLogin::dispatch($event->user);
     }
 }

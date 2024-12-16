@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class FailedToRefreshInstagramToken extends Notification implements ShouldQueue
+class InstagramTokenRefreshFailedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

@@ -105,6 +105,8 @@ return [
 
     'query_invoices' => env('QUERY_INVOICES', null),
 
+    'query_token' => env('QUERY_TOKEN', null),
+
     'instagram_id' => env('INSTAGRAM_ID', null),
 
     'instagram_secret_key' => env('INSTAGRAM_SECRET_KEY', null),

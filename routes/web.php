@@ -58,8 +58,8 @@ Route::get('teste', function() {
     $userCustomer = App\Models\User::where('type', 3)->whereNull('last_login_at')->where('active', false)->first();
     $userCustomerAdmin = App\Models\User::where('type', 2)->whereNull('last_login_at')->where('active', false)->first();
 
-    $userCustomer ? $userCustomer->notify(new App\Notifications\UserCreated($userCustomer)) : null;
-    $userCustomerAdmin ? $userCustomerAdmin->notify(new App\Notifications\UserCreated($userCustomerAdmin)) : null;
+    $userCustomer ? $userCustomer->notify(new App\Notifications\NewUserNotification($userCustomer)) : null;
+    $userCustomerAdmin ? $userCustomerAdmin->notify(new App\Notifications\NewUserNotification($userCustomerAdmin)) : null;
     return 'Ok!';
 });
 

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -307,6 +308,7 @@ class UserRegistrationChat extends Component
         try {
             if ($this->stage === 5) {
                 $this->user->active = true;
+                $this->user->last_login_at = Carbon::now();
                 $this->user->save();
                 Auth::login($this->user);
             }
