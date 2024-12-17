@@ -21,6 +21,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="flex flex-col font-sans antialiased bg-background min-h-screen">
+        <!-- Start Loading -->
+        <livewire:sync-data lazy="on-load" />
+
         <!-- Alert Messages -->
         <livewire:alert-message />
 

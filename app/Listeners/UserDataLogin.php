@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Jobs\Query\SyncDataOnLogin;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Session;
 
 class UserDataLogin
 {
@@ -22,8 +20,6 @@ class UserDataLogin
      */
     public function handle(Login $event): void
     {
-        if ((int) optional($event->user)->type !== 1) {
-            SyncDataOnLogin::dispatchSync($event->user);
-        }
+        Session::put('sync_data', true);
     }
 }
