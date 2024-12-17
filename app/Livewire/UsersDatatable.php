@@ -255,7 +255,7 @@ class UsersDatatable extends Component
         }
     }
 
-        /**
+    /**
      * Update card details
      */
     #[On('updateDataUsersDatatable')]

@@ -30,7 +30,11 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        if ((int) $user->type !== 1) {
+            $this->redirectIntended(default: route('loading'), navigate: true);
+        } else {
+            $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        }
     }
 
     /**
