@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Jobs\Query\SyncCustomersOrders;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -12,12 +14,21 @@ class LastOrdersDashboard extends Component
 {
     public array|Collection $lastOrders = [];
     public array|Collection $customers = [];
+    public string $customersUniqueId = '';
     public array $selectedCustomers = [];
     public Order|null $order = null;
 
     private function fetchOrders()
     {
         try {
+            $synced = Cache::get('orders' . $this->customersUniqueId, false);
+
+            if (!$synced) {
+                Cache::put('orders' . $this->customersUniqueId, true, now()->addMinutes(10));
+                SyncCustomersOrders::dispatchSync();
+            }
+
+
             $this->lastOrders = DB::table('orders')
                 ->select(['orders.*', 'customers.nmCliente'])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
@@ -61,6 +72,7 @@ class LastOrdersDashboard extends Component
 
             foreach($this->customers as $customer) {
                 $this->selectedCustomers[$customer->idCliente] = true;
+                $this->customersUniqueId .= '_' . $customer->idCliente;
             }
 
             $this->fetchOrders();

@@ -46,7 +46,7 @@ class SyncDataOnLogin implements ShouldQueue
 
         $customers = Customer::with('creditLimit')
             ->whereHas('users', function($query) {
-                $query->where('idUsuario', $this->user->id);
+                $query->where('users.id', $this->user->id);
             })
             ->get();
 
