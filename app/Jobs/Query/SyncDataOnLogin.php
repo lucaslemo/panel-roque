@@ -20,7 +20,7 @@ class SyncDataOnLogin implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 3;
+    public $tries = 1;
 
     /**
      * The number of seconds to wait before retrying the job.
@@ -44,31 +44,42 @@ class SyncDataOnLogin implements ShouldQueue
         $url = "https://openapi.acessoquery.com/api/pessoas";
         $token = config('app.query_token');
 
-        $params = ['dtAtualizacao' => '2024-10-10'];
+        $customers = Customer::with('creditLimit')
+            ->whereHas('users', function($query) {
+                $query->where('idUsuario', $this->user->id);
+            })
+            ->get();
 
-        $response = Http::withToken($token)
-            ->withHeaders([
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ])
-            ->get($url);
+        foreach ($customers as $customer) {
+            $params = ['idPessoa' => $customer->extCliente];
+    
+            $response = Http::withToken($token)
+                ->withHeaders([
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ])
+                ->get($url, $params);
 
-        $response->throw();
+            $response->throw();
 
-        $data = $response->json()['data']['list'][0]; // Remover [0] e adicionar lógica de pegar apenas um usuário
+            $data = $response->json()['data']['list'][0];
 
-        $customer = Customer::firstOrNew(['extCliente' => $data['cliente']['idCliente']]);
-        $customer->fill([
-            'nmCliente' => $data['nmPessoa'],
-            'extCliente' => $data['cliente']['idCliente'],
-            'tpCliente' => $data['tpPessoa'],
-            'emailCliente' => $data['dsEmail'] ?? 'example' . $data['idPessoa'] . '@email.com', // Remover ?? e validar campo de email
-            'codCliente' => $data['tpPessoa'] === 'F' ? $data['nrCpf'] : $data['nrCnpj'],
-        ]);
-        $customer->save();
+            $customer->fill([
+                'nmCliente' => $data['nmPessoa'],
+                'extCliente' => $data['idPessoa'],
+                'tpCliente' => $data['tpPessoa'],
+                'emailCliente' => $data['dsEmail'],
+                'codCliente' => $data['tpPessoa'] === 'F' ? $data['nrCpf'] : $data['nrCnpj'],
+            ]);
 
-        foreach ($data['financeiro'] as $invoice) {
+            $customer->save();
 
+            $customer->creditLimit->vrLimite = $data['vrLimiteAprovado'] ?? 0;
+            $customer->creditLimit->vrUtilizado = $data['vrLimiteConsumido'] ?? 0;
+            $customer->creditLimit->vrReservado = $data['vrLimiteConsumidoPrevenda'] ?? 0;
+            $customer->creditLimit->vrDisponivel = $data['vrLimiteDisponivel'] ?? 0;
+
+            $customer->creditLimit->save();
         }
     }
 }

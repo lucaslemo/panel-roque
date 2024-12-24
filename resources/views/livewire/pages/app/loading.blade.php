@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\Query\SyncDataOnLogin;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\On;
