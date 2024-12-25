@@ -23,11 +23,10 @@ class LastOrdersDashboard extends Component
         try {
             $synced = Cache::get('orders' . $this->customersUniqueId, false);
 
-            if (!$synced) {
+            if (!$synced || true) {
                 Cache::put('orders' . $this->customersUniqueId, true, now()->addMinutes(10));
-                SyncCustomersOrders::dispatchSync();
+                SyncCustomersOrders::dispatchSync(auth()->user(), 1);
             }
-
 
             $this->lastOrders = DB::table('orders')
                 ->select(['orders.*', 'customers.nmCliente'])

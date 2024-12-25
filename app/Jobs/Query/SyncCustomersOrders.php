@@ -5,12 +5,14 @@ namespace App\Jobs\Query;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SyncCustomersOrders implements ShouldQueue
 {
@@ -34,7 +36,8 @@ class SyncCustomersOrders implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public User $user
+        public User $user,
+        public int $currentPage
     ) {}
 
     /**
@@ -54,8 +57,9 @@ class SyncCustomersOrders implements ShouldQueue
         foreach ($customers as $customer) {
             $params = [
                 'idPessoa' => $customer->extCliente,
-                'data_inicial' => now()->subDays(90)->format('y-m-d'),
-                'data_final' => now()->format('y-m-d')
+                'data_inicial' => now()->subDays(90)->format('Y-m-d'),
+                'data_final' => now()->format('Y-m-d'),
+                'page' => $this->currentPage
             ];
 
             $response = Http::withToken($token)
@@ -67,30 +71,50 @@ class SyncCustomersOrders implements ShouldQueue
 
             $response->throw();
 
-            $customers->orders()->delete();
-
-            $order = new Order;
+            $customer->orders()->delete();
 
             foreach ($response->json()['data']['list'] as $item) {
+                $order = new Order;
+
                 $order->fill([
                     'extCliente' => $item['idPessoa'],
                     'extPedido' => $item['idVenda'],
-                    'idCliente' => null,
+                    'idCliente' => $customer->idCliente,
                     'idFilial' => null,
-                    'nmVendedor' => $item['nmPessoaRca'],
+                    'nmVendedor' => $item['nmPessoaRCA'],
                     'tpEntrega' => $item['tpEntrega'] == 'EXW' ? 'Retirada' : 'Entrega',
                     'statusPedido' => $item['statusVenda'],
                     'statusEntrega' => 'Separado/Montado/Em trânsito/Entregue/Reprogramado/Devolvido',
-                    'dtPedido' => $item['dtVenda'],
-                    'dtFaturamento' => $item['dtFaturamento'],
-                    'dtEntrega' => $item['dtEntrega'],
+                    'dtPedido' =>  $this->formatDateTime($item['dtVenda']),
+                    'dtFaturamento' =>  $this->formatDateTime($item['dtFaturamento']),
+                    'dtEntrega' => $this->formatDateTime($item['dtEntrega']),
                     'vrTotal' => $item['vrVenda'],
                     'numOrdemCompra' => $item['nrOrdemDeCompra'],
-                    'nmArquivoDetalhes' => null,
-                    'nmArquivoNotaFiscal' => null,
+                    'nmArquivoDetalhes' => 'https://openapi.acessoquery.com/api/nfe_pdf/' . $item['idNotaFiscal'],
+                    'nmArquivoNotaFiscal' => 'https://openapi.acessoquery.com/api/boleto_pdf/' . $item['idVenda'],
+                    'nmArquivoXml' => $item['idNotaFiscal'] ? route('app.xml', $item['idNotaFiscal']) : null,
                 ]);
+
                 $order->save();
             }
+
+            $pagination = $response->json()['data']['pagination'];
+
+            if ($pagination['total_pages'] > $pagination['current_page']) {
+                SyncCustomersOrders::dispatch($this->user, $this->currentPage++);
+            }
         }
+    }
+
+    private function formatDateTime(string|null $dateTime, bool $short = false): string|null
+    {
+        $compareDate = $short ? '0000-00-00' : '0000-00-00 00:00:00';
+        $format = $short ? 'Y-m-d' : 'Y-m-d H:i:s';
+
+        $date = $dateTime && $dateTime !== $compareDate
+            ? Carbon::parse($dateTime)->format($format)
+            : null;
+
+        return $date;
     }
 }

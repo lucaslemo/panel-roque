@@ -68,7 +68,7 @@
 
                     <!-- Data do pedido -->
                     <div class="text-base xl:text-lg font-medium text-black min-w-24 xl:min-w-28 2xl:min-w-36 truncate">
-                        {{ \Carbon\Carbon::parse($lastOrder->dtPedido)->format('d/m/Y') }}
+                        {{ $lastOrder->dtPedido ? \Carbon\Carbon::parse($lastOrder->dtPedido)->format('d/m/Y') : '' }}
                     </div>
 
                     <!-- Nome do cliente -->
@@ -78,15 +78,15 @@
 
                     <!-- Status do pedido -->
                     <div class="flex flex-row items-center text-base xl:text-lg font-normal text-black min-w-28 xl:min-w-32 2xl:min-w-40 truncate">
-                        @if ($lastOrder->statusPedido === 'Faturado')
+                        @if ($lastOrder->statusPedido === 'Faturado' || $lastOrder->statusPedido === 'Ativa')
                             <div class="green-circle"></div>
-                        @elseif ($lastOrder->statusPedido === 'Orçamento')
+                        @elseif ($lastOrder->statusPedido === 'Orcamento')
                             <div class="primary-circle"></div>
                         @elseif ($lastOrder->statusPedido === 'Prevenda')
                             <div class="yellow-circle"></div>
                         @elseif ($lastOrder->statusPedido === 'Devolvido')
                             <div class="stone-circle"></div>
-                        @elseif ($lastOrder->statusPedido === 'Cancelado')
+                        @elseif ($lastOrder->statusPedido === 'Cancelada')
                             <div class="red-circle"></div>
                         @else
                             <div class="stone-circle"></div>
@@ -161,20 +161,20 @@
                     <div class="flex justify-between mb-2">
                         <!-- Data -->
                         <div class="text-small font-medium">
-                            {{ \Carbon\Carbon::parse($lastOrder->dtPedido)->format('d/m/Y') }}
+                            {{ $lastOrder->dtPedido ? \Carbon\Carbon::parse($lastOrder->dtPedido)->format('d/m/Y') : ''}}
                         </div>
 
                         <!-- Status -->
                         <div class="flex flex-row items-center justify-center text-subtitle font-normal">
-                            @if ($lastOrder->statusPedido === 'Faturado')
+                            @if ($lastOrder->statusPedido === 'Faturado' || $lastOrder->statusPedido === 'Ativa')
                                 <div class="green-circle"></div>
-                            @elseif ($lastOrder->statusPedido === 'Orçamento')
+                            @elseif ($lastOrder->statusPedido === 'Orcamento')
                                 <div class="primary-circle"></div>
                             @elseif ($lastOrder->statusPedido === 'Prevenda')
                                 <div class="yellow-circle"></div>
                             @elseif ($lastOrder->statusPedido === 'Devolvido')
                                 <div class="stone-circle"></div>
-                            @elseif ($lastOrder->statusPedido === 'Cancelado')
+                            @elseif ($lastOrder->statusPedido === 'Cancelada')
                                 <div class="red-circle"></div>
                             @else
                                 <div class="stone-circle"></div>

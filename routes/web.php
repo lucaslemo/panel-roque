@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\InstagramController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,9 @@ Route::middleware(['auth', 'role:Customer Default|Customer Admin'])->group(funct
 Route::middleware(['auth'])->group(function () {
     Route::get('instagram/latestImages', [InstagramController::class, 'getLatestImages'])
         ->name('app.instagramLatestImages');
+
+    Route::get('file/xml/{id}', [FileController::class, 'xml'])
+        ->name('app.xml');
 });
 
 // Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
