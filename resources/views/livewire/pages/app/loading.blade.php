@@ -1,6 +1,8 @@
 <?php
 
 use App\Jobs\Query\SyncDataOnLogin;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Livewire\Attributes\On;
@@ -15,8 +17,17 @@ new #[Layout('layouts.guest')] class extends Component
     {
         $syncData = Session::pull('sync_data', false);
 
+        $customersUniqueId = '';
+
+        foreach (auth()->user()->customers()->get() as $customer) {
+            $customersUniqueId .= '_' . $customer->idCliente;
+        }
+
+        Session::put('customers_unique_id', $customersUniqueId);
+
         if ((int) auth()->user()->type !== 1 && $syncData) {
             SyncDataOnLogin::dispatchSync(auth()->user());
+            Cache::put('customers' . $customersUniqueId, true, now()->addMinutes(10));
         }
 
         $this->redirectIntended(default: route('home', absolute: false), navigate: true);

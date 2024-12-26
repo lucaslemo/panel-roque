@@ -8,23 +8,24 @@ use App\Models\Order;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class LastOrdersDashboard extends Component
 {
     public array|Collection $lastOrders = [];
     public array|Collection $customers = [];
-    public string $customersUniqueId = '';
     public array $selectedCustomers = [];
     public Order|null $order = null;
 
     private function fetchOrders()
     {
         try {
-            $synced = Cache::get('orders' . $this->customersUniqueId, false);
+            $customersUniqueId = Session::get('customers_unique_id', '');
+            $synced = Cache::get('orders' . $customersUniqueId, false);
 
-            if (!$synced || true) {
-                Cache::put('orders' . $this->customersUniqueId, true, now()->addMinutes(10));
+            if (!$synced) {
+                Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
                 SyncCustomersOrders::dispatchSync(auth()->user(), 1);
             }
 
@@ -71,7 +72,6 @@ class LastOrdersDashboard extends Component
 
             foreach($this->customers as $customer) {
                 $this->selectedCustomers[$customer->idCliente] = true;
-                $this->customersUniqueId .= '_' . $customer->idCliente;
             }
 
             $this->fetchOrders();

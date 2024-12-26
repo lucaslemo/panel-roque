@@ -2,7 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Jobs\Query\SyncDataOnLogin;
 use App\Models\CreditLimit;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -16,6 +19,14 @@ class CreditLimitCards extends Component
     private function fetchData(array $ids = [])
     {
         try {
+            $customersUniqueId = Session::get('customers_unique_id', '');
+            $synced = Cache::get('customers' . $customersUniqueId, false);
+
+            if (!$synced) {
+                Cache::put('customers' . $customersUniqueId, true, now()->addMinutes(10));
+                SyncDataOnLogin::dispatchSync(auth()->user());
+            }
+
             $creditLimits = CreditLimit::with('customer')
                 ->whereHas('customer.users', function($query) {
                     $query->where('idUsuario', auth()->user()->id);
