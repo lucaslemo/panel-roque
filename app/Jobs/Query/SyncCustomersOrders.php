@@ -90,8 +90,8 @@ class SyncCustomersOrders implements ShouldQueue
                     'dtEntrega' => $this->formatDateTime($item['dtEntrega']),
                     'vrTotal' => $item['vrVenda'],
                     'numOrdemCompra' => $item['nrOrdemDeCompra'],
-                    'nmArquivoDetalhes' => 'https://openapi.acessoquery.com/api/nfe_pdf/' . $item['idNotaFiscal'],
-                    'nmArquivoNotaFiscal' => 'https://openapi.acessoquery.com/api/boleto_pdf/' . $item['idVenda'],
+                    'nmArquivoDetalhes' => null,
+                    'nmArquivoNotaFiscal' => $item['idNotaFiscal'] ? route('app.nfe', $item['idNotaFiscal']) : null,
                     'nmArquivoXml' => $item['idNotaFiscal'] ? route('app.xml', $item['idNotaFiscal']) : null,
                 ]);
 

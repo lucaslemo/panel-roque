@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
 {
@@ -32,5 +33,25 @@ class FileController extends Controller
         $headers = ['Content-Type' => 'application/xml'];
 
         return response($content, headers: $headers);
+    }
+
+    public function nfe(Request $request, string $id)
+    {
+        $url = "https://openapi.acessoquery.com/api/nfe_pdf/" . $id;
+
+        $token = config('app.query_token');
+
+        $response = Http::withToken($token)
+            ->withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ])
+            ->get($url);
+
+        $response->throw();
+
+        $headers = ['Content-Type' => 'application/pdf'];
+
+        return response($response, headers: $headers);
     }
 }

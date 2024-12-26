@@ -47,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('file/xml/{id}', [FileController::class, 'xml'])
         ->name('app.xml');
+
+    Route::get('file/nfe/{id}', [FileController::class, 'nfe'])
+        ->name('app.nfe');
 });
 
 // Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
