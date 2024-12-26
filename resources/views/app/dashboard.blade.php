@@ -25,7 +25,7 @@
                 </svg>
             </button>
         </div>
-        <livewire:modal-order-detail />
+        <livewire:modal-order-detail lazy="on-load" />
     </x-modal-panel>
 
     <!-- Cartões -->
@@ -41,7 +41,7 @@
         <div class="col-span-1 row-span-1 laptop:row-span-3 h-max">
             <div class="flex flex-col justify-around h-44 xl:h-52 bg-white rounded-lg shadow-card p-4 md:p-6">
 
-                <!-- Nossas Redes Socias -->
+                <!-- Nossas Redes Sociais -->
                 <p class="text-lg laptop:text-base xl:text-lg font-normal text-nowrap">{{ __('Our Social Networks') }}</p>
 
                 <!-- Linha amarela -->

@@ -101,7 +101,7 @@ class SyncCustomersOrders implements ShouldQueue
             $pagination = $response->json()['data']['pagination'];
 
             if ($pagination['total_pages'] > $pagination['current_page']) {
-                SyncCustomersOrders::dispatch($this->user, $this->currentPage++);
+                SyncCustomersOrders::dispatchSync($this->user, $this->currentPage++);
             }
         }
     }

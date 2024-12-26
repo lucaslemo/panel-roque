@@ -2,7 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Jobs\Query\SyncOrdersLogs;
 use App\Models\Order;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -17,8 +20,17 @@ class ModalOrderDetail extends Component
     public function setOrderDetail(int $id): void
     {
         try {
+            $synced = Cache::get('order_detail_' . $id, false);
+
+            if (!$synced || true) {
+                Cache::put('order_detail_' . $id, true, now()->addMinutes(10));
+                SyncOrdersLogs::dispatchSync($id, 1);
+            }
+
             $this->order = Order::select(['orders.*', 'customers.nmCliente'])
-                ->with('orderHistories')
+                ->with(['orderHistories' => function($query) {
+                    $query->orderBy('dtStatusPedido', 'DESC');
+                }])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->join('users_has_customers', 'users_has_customers.idCliente', '=', 'customers.idCliente')
                 ->where('users_has_customers.idUsuario', auth()->user()->id)
