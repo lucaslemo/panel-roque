@@ -84,7 +84,7 @@ class SyncCustomersOrders implements ShouldQueue
                     'nmVendedor' => $item['nmPessoaRCA'],
                     'tpEntrega' => $item['tpEntrega'] == 'EXW' ? 'Retirada' : 'Entrega',
                     'statusPedido' => $item['statusVenda'],
-                    'statusEntrega' => 'Separado/Montado/Em trânsito/Entregue/Reprogramado/Devolvido',
+                    'statusEntrega' => null,
                     'dtPedido' =>  $this->formatDateTime($item['dtVenda']),
                     'dtFaturamento' =>  $this->formatDateTime($item['dtFaturamento']),
                     'dtEntrega' => $this->formatDateTime($item['dtEntrega']),

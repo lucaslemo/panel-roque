@@ -46,6 +46,8 @@ class Invoice extends Model
         'tpCobranca',
         'dtParcela',
         'numDuplicata',
+        'numParcela',
+        'numTotalParcela',
         'dtEmissao',
         'dtVencimento',
         'dtPagamento',

@@ -31,9 +31,10 @@ class WhatsAppChannel
             'Client-Token' => $clientToken,
         ])->post($urlZApi, $data);
 
-        Log::info($response);
         if ($response->failed() || $response->json('error', null)) {
             throw new \Exception('Error to send message to user');
+        } else {
+            Log::channel('synchronization')->info($response);
         }
     }
 }

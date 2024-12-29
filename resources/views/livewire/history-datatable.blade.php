@@ -71,7 +71,7 @@
 
                     <!-- Numero da duplicata -->
                     <div class="text-base xl:text-lg text-black w-1/4">
-                        <div class="font-medium leading-none">#{{ $invoice->numDuplicata }}</div>
+                        <div class="font-medium leading-none">#{{ $invoice->extConta }}</div>
                         <div class="font-normal leading-none mt-2">{{ __('Due date') }}: {{ \Carbon\Carbon::parse($invoice->dtVencimento)->format('d/m/Y') }}</div>
                     </div>
 
@@ -83,8 +83,8 @@
 
                     <!-- Valor total -->
                     <div class="text-base xl:text-lg text-black w-1/4">
-                        <div class="font-medium leading-none">{{ __('Total value') }}: {{ 'R$ ' . number_format($invoice->vrAtualizado, 2, ',', '.') }}</div>
-                        <div class="font-normal leading-none mt-2">{{ __('Fees') }}: {{ 'R$ ' . number_format(($invoice->vrAtualizado - $invoice->vrBruto), 2, ',', '.') }}</div>
+                        <div class="font-medium leading-none">{{ __('Total value') }}: {{ 'R$ ' . number_format($invoice->vrPago, 2, ',', '.') }}</div>
+                        <div class="font-normal leading-none mt-2">{{ __('Fees') }}: {{ 'R$ ' . number_format(($invoice->vrPago - $invoice->vrBruto), 2, ',', '.') }}</div>
                     </div>
                 </div>
 
@@ -100,12 +100,12 @@
                     <!-- Numero da duplicata -->
                     <div class="text-small md:text-base text-black mb-4">
                         <div class="font-medium">{{ $invoice->numDuplicata }}</div>
-                        <div class="font-light">| {{ __('Payments') }} {{ 1 }}/{{ 5 }}</div>
+                        <div class="font-light">| {{ __('Payments') }} {{ $invoice->numParcela }}/{{ $invoice->numTotalParcela }}</div>
                     </div>
 
                     <!-- Valor -->
                     <div class="text-small md:text-base font-medium text-black mb-4">
-                        {{ 'R$ ' . number_format($invoice->vrAtualizado, 2, ',', '.') }}
+                        {{ 'R$ ' . number_format($invoice->vrPago, 2, ',', '.') }}
                     </div>
 
                     <!-- Data do pagamento -->

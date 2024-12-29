@@ -54,4 +54,24 @@ class FileController extends Controller
 
         return response($response, headers: $headers);
     }
+
+    public function ticket(Request $request, string $id)
+    {
+        $url = "https://openapi.acessoquery.com/api/boleto_pdf/" . $id;
+
+        $token = config('app.query_token');
+
+        $response = Http::withToken($token)
+            ->withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ])
+            ->get($url);
+
+        $response->throw();
+
+        $headers = ['Content-Type' => 'application/pdf'];
+
+        return response($response, headers: $headers);
+    }
 }

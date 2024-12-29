@@ -313,7 +313,7 @@ class UserRegistrationChat extends Component
                 Auth::login($this->user);
             }
 
-            $this->redirectIntended(default: route('app.dashboard', absolute: false), navigate: true);
+            $this->redirectIntended(default: route('loading'), navigate: true);
         } catch (\Throwable $th) {
             report($th);
             $this->dispatch('showAlert', __('Error when fetching users data.'), __($th->getMessage()), 'danger');

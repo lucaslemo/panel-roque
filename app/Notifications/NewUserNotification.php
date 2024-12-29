@@ -77,7 +77,7 @@ class NewUserNotification extends Notification implements ShouldQueue
         $message .= Lang::get('If you have any difficulties, ask us for help. We are here to help you!');
 
         return [
-            'phone' => '88981560484' ?? $this->user->phone,
+            'phone' => $this->user->phone,
             'message' => $message,
         ];
     }

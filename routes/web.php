@@ -50,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('file/nfe/{id}', [FileController::class, 'nfe'])
         ->name('app.nfe');
+
+    Route::get('file/ticket/{id}', [FileController::class, 'ticket'])
+        ->name('app.ticket');
 });
 
 // Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
