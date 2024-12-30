@@ -30,7 +30,11 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        if ((int) $user->type !== 1) {
+            $this->redirectIntended(default: route('loading'), navigate: true);
+        } else {
+            $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        }
     }
 
     /**
@@ -115,7 +119,8 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
         <div class="flex items-center justify-center">
             <x-primary-button>
-                {{ __('Log in') }}
+                <span wire:loading wire:target="login" class="loading-white"></span>
+                <span wire:loading.remove wire:target="login">{{ __('Log in') }}</span>
             </x-primary-button>
         </div>
     </form>

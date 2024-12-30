@@ -99,6 +99,9 @@ class Order extends Model
      */
     public function getDtPedidoAttribute($date)
     {
+        if (is_null($date)) {
+            return null;
+        }
         return Carbon::parse($date);
     }
 
@@ -107,6 +110,9 @@ class Order extends Model
      */
     public function getDtFaturamentoAttribute($date)
     {
+        if (is_null($date)) {
+            return null;
+        }
         return Carbon::parse($date);
     }
 
@@ -154,13 +160,15 @@ class Order extends Model
         switch ($this->statusPedido) {
             case 'Faturado':
                 return 'green';
-            case 'Orçamento':
+            case 'Ativa':
+                return 'green';
+            case 'Orcamento':
                 return 'primary';
             case 'Prevenda':
                 return 'yellow';
             case 'Devolvido':
                 return 'stone';
-            case 'Cancelado':
+            case 'Cancelada':
                 return 'red';
             default:
                 return 'stone';

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\InstagramController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -43,24 +44,15 @@ Route::middleware(['auth', 'role:Customer Default|Customer Admin'])->group(funct
 Route::middleware(['auth'])->group(function () {
     Route::get('instagram/latestImages', [InstagramController::class, 'getLatestImages'])
         ->name('app.instagramLatestImages');
-});
 
-// Route::middleware(['auth', 'role:Super Admin|Customer Default|Customer Admin'])->group(function () {
-//     Route::view('profile', 'common.profile')
-//         ->name('common.profile');
-// });
+    Route::get('file/xml/{id}', [FileController::class, 'xml'])
+        ->name('app.xml');
 
-Route::get('api/pessoas', [TestController::class, 'customers']);
-Route::get('api/pedidos', [TestController::class, 'orders']);
-Route::get('api/contas', [TestController::class, 'invoices']);
+    Route::get('file/nfe/{id}', [FileController::class, 'nfe'])
+        ->name('app.nfe');
 
-Route::get('teste', function() {
-    $userCustomer = App\Models\User::where('type', 3)->whereNull('last_login_at')->where('active', false)->first();
-    $userCustomerAdmin = App\Models\User::where('type', 2)->whereNull('last_login_at')->where('active', false)->first();
-
-    $userCustomer ? $userCustomer->notify(new App\Notifications\UserCreated($userCustomer)) : null;
-    $userCustomerAdmin ? $userCustomerAdmin->notify(new App\Notifications\UserCreated($userCustomerAdmin)) : null;
-    return 'Ok!';
+    Route::get('file/ticket/{id}', [FileController::class, 'ticket'])
+        ->name('app.ticket');
 });
 
 require __DIR__.'/auth.php';

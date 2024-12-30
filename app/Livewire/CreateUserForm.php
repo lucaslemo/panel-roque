@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Customer;
 use App\Models\User;
-use App\Notifications\UserCreated;
+use App\Notifications\NewUserNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -110,7 +110,7 @@ class CreateUserForm extends Component
 
             $user->refresh();
 
-            $user->notify(new UserCreated($user));
+            $user->notify(new NewUserNotification($user));
 
             $this->dispatch('showAlert', __('Completed'), __('A new user has been registered. He will soon receive a registration link.'), 'success');
         } catch (\Exception $e) {

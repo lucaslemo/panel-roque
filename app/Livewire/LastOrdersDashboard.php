@@ -2,10 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Jobs\Query\SyncCustomersOrders;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class LastOrdersDashboard extends Component
@@ -18,6 +21,14 @@ class LastOrdersDashboard extends Component
     private function fetchOrders()
     {
         try {
+            $customersUniqueId = Session::get('customers_unique_id', '');
+            $synced = Cache::get('orders' . $customersUniqueId, false);
+
+            if (!$synced) {
+                Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
+                SyncCustomersOrders::dispatchSync(auth()->user(), 1);
+            }
+
             $this->lastOrders = DB::table('orders')
                 ->select(['orders.*', 'customers.nmCliente'])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')

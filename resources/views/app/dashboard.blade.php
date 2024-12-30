@@ -25,11 +25,11 @@
                 </svg>
             </button>
         </div>
-        <livewire:modal-order-detail />
+        <livewire:modal-order-detail lazy="on-load" />
     </x-modal-panel>
 
     <!-- Cartões -->
-    <livewire:credit-limit-cards />
+    <livewire:credit-limit-cards lazy="on-load" />
 
     <div class="grid grid-cols-1 auto-rows-min md:grid-cols-2 laptop:grid-cols-4 gap-y-8 gap-x-4 laptop:gap-x-8 mt-8 w-full">
         <!-- Contas -->
@@ -41,7 +41,7 @@
         <div class="col-span-1 row-span-1 laptop:row-span-3 h-max">
             <div class="flex flex-col justify-around h-44 xl:h-52 bg-white rounded-lg shadow-card p-4 md:p-6">
 
-                <!-- Nossas Redes Socias -->
+                <!-- Nossas Redes Sociais -->
                 <p class="text-lg laptop:text-base xl:text-lg font-normal text-nowrap">{{ __('Our Social Networks') }}</p>
 
                 <!-- Linha amarela -->
@@ -104,10 +104,10 @@
 
     <script type="text/javascript">
 
-        // Guarda os index das imagnes atuais
+        // Guarda os index das imagens atuais
         var currentIndex = [0, 0];
 
-        // Carrega as imagens do instagram 
+        // Carrega as imagens do Instagram 
         if (document.readyState !== 'loading') {
             loadImages();
         } else {
@@ -152,7 +152,7 @@
     
                             imgElement.setAttribute("src", media.media_url);
                             imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
-                            imgElement.setAttribute("alt", "Post do instagram");
+                            imgElement.setAttribute("alt", "Post do Instagram");
     
                             aElement.appendChild(imgElement);
                             containers[i].appendChild(aElement);
@@ -176,7 +176,7 @@
                         aElement.setAttribute("href", "https://www.instagram.com/roquematcon");
     
                         imgElement.setAttribute("class", "w-full h-auto rounded-lg shadow-card");
-                        imgElement.setAttribute("alt", "Posts do instagram");
+                        imgElement.setAttribute("alt", "Posts do Instagram");
     
                         aElement.appendChild(imgElement);
                         containers[i].appendChild(aElement);

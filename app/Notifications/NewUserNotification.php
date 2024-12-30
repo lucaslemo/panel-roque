@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\User;
+use App\Notifications\Channels\WhatsAppChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Lang;
 
-class UserCreated extends Notification
+class NewUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,7 +29,10 @@ class UserCreated extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return [
+            'mail', 
+            WhatsAppChannel::class,
+        ];
     }
 
     /**
@@ -51,6 +55,31 @@ class UserCreated extends Notification
             ->line(Lang::get('To complete your registration and gain access, click the button below:'))
             ->action(Lang::get('Continue registration'), $url)
             ->line(Lang::get('If you have any difficulties, ask us for help. We are here to help you!'));
+    }
+
+    /**
+     * Get the whatsApp representation of the notification.
+     */
+    public function toWhatsApp(object $notifiable): array
+    {
+        $token = Crypt::encryptString($this->user->register_token);
+
+        if ((int)$this->user->type === 2) {
+            $url = route('customer.register', urlencode($token)) . '?email=' . urlencode($this->user->email);
+        } else {
+            $url = route('register', urlencode($token)) . '?email=' . urlencode($this->user->email);
+        }
+
+        $message = Lang::get('Hello, ') .  $this->user->name . '. ' . Lang::get('All good?') . "\n\n";
+        $message .= Lang::get('We created the Customer Portal to make it even easier for you to track your orders!') . "\n\n";
+        $message .= Lang::get('To complete your registration and gain access, click the button below:') . "\n\n";
+        $message .= $url . "\n\n";
+        $message .= Lang::get('If you have any difficulties, ask us for help. We are here to help you!');
+
+        return [
+            'phone' => $this->user->phone,
+            'message' => $message,
+        ];
     }
 
     /**

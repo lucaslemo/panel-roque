@@ -70,21 +70,21 @@
 
                 <!-- Status do pedido -->
                 <div class="flex flex-row items-center justify-start text-base xl:text-lg font-normal text-black w-1/5 truncate">
-                    @if ($order->statusEntrega === 'Entregue')
+                    @if ($order->statusPedido === 'Faturado')
                         <div class="green-circle"></div>
-                    @elseif ($order->statusEntrega === 'Separado' || $order->statusEntrega === 'Montado')
+                    @elseif ($order->statusPedido === 'Orçamento')
                         <div class="primary-circle"></div>
-                    @elseif ($order->statusEntrega === 'Em trânsito')
+                    @elseif ($order->statusPedido === 'Prevenda')
                         <div class="yellow-circle"></div>
-                    @elseif ($order->statusEntrega === 'Devolvido' || $order->statusEntrega === 'Reprogramado')
+                    @elseif ($order->statusPedido === 'Devolvido')
                         <div class="stone-circle"></div>
-                    @elseif ($order->statusEntrega === 'Reservado')
+                    @elseif ($order->statusPedido === 'Cancelado')
                         <div class="red-circle"></div>
                     @else
                         <div class="stone-circle"></div>
                     @endif
 
-                    {{ $order->statusEntrega }}
+                    {{ $order->statusPedido }}
                 </div>
 
                 <!-- Valor -->
@@ -109,7 +109,7 @@
 
                         <span class="hidden 2xl:block leading-none ms-2">{{ __('Order Details') }}</span>
                     </button>
-                    <a href="{{ $order->nmArquivoDetalhes }}" download class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                    <a href="{{ $order->nmArquivoNotaFiscal ?? '#' }}" {{ $order->nmArquivoNotaFiscal ? 'download' : '' }} class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
 
                         <svg class="w-auto h-[22px] xl:w-[24px] xl:h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="27" fill="url(#pattern0_2623_4482_a)"/>
@@ -121,7 +121,7 @@
                             </defs>
                         </svg>
                     </a>
-                    <a href="{{ $order->nmArquivoNotaFiscal }}" download class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                    <a href="{{ $order->nmArquivoXml ?? '#' }}" {{ $order->nmArquivoXml ? 'download' : '' }} class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
                         <svg class="w-auto h-[22px] xl:w-[24px] xl:h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="27" fill="url(#pattern0_2625_4499_a)"/>
                             <defs>
@@ -145,21 +145,21 @@
 
                     <!-- Status -->
                     <div class="flex flex-row items-center justify-center text-subtitle font-normal">
-                        @if ($order->statusEntrega === 'Entregue')
+                        @if ($order->statusPedido === 'Faturado')
                             <div class="green-circle"></div>
-                        @elseif ($order->statusEntrega === 'Separado' || $order->statusEntrega === 'Montado')
+                        @elseif ($order->statusPedido === 'Orçamento')
                             <div class="primary-circle"></div>
-                        @elseif ($order->statusEntrega === 'Em trânsito')
+                        @elseif ($order->statusPedido === 'Prevenda')
                             <div class="yellow-circle"></div>
-                        @elseif ($order->statusEntrega === 'Devolvido' || $order->statusEntrega === 'Reprogramado')
+                        @elseif ($order->statusPedido === 'Devolvido')
                             <div class="stone-circle"></div>
-                        @elseif ($order->statusEntrega === 'Reservado')
+                        @elseif ($order->statusPedido === 'Cancelado')
                             <div class="red-circle"></div>
                         @else
                             <div class="stone-circle"></div>
                         @endif
 
-                        {{ $order->statusEntrega }}
+                        {{ $order->statusPedido }}
                     </div>
                 </div>
 
@@ -187,7 +187,7 @@
                             </defs>
                         </svg>
                     </button>
-                    <a href="{{ $order->nmArquivoDetalhes }}" download class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                    <a href="{{ $order->nmArquivoNotaFiscal ?? '#' }}" {{ $order->nmArquivoNotaFiscal ? 'download' : '' }} class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
 
                         <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="27" fill="url(#pattern0_2623_4482)"/>
@@ -199,7 +199,7 @@
                             </defs>
                         </svg>
                     </a>
-                    <a href="{{ $order->nmArquivoNotaFiscal }}" download class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+                    <a href="{{ $order->nmArquivoXml ?? '#' }}" {{ $order->nmArquivoXml ? 'download' : '' }} class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
                         <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="27" fill="url(#pattern0_2625_4499_b)"/>
                             <defs>

@@ -2,9 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Jobs\Query\SyncCustomersInvoices;
 use Livewire\Component;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class HistoryDatatable extends Component
 {
@@ -50,11 +53,21 @@ class HistoryDatatable extends Component
     private function fetchInvoices()
     {
         try {
+            $customersUniqueId = Session::get('customers_unique_id', '');
+            $synced = Cache::get('orders' . $customersUniqueId, false);
+
+
+            if (!$synced) {
+                Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
+                SyncCustomersInvoices::dispatchSync(auth()->user(), 1);
+            }
+            
             $this->totalData = DB::table('invoices')
                 ->join('customers', 'customers.idCliente', '=', 'invoices.idCliente')
                 ->join('users_has_customers', 'users_has_customers.idCliente', '=', 'customers.idCliente')
                 ->where('users_has_customers.idUsuario', auth()->user()->id)
-                ->whereNotNull('invoices.dtPagamento')
+                ->where('statusConta', 'Pago')
+                ->whereDate('dtEmissao', '>', now()->subDays(90))
                 ->whereNull('invoices.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->count();
@@ -67,9 +80,11 @@ class HistoryDatatable extends Component
                 ->join('customers', 'customers.idCliente', '=', 'invoices.idCliente')
                 ->join('users_has_customers', 'users_has_customers.idCliente', '=', 'customers.idCliente')
                 ->where('users_has_customers.idUsuario', auth()->user()->id)
-                ->whereNotNull('invoices.dtPagamento')
+                ->where('statusConta', 'Pago')
+                ->whereDate('dtEmissao', '>', now()->subDays(90))
                 ->whereNull('invoices.deleted_at')
                 ->whereNull('customers.deleted_at')
+                ->orderBy('dtEmissao', 'ASC')
                 ->skip($this->page * $this->perPage)
                 ->take($this->perPage)
                 ->get();

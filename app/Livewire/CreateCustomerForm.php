@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use App\Notifications\UserCreated;
+use App\Notifications\NewUserNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -93,7 +93,7 @@ class CreateCustomerForm extends Component
 
             $this->dispatch('new-user', $user)->to(UserRegistrationChat::class);
             $this->dispatch('close-modal', 'create-customer-form');
-            $user->notify(new UserCreated($user));
+            $user->notify(new NewUserNotification($user));
             $this->cancel();
 
         } catch (\Throwable $th) {

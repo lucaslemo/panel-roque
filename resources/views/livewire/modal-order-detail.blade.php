@@ -1,7 +1,7 @@
 <div>
     @if (!is_null($order))
         <div class="hidden laptop:flex flex-row justify-between items-center rounded-lg bg-background px-8 py-4">
-            <div class="text-lg font-medium text-black text-nowrap">{{ $order->dtPedido->format('d/m/Y | H:i:s') }}</div>
+            <div class="text-lg font-medium text-black text-nowrap">{{ $order->dtPedido ? $order->dtPedido->format('d/m/Y | H:i:s') : '' }}</div>
             <div class="text-lg font-normal text-black 2xl:w-[453px] truncate">{{ $order->nmCliente }}</div>
             <div class="flex flex-row justify-center items-center text-lg font-normal text-black leading-none">
                 <div class="{{ $order->getStatusColor() }}-circle"></div>
@@ -10,7 +10,7 @@
             <div class="text-lg font-medium text-black text-nowrap">{{ 'R$ ' . number_format($order->vrTotal, 2, ',', '.') }}</div>
         </div>
         <div class="block laptop:hidden rounded-lg bg-background p-4">
-            <div class="text-small md:text-lg font-medium text-black mb-4">{{ $order->dtPedido->format('d/m/Y | H:i:s') }}</div>
+            <div class="text-small md:text-lg font-medium text-black mb-4">{{ $order->dtPedido ? $order->dtPedido->format('d/m/Y | H:i:s') : '' }}</div>
             <div class="text-small  md:text-lg font-normal text-black mb-4">{{ $order->nmCliente }}</div>
             <div class="flex justify-start space-x-8">
                 <div class="text-small  md:text-lg font-medium text-black">{{ 'R$ ' . number_format($order->vrTotal, 2, ',', '.') }}</div>
@@ -64,7 +64,7 @@
                                         {{ $orderHistory->nmStatusPedido }}.
                                     </div>
                                     <div class="text-subtitle md:text-normal font-light text-black leading-none">
-                                        {{ $orderHistory->dtStatusPedido->format('d/m/Y | H:i:s') }}
+                                        {{ $orderHistory->dtStatusPedido ? $orderHistory->dtStatusPedido->format('d/m/Y | H:i:s') : '' }}
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
 
                 <!-- Data do faturamento -->
                 <div class="text-small md:text-lg font-normal text-black bg-background rounded-lg p-4 laptop:p-8">
-                    <span class="font-medium">{{ __('Billing Date') }}:</span> {{ $order->dtFaturamento->format('d/m/Y') }}
+                    <span class="font-medium">{{ __('Billing Date') }}:</span> {{ $order->dtFaturamento ? $order->dtFaturamento->format('d/m/Y') : '' }}
                 </div>
             </div>
         </div>

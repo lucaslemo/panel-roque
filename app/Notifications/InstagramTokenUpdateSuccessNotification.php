@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class FailedToRefreshInstagramToken extends Notification
+class InstagramTokenUpdateSuccessNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -16,7 +16,7 @@ class FailedToRefreshInstagramToken extends Notification
      * Create a new notification instance.
      */
     public function __construct(
-        public string|null $response
+        public string|null $expiredDate
     ) {}
 
     /**
@@ -35,11 +35,9 @@ class FailedToRefreshInstagramToken extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->error()
-                    ->subject(Lang::get('Failed to refresh Instagram access token'))
+                    ->subject(Lang::get('Instagram access token has been updated successfully'))
                     ->greeting(Lang::get('Hello administrator!'))
-                    ->line(Lang::get('There was an error updating the Instagram access token'))
-                    ->line($this->response);
+                    ->line(Lang::get('The access token will expire in: ') . $this->expiredDate);
     }
 
     /**

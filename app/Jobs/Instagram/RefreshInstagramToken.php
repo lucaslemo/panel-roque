@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Instagram;
 
 use App\Models\User;
-use App\Notifications\FailedToRefreshInstagramToken;
-use App\Notifications\InstagramAccessTokenHasBeenUpdatedSuccessfully;
+use App\Notifications\InstagramTokenRefreshFailedNotification;
+use App\Notifications\InstagramTokenUpdateSuccessNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 
-class UpdateInstagramAccessToken implements ShouldQueue
+class RefreshInstagramToken implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -43,12 +43,11 @@ class UpdateInstagramAccessToken implements ShouldQueue
         $response = Http::get($url, ['grant_type' => $grantType, 'access_token' => $token]);
 
         if($response->failed()) {
-
-            $this->user ? $this->user->notify(new FailedToRefreshInstagramToken($response->body())) : null;
+            $this->user ? $this->user->notify(new InstagramTokenRefreshFailedNotification($response->body())) : null;
         }
 
         if ($response->ok()) {
-            $this->user ? $this->user->notify(new InstagramAccessTokenHasBeenUpdatedSuccessfully($response->json('expires_in', null))) : null;
+            $this->user ? $this->user->notify(new InstagramTokenUpdateSuccessNotification($response->json('expires_in', null))) : null;
         }
 
         $response->throw();
