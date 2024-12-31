@@ -64,12 +64,13 @@ class OrdersDatatable extends Component
 
             if (!$synced) {
                 Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
-                SyncCustomersOrders::dispatchSync(auth()->user(), 1);
+                SyncCustomersOrders::dispatchSync(auth()->user());
             }
             
             $this->totalData = DB::table('orders')
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('orders.idCliente', array_keys($this->selectedCustomers, true))
+                ->whereNot('statusPedido', 'Orcamento')
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->count();
@@ -81,6 +82,7 @@ class OrdersDatatable extends Component
                 ->select(['orders.*', 'customers.nmCliente'])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
+                ->whereNot('statusPedido', 'Orcamento')
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->orderByRaw("CASE WHEN statusEntrega = 'Entregue' THEN 2 ELSE 1 END")

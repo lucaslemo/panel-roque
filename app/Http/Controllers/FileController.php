@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -73,5 +74,12 @@ class FileController extends Controller
         $headers = ['Content-Type' => 'application/pdf'];
 
         return response($response, headers: $headers);
+    }
+
+    public function details(Request $request, string $id)
+    {
+        $order = Order::first();
+        
+        return view('app.orderDetails');
     }
 }

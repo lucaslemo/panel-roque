@@ -76,7 +76,7 @@ class SyncCustomersPeriodically implements ShouldQueue
         }
 
         if ($pagination['total_pages'] > $pagination['current_page']) {
-            SyncCustomersPeriodically::dispatch($this->date, $this->currentPage++);
+            SyncCustomersPeriodically::dispatch($this->date, ($this->currentPage + 1));
         }
     }
 }

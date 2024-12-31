@@ -36,7 +36,9 @@ class SyncOrdersLogs implements ShouldQueue
     public function __construct(
         public int $orderId,
         public int $currentPage
-    ) {}
+    ) {
+        Log::info('Sync order log -> '. $orderId . ' ' . $currentPage);
+    }
 
     /**
      * Execute the job.
@@ -77,7 +79,7 @@ class SyncOrdersLogs implements ShouldQueue
         $pagination = $response->json()['data']['pagination'];
 
         if ($pagination['total_pages'] > $pagination['current_page']) {
-            SyncOrdersLogs::dispatchSync($this->orderId, $this->currentPage++);
+            SyncOrdersLogs::dispatchSync($this->orderId, ($this->currentPage + 1));
         }
     }
 }

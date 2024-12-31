@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('file/ticket/{id}', [FileController::class, 'ticket'])
         ->name('app.ticket');
+
+    Route::get('file/details/{id}', [FileController::class, 'details'])
+        ->name('app.details');
 });
 
 require __DIR__.'/auth.php';

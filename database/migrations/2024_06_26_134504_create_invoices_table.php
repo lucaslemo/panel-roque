@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->string('extCliente')->comment('Código externo do cliente');
             $table->string('extConta')->comment('Código externo da conta');
-            $table->string('extPedido')->comment('Código externo do pedido');
+            $table->string('extPedido')->nullable()->comment('Código externo do pedido');
             $table->string('nmVendedor')->nullable()->comment('Nome do vendedor');
             $table->string('statusConta')->comment('Status da conta');
             $table->string('nmSituacao')->nullable()->comment('Situação da conta');
