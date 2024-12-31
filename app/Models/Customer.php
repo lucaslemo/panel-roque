@@ -80,6 +80,14 @@ class Customer extends Model
     }
 
     /**
+     * Get the order details for the order.
+     */
+    public function orderDetails(): HasMany
+    {
+        return $this->hasMany(OrderDetail::class, 'idCliente', 'idCliente');
+    }
+
+    /**
      * Log the model events.
      *
      * @return LogOptions

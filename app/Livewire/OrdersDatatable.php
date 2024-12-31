@@ -2,11 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Jobs\Query\SyncCustomersOrders;
 use App\Models\Customer;
 use App\Models\Order;
 use Livewire\Component;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 
 class OrdersDatatable extends Component
@@ -56,9 +59,18 @@ class OrdersDatatable extends Component
     private function fetchOrders()
     {
         try {
+            $customersUniqueId = Session::get('customers_unique_id', '');
+            $synced = Cache::get('orders' . $customersUniqueId, false);
+
+            if (!$synced) {
+                Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
+                SyncCustomersOrders::dispatchSync(auth()->user());
+            }
+            
             $this->totalData = DB::table('orders')
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('orders.idCliente', array_keys($this->selectedCustomers, true))
+                ->whereNot('statusPedido', 'Orcamento')
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->count();
@@ -70,6 +82,7 @@ class OrdersDatatable extends Component
                 ->select(['orders.*', 'customers.nmCliente'])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
+                ->whereNot('statusPedido', 'Orcamento')
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->orderByRaw("CASE WHEN statusEntrega = 'Entregue' THEN 2 ELSE 1 END")

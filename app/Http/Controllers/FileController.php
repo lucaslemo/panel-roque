@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -73,5 +75,17 @@ class FileController extends Controller
         $headers = ['Content-Type' => 'application/pdf'];
 
         return response($response, headers: $headers);
+    }
+
+    public function details(Request $request, string $id)
+    {
+        // $order = Order::with(['customer', 'orderDetails'])->findOrFail($id);
+        $order = Order::with(['customer', 'orderDetails'])->first();
+
+        return view('app.orderDetails', ['order' => $order]);
+
+        // $pdf = Pdf::loadView('app.orderDetails', ['order' => $order]);
+
+        // return $pdf->download("details_{$order->idPedidoCabecalho}.pdf");
     }
 }

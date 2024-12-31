@@ -26,7 +26,7 @@ class LastOrdersDashboard extends Component
 
             if (!$synced) {
                 Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
-                SyncCustomersOrders::dispatchSync(auth()->user(), 1);
+                SyncCustomersOrders::dispatchSync(auth()->user());
             }
 
             $this->lastOrders = DB::table('orders')
@@ -35,7 +35,7 @@ class LastOrdersDashboard extends Component
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
-                ->orderByRaw("CASE WHEN statusEntrega = 'Entregue' THEN 2 ELSE 1 END")
+                ->whereNot('statusPedido', 'Orcamento')
                 ->orderBy('dtPedido', 'DESC')
                 ->take(5)
                 ->get();

@@ -78,13 +78,13 @@
                     <!-- Valor original -->
                     <div class="text-base xl:text-lg text-black text-nowrap w-1/4">
                         <div class="font-medium leading-none">{{ __('Original value') }}: {{ 'R$ ' . number_format($invoice->vrBruto, 2, ',', '.') }}</div>
-                        <div class="font-normal leading-none mt-2">{{ __('Payment') }}: {{ \Carbon\Carbon::parse($invoice->dtPagamento)->format('d/m/Y') }}</div>
+                        <div class="font-normal leading-none mt-2">{{ __('Payment') }}: {{ $invoice->dtPagamento ? \Carbon\Carbon::parse($invoice->dtPagamento)->format('d/m/Y') : '' }}</div>
                     </div>
 
                     <!-- Valor total -->
                     <div class="text-base xl:text-lg text-black w-1/4">
-                        <div class="font-medium leading-none">{{ __('Total value') }}: {{ 'R$ ' . number_format($invoice->vrPago, 2, ',', '.') }}</div>
-                        <div class="font-normal leading-none mt-2">{{ __('Fees') }}: {{ 'R$ ' . number_format(($invoice->vrPago - $invoice->vrBruto), 2, ',', '.') }}</div>
+                        <div class="font-medium leading-none">{{ __('Total value') }}: {{ 'R$ ' . number_format(($invoice->vrPago ?? $invoice->vrBruto), 2, ',', '.') }}</div>
+                        <div class="font-normal leading-none mt-2">{{ __('Fees') }}: {{ 'R$ ' . number_format((($invoice->vrPago ?? $invoice->vrBruto) - $invoice->vrBruto), 2, ',', '.') }}</div>
                     </div>
                 </div>
 
@@ -105,12 +105,12 @@
 
                     <!-- Valor -->
                     <div class="text-small md:text-base font-medium text-black mb-4">
-                        {{ 'R$ ' . number_format($invoice->vrPago, 2, ',', '.') }}
+                        {{ 'R$ ' . number_format(($invoice->vrPago ?? $invoice->vrBruto), 2, ',', '.') }}
                     </div>
 
                     <!-- Data do pagamento -->
                     <div class="text-small md:text-base font-medium text-black mb-2">
-                        {{ __('Payment') }}: {{ \Carbon\Carbon::parse($invoice->dtPagamento)->format('d/m/Y') }}
+                        {{ __('Payment') }}: {{ $invoice->dtPagamento ? \Carbon\Carbon::parse($invoice->dtPagamento)->format('d/m/Y') : '' }}
                     </div>
 
                     <!-- Data do vencinento -->
