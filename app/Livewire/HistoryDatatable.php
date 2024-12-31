@@ -54,11 +54,10 @@ class HistoryDatatable extends Component
     {
         try {
             $customersUniqueId = Session::get('customers_unique_id', '');
-            $synced = Cache::get('orders' . $customersUniqueId, false);
-
+            $synced = Cache::get('invoices' . $customersUniqueId, false);
 
             if (!$synced) {
-                Cache::put('orders' . $customersUniqueId, true, now()->addMinutes(10));
+                Cache::put('invoices' . $customersUniqueId, true, now()->addMinutes(10));
                 SyncCustomersInvoices::dispatchSync(auth()->user(), 1);
             }
             
