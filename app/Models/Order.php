@@ -48,6 +48,8 @@ class Order extends Model
         'dtFaturamento',
         'dtEntrega',
         'vrTotal',
+        'vrFrete',
+        'vrBruto',
         'numOrdemCompra',
         'nmArquivoDetalhes',
         'nmArquivoNotaFiscal',
@@ -92,6 +94,14 @@ class Order extends Model
     public function orderHistories(): HasMany
     {
         return $this->hasMany(OrderHistory::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
+    }
+
+    /**
+     * Get the order details for the order.
+     */
+    public function orderDetails(): HasMany
+    {
+        return $this->hasMany(OrderDetail::class, 'idPedidoCabecalho', 'idPedidoCabecalho');
     }
 
     /**

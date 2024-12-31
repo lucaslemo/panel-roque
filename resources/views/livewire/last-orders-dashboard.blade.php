@@ -102,7 +102,7 @@
 
                     <!-- Botões de ação -->
                     <div class="flex flex-row justify-end space-x-2 w-max">
-                        <a href="{{ $lastOrder->nmArquivoDetalhes ?? '#' }}" {{ $lastOrder->nmArquivoDetalhes ? 'download' : '' }} class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                        <a href="{{ route('app.details', $lastOrder->idPedidoCabecalho) }}" download class="flex justify-center items-center border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
                             x-on:click.stop=""
                             @mouseenter="isButtonHovered = true"
                             @mouseleave="isButtonHovered = false">
@@ -209,7 +209,7 @@
                     </div>
 
                     <div class="flex flex-row justify-center space-x-3">
-                        <a href="{{ $lastOrder->nmArquivoDetalhes ?? '#' }}" {{ $lastOrder->nmArquivoDetalhes ? 'download' : '' }} class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
+                        <a href="{{ route('app.details', $lastOrder->idPedidoCabecalho) }}" download class="flex justify-center items-center w-20 border border-primary bg-transparent rounded-lg p-2 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150"
                             x-on:click.stop=""
                             @mouseenter="isButtonHovered = true"
                             @mouseleave="isButtonHovered = false">

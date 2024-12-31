@@ -12,44 +12,66 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('build/assets/favicon/favicon-16x16.png') }}">
         <link rel="manifest" href="{{ asset('build/assets/favicon/site.webmanifest') }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+        <style>
+          .header {
+            border-style: solid;
+            border-width: 1px;
+            padding: 1rem;
+          }
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+          .title {
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+          }
+        </style>
     </head>
-    <body class="flex flex-col font-sans antialiased bg-background min-h-screen">
+    <body>
         <!-- Page Content -->
-        <main class="flex-1 px-[30px] xl:px-[70px] pb-12 pt-6">
-            <table class="table-auto border-collapse border border-gray-300 w-full text-sm text-left">
-                <thead>
-                  <tr class="bg-gray-100 border-b border-gray-300">
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">CÓDIGO</th>
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">DESCRIÇÃO DO PRODUTO</th>
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">QUANT</th>
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">EMBALAGEM</th>
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">VL TAB</th>
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">VL DESC</th>
-                    <th class="px-4 py-2 border-r border-gray-300 text-gray-600">VL UNIT</th>
-                    <th class="px-4 py-2 text-gray-600">VL TOTAL</th>
+        <main>
+          <div class="header">
+            <div class="title">Roque - Portal do cliente</div>
+            <div>Pedido N° {{ $order->extPedido }}</div>
+            <div><span>NOME / RAZÃO SOCIAL:</span> {{ $order->customer->nmCliente }}</div>
+            <div><span>CNPJ / CPF:</span> {{ formatCnpjCpf($order->customer->codCliente) }}</div>
+            <div><span>DATA DO PEDIDO:</span> {{ $order->dtPedido->format('d/m/Y H:i:s') }}</div>
+            <div><span>RCA:</span> {{ $order->nmVendedor }}</div>
+            <div style="text-align: end;"><span>DOCUMENTO SEM VALOR FISCAL</div>
+          </div>
+          <table>
+              <thead>
+                <tr>
+                  <th>CÓDIGO</th>
+                  <th>DESCRIÇÃO DO PRODUTO</th>
+                  <th>QUANT</th>
+                  <th>UN</th>
+                  <th>VL TAB</th>
+                  <th>VL DESC</th>
+                  <th>VL UNIT</th>
+                  <th>VL TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($order->orderDetails as $orderDetail)
+                  <tr>
+                    <td>{{ $orderDetail->codProduto }}</td>
+                    <td>{{ $orderDetail->nmProduto }}</td>
+                    <td>{{ $orderDetail->qtdProduto }}</td>
+                    <td>{{ $orderDetail->cdUnidade }}</td>
+                    <td>{{ number_format($orderDetail->vrTabela, 2, ',', '.') }}</td>
+                    <td>{{ number_format($orderDetail->vrDesconto, 2, ',', '.') }}</td>
+                    <td>{{ number_format($orderDetail->vrProduto, 2, ',', '.') }}</td>
+                    <td>{{ number_format($orderDetail->vrTotal, 2, ',', '.') }}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b border-gray-300">
-                    <td class="px-4 py-2 border-r border-gray-300">327</td>
-                    <td class="px-4 py-2 border-r border-gray-300">
-                      CIMENTO CP IV 32 RS - BRAVO - 50KG NCM: 25232990
-                    </td>
-                    <td class="px-4 py-2 border-r border-gray-300">10,0000</td>
-                    <td class="px-4 py-2 border-r border-gray-300">UN</td>
-                    <td class="px-4 py-2 border-r border-gray-300">41,99</td>
-                    <td class="px-4 py-2 border-r border-gray-300">0,00</td>
-                    <td class="px-4 py-2 border-r border-gray-300">41,99</td>
-                    <td class="px-4 py-2">419,90</td>
-                  </tr>
-                </tbody>
-            </table>
+                @endforeach
+              </tbody>
+          </table>
+          <div>
+            <div>Totais:</div>
+            <div>Valor Total Tabela: <span>{{ number_format($order->vrBruto, 2, ',', '.') }}</span></div>
+            <div>Total Itens: <span>{{ count($order->orderDetails) }}</span></div>
+            <div>Valor Frete: <span>{{ number_format($order->vrFrete, 2, ',', '.') }}</span></div>
+            <div>Valor Total Líquido: <span>{{ number_format($order->vrTotal, 2, ',', '.') }}</span></div>
+          </div>
         </main>
     </body>
 </html>

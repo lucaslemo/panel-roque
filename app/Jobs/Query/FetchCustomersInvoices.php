@@ -67,7 +67,7 @@ class FetchCustomersInvoices implements ShouldQueue
                 'numTotalParcela' => $item['qtdParcelas'],
                 'dtEmissao' => $this->formatDateTime($item['dtCompetencia']),
                 'dtVencimento' => $this->formatDateTime($item['dtVencimentoCobrancaReceber']),
-                'dtPagamento' => $this->formatDateTime($item['dtCobrancaReceberBaixa']),
+                'dtPagamento' => $this->formatDateTime($item['dtCobrancaReceberBaixa'] ?? $item['dtSistemaBaixa']),
                 'vrBruto' => $item['vrCobrancaReceber'],
                 'vrLiquido' => null,
                 'vrAtualizado' => null,
