@@ -79,13 +79,10 @@ class FileController extends Controller
 
     public function details(Request $request, string $id)
     {
-        // $order = Order::with(['customer', 'orderDetails'])->findOrFail($id);
-        $order = Order::with(['customer', 'orderDetails'])->first();
+        $order = Order::with(['customer', 'orderDetails'])->findOrFail($id);
+        $pdf = Pdf::loadView('app.orderDetails', ['order' => $order])
+            ->setOption(['dpi' => 150]);
 
-        return view('app.orderDetails', ['order' => $order]);
-
-        // $pdf = Pdf::loadView('app.orderDetails', ['order' => $order]);
-
-        // return $pdf->download("details_{$order->idPedidoCabecalho}.pdf");
+        return $pdf->download("details_{$order->idPedidoCabecalho}.pdf");
     }
 }
