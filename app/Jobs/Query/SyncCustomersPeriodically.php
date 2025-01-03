@@ -2,7 +2,9 @@
 
 namespace App\Jobs\Query;
 
+use App\Models\CreditLimit;
 use App\Models\Customer;
+use App\Models\Synchronization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -62,16 +64,33 @@ class SyncCustomersPeriodically implements ShouldQueue
         $pagination = $response->json()['data']['pagination'];
 
         foreach ($incomingCustomers as $incomingCustomer) {
-            if ($incomingCustomer['hasPortalCliente']) {
-                $customer = Customer::firstOrNew(['extCliente' => $incomingCustomer['cliente']['idCliente']]);
+            if ($incomingCustomer['hasPortalCliente'] === 'Sim' || true) {
+                $customer = Customer::withTrashed()->firstOrNew(['extCliente' => $incomingCustomer['idPessoa']]);
+
                 $customer->fill([
                     'nmCliente' => $incomingCustomer['nmPessoa'],
-                    'extCliente' => $incomingCustomer['cliente']['idCliente'],
+                    'extCliente' => $incomingCustomer['idPessoa'],
                     'tpCliente' => $incomingCustomer['tpPessoa'],
                     'emailCliente' => $incomingCustomer['dsEmail'],
                     'codCliente' => $incomingCustomer['tpPessoa'] === 'F' ? $incomingCustomer['nrCpf'] : $incomingCustomer['nrCnpj'],
+                    'deleted_at' => null,
                 ]);
+
                 $customer->save();
+
+                CreditLimit::create([
+                    'vrLimite' => $incomingCustomer['vrLimiteAprovado'] ?? 0,
+                    'vrUtilizado' => $incomingCustomer['vrLimiteConsumido'] ?? 0,
+                    'vrReservado' => $incomingCustomer['vrLimiteConsumidoPrevenda'] ?? 0,
+                    'vrDisponivel' => $incomingCustomer['vrLimiteDisponivel'] ?? 0,
+                    'idCliente' => $customer->idCliente,
+                ]);
+
+            } else {
+                $customer = Customer::first(['extCliente' => $incomingCustomer['idPessoa']]);
+                if ($customer) {
+                    $customer->delete();
+                }
             }
         }
 

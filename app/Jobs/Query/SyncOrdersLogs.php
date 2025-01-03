@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class SyncOrdersLogs implements ShouldQueue
 {
@@ -36,9 +35,7 @@ class SyncOrdersLogs implements ShouldQueue
     public function __construct(
         public int $orderId,
         public int $currentPage
-    ) {
-        Log::info('Sync order log -> '. $orderId . ' ' . $currentPage);
-    }
+    ) {}
 
     /**
      * Execute the job.
