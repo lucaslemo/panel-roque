@@ -66,7 +66,7 @@ class SyncCustomersPeriodically implements ShouldQueue
         foreach ($incomingCustomers as $incomingCustomer) {
             if ($incomingCustomer['hasPortalCliente'] === 'Sim') {
                 $customer = Customer::withTrashed()->firstOrNew(['extCliente' => $incomingCustomer['idPessoa']]);
-
+                
                 $customer->fill([
                     'nmCliente' => $incomingCustomer['nmPessoa'],
                     'extCliente' => $incomingCustomer['idPessoa'],
@@ -87,7 +87,7 @@ class SyncCustomersPeriodically implements ShouldQueue
                 ]);
 
             } else {
-                $customer = Customer::first(['extCliente' => $incomingCustomer['idPessoa']]);
+                $customer = Customer::where('extCliente', $incomingCustomer['idPessoa'])->first();
                 if ($customer) {
                     $customer->delete();
                 }
