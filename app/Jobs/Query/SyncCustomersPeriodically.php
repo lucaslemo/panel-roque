@@ -64,7 +64,7 @@ class SyncCustomersPeriodically implements ShouldQueue
         $pagination = $response->json()['data']['pagination'];
 
         foreach ($incomingCustomers as $incomingCustomer) {
-            if ($incomingCustomer['hasPortalCliente'] === 'Sim' || true) {
+            if ($incomingCustomer['hasPortalCliente'] === 'Sim') {
                 $customer = Customer::withTrashed()->firstOrNew(['extCliente' => $incomingCustomer['idPessoa']]);
 
                 $customer->fill([
