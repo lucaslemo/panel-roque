@@ -38,7 +38,7 @@ new class extends Component
             <!-- Menu -->
             <nav class="space-x-2 hidden laptop:block">
                 <x-nav-app-link :href="route('app.dashboard')" :active="request()->routeIs('app.dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
+                    {{ __('Home') }}
                 </x-nav-app-link>
 
                 <x-nav-app-link :href="route('app.invoices')" :active="request()->routeIs('app.invoices')" wire:navigate>
@@ -50,7 +50,7 @@ new class extends Component
                 </x-nav-app-link>
 
                 <x-nav-app-link :href="route('app.invoicesHistory')" :active="request()->routeIs('app.invoicesHistory')" wire:navigate>
-                    {{ __('History') }}
+                    {{ __('Paid') }}
                 </x-nav-app-link>
             </nav>
 
@@ -93,7 +93,7 @@ new class extends Component
                 </x-dropdown>
             </div>
 
-            <div class="-me-2 flex items-center block laptop:hidden">
+            <div class="-me-2 flex items-center laptop:hidden">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <!-- Hamburger -->
@@ -107,7 +107,7 @@ new class extends Component
 
                     <x-slot name="content">
                         <x-dropdown-link :active="request()->routeIs('app.dashboard')" class="text-small font-medium" :href="route('app.dashboard')" wire:navigate>
-                            {{ __('Dashboard') }}
+                            {{ __('Home') }}
                         </x-dropdown-link>
                         <x-dropdown-link :active="request()->routeIs('app.invoices')" class="text-small font-medium" :href="route('app.invoices')" wire:navigate>
                             {{ __('Financial') }}
@@ -116,10 +116,10 @@ new class extends Component
                             {{ __('Requests') }}
                         </x-dropdown-link>
                         <x-dropdown-link :active="request()->routeIs('app.invoicesHistory')" class="text-small font-medium" :href="route('app.invoicesHistory')" wire:navigate>
-                            {{ __('History') }}
+                            {{ __('Paid') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link class="cursor-pointer" x-on:click="$dispatch('open-modal-edit-profile')">
+                        <x-dropdown-link class="cursor-pointer text-small font-medium" x-on:click="$dispatch('open-modal-edit-profile')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 

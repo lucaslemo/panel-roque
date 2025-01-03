@@ -95,7 +95,7 @@
             </div>
         </div>
         <div class="flex space-x-2 md:space-x-4 justify-end">
-            <a href="{{ route('app.details', $lastOrder->idPedidoCabecalho) }}" download class="flex justify-center space-x-2 items-center w-72 border border-primary bg-transparent rounded-lg text-normal font-medium text-primary leading-none py-2 px-2 md:px-4 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
+            <a href="{{ route('app.details', $order->idPedidoCabecalho) }}" download class="flex justify-center space-x-2 items-center w-72 border border-primary bg-transparent rounded-lg text-normal font-medium text-primary leading-none py-2 px-2 md:px-4 hover:bg-primary-100 active:bg-primary-200 focus:outline-none transition ease-in-out duration-150">
 
                 <svg class="w-auto h-[22px] xl:w-[24px] xl:h-[27px]" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect width="24" height="27" fill="url(#pattern0_2623_4481_ab)"/>
