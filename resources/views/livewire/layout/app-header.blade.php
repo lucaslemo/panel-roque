@@ -38,7 +38,7 @@ new class extends Component
             <!-- Menu -->
             <nav class="space-x-2 hidden laptop:block">
                 <x-nav-app-link :href="route('app.dashboard')" :active="request()->routeIs('app.dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
+                    {{ __('Home') }}
                 </x-nav-app-link>
 
                 <x-nav-app-link :href="route('app.invoices')" :active="request()->routeIs('app.invoices')" wire:navigate>
@@ -107,7 +107,7 @@ new class extends Component
 
                     <x-slot name="content">
                         <x-dropdown-link :active="request()->routeIs('app.dashboard')" class="text-small font-medium" :href="route('app.dashboard')" wire:navigate>
-                            {{ __('Dashboard') }}
+                            {{ __('Home') }}
                         </x-dropdown-link>
                         <x-dropdown-link :active="request()->routeIs('app.invoices')" class="text-small font-medium" :href="route('app.invoices')" wire:navigate>
                             {{ __('Financial') }}
