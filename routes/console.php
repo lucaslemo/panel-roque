@@ -15,7 +15,7 @@ Schedule::call(function () {
         ]);
     })
     ->name('Sync customers')
-    ->everyThirtyMinutes();
+    ->everyFiveMinutes();
 
 Schedule::call(fn () => RefreshInstagramToken::dispatch())
     ->name('Refresh Instagram access token')
