@@ -7,13 +7,7 @@ use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
 
-Schedule::call(function () {
-        $lastDate = Synchronization::orderBy('dtSincronizacao', 'DESC')->first()->dtSincronizacao;
-        SyncCustomersPeriodically::dispatch($lastDate, 1);
-        Synchronization::create([
-            'dtSincronizacao' => now()->format('Y-m-d H:i:s')
-        ]);
-    })
+Schedule::call(fn () => SyncCustomersPeriodically::dispatch(now()->format('Y-m-d H:i:s'), 1))
     ->name('Sync customers')
     ->everyFiveMinutes();
 
