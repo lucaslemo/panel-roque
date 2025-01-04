@@ -140,6 +140,19 @@ class Order extends Model
     }
 
     /**
+     * Parse the status.
+     */
+    public function getStatusPedido($value)
+    {
+        if ($value === 'Orcamento') {
+            return 'Orçamento';
+        } else if ($value === 'Prevenda') {
+            return 'Pré-venda';
+        }
+        return $value;
+    }
+
+    /**
      * Parse the delivery type.
      */
     public function getDeliveryStatusColor()

@@ -35,7 +35,7 @@ class LastOrdersDashboard extends Component
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
-                ->whereNot('statusPedido', 'Orcamento')
+                ->where('statusPedido', 'Orcamento')
                 ->orderBy('dtPedido', 'DESC')
                 ->take(5)
                 ->get();

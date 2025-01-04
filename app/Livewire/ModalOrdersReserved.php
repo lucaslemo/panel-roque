@@ -17,7 +17,7 @@ class ModalOrdersReserved extends Component
     {
         try {
             $this->orders = Order::with('customer')
-            ->whereIn('orders.statusPedido', ['Prevenda', 'Pendente']) // Filtro dos pedidos em pré venda
+            ->whereIn('orders.statusPedido', ['Prevenda']) // Filtro dos pedidos em pré venda
             ->whereHas('customer.users', function($query) {
                 $query->where('idUsuario', auth()->user()->id);
             })
