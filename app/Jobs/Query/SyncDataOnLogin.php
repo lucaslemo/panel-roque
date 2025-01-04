@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Query;
 
+use App\Models\CreditLimit;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -74,12 +75,21 @@ class SyncDataOnLogin implements ShouldQueue
 
             $customer->save();
 
-            $customer->creditLimit->vrLimite = $data['vrLimiteAprovado'] ?? 0;
-            $customer->creditLimit->vrUtilizado = $data['vrLimiteConsumido'] ?? 0;
-            $customer->creditLimit->vrReservado = $data['vrLimiteConsumidoPrevenda'] ?? 0;
-            $customer->creditLimit->vrDisponivel = $data['vrLimiteDisponivel'] ?? 0;
+            if (!is_null($customer->creditLimit)) {
+                $creditLimit = $customer->creditLimit;
+            } else {
+                $creditLimit = new CreditLimit;
+            }
 
-            $customer->creditLimit->save();
+            $creditLimit->fill([
+                'vrLimite' => $data['vrLimiteAprovado'] ?? 0,
+                'vrUtilizado' => $data['vrLimiteConsumido'] ?? 0,
+                'vrReservado' => $data['vrLimiteConsumidoPrevenda'] ?? 0,
+                'vrDisponivel' => $data['vrLimiteDisponivel'] ?? 0,
+                'idCliente' => $customer->idCliente,
+            ]);
+
+            $creditLimit->save();
         }
     }
 }

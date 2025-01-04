@@ -70,7 +70,7 @@ class OrdersDatatable extends Component
             $this->totalData = DB::table('orders')
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('orders.idCliente', array_keys($this->selectedCustomers, true))
-                ->whereNot('statusPedido', 'Orcamento')
+                ->where('statusPedido', 'Ativa')
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->count();
@@ -82,7 +82,7 @@ class OrdersDatatable extends Component
                 ->select(['orders.*', 'customers.nmCliente'])
                 ->join('customers', 'customers.idCliente', '=', 'orders.idCliente')
                 ->whereIn('customers.idCliente', array_keys($this->selectedCustomers, true))
-                ->whereNot('statusPedido', 'Orcamento')
+                ->where('statusPedido', 'Ativa')
                 ->whereNull('orders.deleted_at')
                 ->whereNull('customers.deleted_at')
                 ->orderByRaw("CASE WHEN statusEntrega = 'Entregue' THEN 2 ELSE 1 END")

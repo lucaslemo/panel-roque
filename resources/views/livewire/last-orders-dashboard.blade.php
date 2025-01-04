@@ -3,7 +3,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start md:items-center mb-6">
 
             <!-- Título -->
-            <p class="text-normal md:text-lg font-medium text-black mb-4 md:mb-0">{{ __('Your latest orders') }}</p>
+            <p class="text-normal md:text-lg font-medium text-black mb-4 md:mb-0">{{ __('Your latest quotes') }}</p>
 
             <!-- Botão -->
             <x-dropdown align="left" width="72">
@@ -92,7 +92,13 @@
                             <div class="stone-circle"></div>
                         @endif
 
-                        {{ $lastOrder->statusPedido }}
+                        @if ($lastOrder->statusPedido === 'Orcamento')
+                            {{ 'Orçamento' }}
+                        @elseif ($lastOrder->statusPedido === 'Prevenda')
+                            {{ 'Pré-venda' }}
+                        @else
+                            {{ $lastOrder->statusPedido }}
+                        @endif
                     </div>
 
                     <!-- Valor -->
@@ -194,7 +200,13 @@
                                 <div class="stone-circle"></div>
                             @endif
 
-                            {{ $lastOrder->statusPedido }}
+                            @if ($lastOrder->statusPedido === 'Orcamento')
+                                {{ 'Orçamento' }}
+                            @elseif ($lastOrder->statusPedido === 'Prevenda')
+                                {{ 'Pré-venda' }}
+                            @else
+                                {{ $lastOrder->statusPedido }}
+                            @endif
                         </div>
                     </div>
 
@@ -280,9 +292,14 @@
 
         @if (count($lastOrders) > 0)
             <div class="flex justify-center md:justify-end">
+                <div class="w-44 me-4">
+                    <x-secondary-button href="{{ route('app.invoices') }}" class="text-normal font-semibold focus:outline-none" wire:navigate>
+                        {{ __('View bills') }}
+                    </x-secondary-button>
+                </div>
                 <div class="w-44">
                     <x-secondary-button href="{{ route('app.orders') }}" class="text-normal font-semibold focus:outline-none" wire:navigate>
-                        {{ __('View more') }}
+                        {{ __('View orders') }}
                     </x-secondary-button>
                 </div>
             </div>
