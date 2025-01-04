@@ -34,7 +34,7 @@ class SyncCustomersPeriodically implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public string $date,
+        public string $startDate,
         public int $currentPage
     ) {}
 
@@ -45,9 +45,11 @@ class SyncCustomersPeriodically implements ShouldQueue
     {
         $url = "https://openapi.acessoquery.com/api/pessoas";
         $token = config('app.query_token');
+        
+        $lastUpdate = Synchronization::findOrFail(1)->dtSincronizacao;
 
         $params = [
-            'dtAtualizacao' => $this->date,
+            'dtAtualizacao' => $lastUpdate,
             'page' => $this->currentPage
         ];
 
@@ -61,30 +63,41 @@ class SyncCustomersPeriodically implements ShouldQueue
         $response->throw();
 
         $incomingCustomers = $response->json()['data']['list'];
-        $pagination = $response->json()['data']['pagination'];
-
+        
         foreach ($incomingCustomers as $incomingCustomer) {
             if ($incomingCustomer['hasPortalCliente'] === 'Sim') {
+
                 $customer = Customer::withTrashed()->firstOrNew(['extCliente' => $incomingCustomer['idPessoa']]);
-                
+
+                if (!is_null($customer->deleted_at)) {
+                    $customer->restore();
+                }
+
                 $customer->fill([
                     'nmCliente' => $incomingCustomer['nmPessoa'],
                     'extCliente' => $incomingCustomer['idPessoa'],
                     'tpCliente' => $incomingCustomer['tpPessoa'],
                     'emailCliente' => $incomingCustomer['dsEmail'],
                     'codCliente' => $incomingCustomer['tpPessoa'] === 'F' ? $incomingCustomer['nrCpf'] : $incomingCustomer['nrCnpj'],
-                    'deleted_at' => null,
                 ]);
 
                 $customer->save();
 
-                CreditLimit::create([
+                $creditLimit = CreditLimit::withTrashed()->firstOrNew(['idCliente' => $customer->idCliente]);
+
+                if (!is_null($creditLimit->deleted_at)) {
+                    $creditLimit->restore();
+                }
+
+                $creditLimit->fill([
                     'vrLimite' => $incomingCustomer['vrLimiteAprovado'] ?? 0,
                     'vrUtilizado' => $incomingCustomer['vrLimiteConsumido'] ?? 0,
                     'vrReservado' => $incomingCustomer['vrLimiteConsumidoPrevenda'] ?? 0,
                     'vrDisponivel' => $incomingCustomer['vrLimiteDisponivel'] ?? 0,
                     'idCliente' => $customer->idCliente,
                 ]);
+
+                $creditLimit->save();
 
             } else {
                 $customer = Customer::where('extCliente', $incomingCustomer['idPessoa'])->first();
@@ -94,8 +107,14 @@ class SyncCustomersPeriodically implements ShouldQueue
             }
         }
 
+        $pagination = $response->json()['data']['pagination'];
+
         if ($pagination['total_pages'] > $pagination['current_page']) {
-            SyncCustomersPeriodically::dispatch($this->date, ($this->currentPage + 1));
+            SyncCustomersPeriodically::dispatch($this->startDate, ($this->currentPage + 1));
+        } else {
+            $sync = Synchronization::findOrFail(1);
+            $sync->dtSincronizacao = $this->startDate;
+            $sync->save();
         }
     }
 }
